@@ -12,6 +12,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,6 +32,7 @@ public class AdminCreateScreen extends javax.swing.JPanel {
      */
     private JPanel panelRight;
     private Admin admin;
+
     public AdminCreateScreen(JPanel panelRight, Admin admin) {
         initComponents();
         this.panelRight = panelRight;
@@ -142,9 +144,69 @@ public class AdminCreateScreen extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-        // TODO add your handling code here:
-        
+        String p1 = txtPword.getText();
+        String p2 = txtRePword.getText();
+        String username = txtUser.getText();
+        if (username == null || username.equals("")) {
+            JOptionPane.showMessageDialog(null, "Username can't be empty!");
+            return;
+        }
+        if (p1 == null || p1.equals("")) {
+            JOptionPane.showMessageDialog(null, "Password can't be empty!");
+            return;
+        }
+        if (!usernamePatternCorrect()) {
+            JOptionPane.showMessageDialog(null, "Username should be the form of xxx_xxx@xxx.xxx");
+            return;
+        }
+        if (!passwordPatternCorrect()) {
+            JOptionPane.showMessageDialog(null, "Password could be a combination of number, alphabet, +, _ or $");
+            return;
+        }
+        if (!p1.equals(p2)) {
+            JOptionPane.showMessageDialog(null, "Passwords don't match!");
+            return;
+        }
+        if (!radioCustomer.isSelected() && !radioSupplier.isSelected()) {
+            JOptionPane.showMessageDialog(null, "Please select a role!");
+            return;
+        }
+        System.out.println(radioCustomer.isSelected());
+        System.out.println(radioSupplier.isSelected());
+        if (radioCustomer.isSelected()) {
+            Date date = new Date();
+            admin.getCustDir().getCustomerList().add(new Customer(date, p1, username));
+            JOptionPane.showMessageDialog(null, "Customer created Successfully!");
+            return;
+        }
+       
+        if (radioSupplier.isSelected()) {
+            admin.getSuppDir().getSupplierList().add(new Supplier(p1, username));
+            JOptionPane.showMessageDialog(null, "Supplier created Successfully!");
+        }
     }//GEN-LAST:event_btnCreateActionPerformed
+
+    //Pattern.compile("^[a-zA-Z0-9__]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$");
+    private boolean passwordPatternCorrect() {
+        Pattern p = Pattern.compile("[a-zA-Z0-9_+$]+");
+        Matcher m = p.matcher(txtPword.getText());
+        boolean b = m.matches();
+        return b;
+    }
+
+    private boolean usernamePatternCorrect() {
+        Pattern p = Pattern.compile("^[^_]+[a-zA-Z0-9]+[_]+[a-zA-Z0-9]+@[a-zA-Z0-9.]+[a-zA-Z0-9.]$");
+        Matcher m = p.matcher(txtUser.getText());
+        boolean b = m.matches();
+        return b;
+//        if (b) {
+//            System.out.println("There is allowed special character in string.");
+//            return true;
+//        } else {
+//            System.out.println("There is not allowed special character in string.");
+//            return false;
+//        }
+    }
 
     private void radioCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioCustomerActionPerformed
         // TODO add your handling code here:
@@ -152,13 +214,12 @@ public class AdminCreateScreen extends javax.swing.JPanel {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
 
-        CardLayout layout = (CardLayout)panelRight.getLayout();
+        CardLayout layout = (CardLayout) panelRight.getLayout();
         panelRight.remove(this);
         layout.previous(panelRight);
     }//GEN-LAST:event_btnBackActionPerformed
 
-    
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCreate;
