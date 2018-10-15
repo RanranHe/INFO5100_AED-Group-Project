@@ -24,8 +24,11 @@ public class LoginScreen extends javax.swing.JPanel {
      */
     List<User> list;
     JPanel panelRight;
-    public LoginScreen(JPanel panelRight, List<User> list) {
+    String role;
+    
+    public LoginScreen(String role, JPanel panelRight, List<User> list) {
         initComponents();
+        this.role = role;
         this.list = list;
         this.panelRight = panelRight;
         initialize();
@@ -61,16 +64,17 @@ public class LoginScreen extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(150, 150, 150)
-                        .addComponent(btnSubmit))
+                        .addGap(141, 141, 141)
+                        .addComponent(txtTitle))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(132, 132, 132)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtPword)
-                                .addComponent(comboUser, 0, 166, Short.MAX_VALUE))
-                            .addComponent(txtTitle))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txtPword, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboUser, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(172, 172, 172)
+                        .addComponent(btnSubmit)))
+                .addContainerGap(156, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -81,23 +85,67 @@ public class LoginScreen extends javax.swing.JPanel {
                 .addComponent(comboUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtPword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(36, 36, 36)
                 .addComponent(btnSubmit)
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addContainerGap(130, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         // TODO add your handling code here:
+        if(txtPword.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please Enter ur password");
+            return;
+        }
+        User u = (User)comboUser.getSelectedItem();
+        
+        if(u != null){
+            if(u.getRole().equals("Customer")){
+                Customer c =(Customer)u;
+                if(c.verify(txtPword.getText())){
+                    grantAccessTo(u);
+                }
+                else
+                    JOptionPane.showMessageDialog(this, "Please Enter a valid password\nEnsure u have selected correct Customer");
+            }
+            else{
+                Supplier s =(Supplier)u;
+                if(s.verify(txtPword.getText()))
+                    grantAccessTo(u);
+                else
+                    JOptionPane.showMessageDialog(this, "Please Enter a valid password\nEnsure u have selected correct Customer");
+            }
+        }
+
         
     }//GEN-LAST:event_btnSubmitActionPerformed
 
+    private void grantAccessTo(User u){
+            SuccessScreen ss = new SuccessScreen(u);
+            CardLayout layout = (CardLayout)panelRight.getLayout();
+            panelRight.add(ss);
+            layout.next(panelRight);
+    }
     
+   
     private void initialize(){
         //text should either be "Supplier Login Screen" OR "Customer Login Screen"
         //Based on the selection
-        txtTitle.setText("****** Login Screen");
+        
+        if(role.equalsIgnoreCase("Customer")){
+            txtTitle.setText("Customer Login Screen");
+        }
+       
+        else if(role.equalsIgnoreCase("Supplier")){
+           txtTitle.setText("Supplier Login Screen");
+        }
+        
         comboUser.removeAllItems();
+        
+        for(User u:list){
+            comboUser.addItem(u);
+        }
+        
         //only customer or suppliers should be listed based on the selection
     }
     
