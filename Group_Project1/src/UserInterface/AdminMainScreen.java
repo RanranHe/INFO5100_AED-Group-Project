@@ -121,7 +121,6 @@ public class AdminMainScreen extends javax.swing.JPanel {
             row[1]=s.getDirectory().getProductList().size();
             dtm.addRow(row);
         }
-
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

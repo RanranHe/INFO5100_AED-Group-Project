@@ -10,6 +10,7 @@ import Business.Users.Customer;
 import Business.Users.Supplier;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -80,6 +81,11 @@ public class AdminCreateScreen extends javax.swing.JPanel {
         });
 
         radioSupplier.setText("Supplier");
+        radioSupplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioSupplierActionPerformed(evt);
+            }
+        });
 
         btnBack.setText("< BACK");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -171,22 +177,34 @@ public class AdminCreateScreen extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Please select a role!");
             return;
         }
-        System.out.println(radioCustomer.isSelected());
-        System.out.println(radioSupplier.isSelected());
         if (radioCustomer.isSelected()) {
             Date date = new Date();
             admin.getCustDir().getCustomerList().add(new Customer(date, p1, username));
             JOptionPane.showMessageDialog(null, "Customer created Successfully!");
+            toMainScreen();
             return;
         }
-       
         if (radioSupplier.isSelected()) {
             admin.getSuppDir().getSupplierList().add(new Supplier(p1, username));
             JOptionPane.showMessageDialog(null, "Supplier created Successfully!");
+            toMainScreen();
         }
+        
     }//GEN-LAST:event_btnCreateActionPerformed
-
-    //Pattern.compile("^[a-zA-Z0-9__]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$");
+    
+    private void toMainScreen() {
+        CardLayout layout = (CardLayout) this.panelRight.getLayout();
+        this.panelRight.remove(this);
+        Component[] comps = this.panelRight.getComponents();
+        for (Component comp : comps) {
+            if (comp instanceof AdminMainScreen) {
+                AdminMainScreen panel = (AdminMainScreen) comp;
+                panel.populate();
+            }
+        }
+        layout.previous(panelRight);
+    }
+    
     private boolean passwordPatternCorrect() {
         Pattern p = Pattern.compile("[a-zA-Z0-9_+$]+");
         Matcher m = p.matcher(txtPword.getText());
@@ -195,29 +213,25 @@ public class AdminCreateScreen extends javax.swing.JPanel {
     }
 
     private boolean usernamePatternCorrect() {
-        Pattern p = Pattern.compile("^[^_]+[a-zA-Z0-9]+[_]+[a-zA-Z0-9]+@[a-zA-Z0-9.]+[a-zA-Z0-9.]$");
+        Pattern p = Pattern.compile("^[^_][a-zA-Z0-9]+_[a-zA-Z0-9]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+$");
         Matcher m = p.matcher(txtUser.getText());
         boolean b = m.matches();
         return b;
-//        if (b) {
-//            System.out.println("There is allowed special character in string.");
-//            return true;
-//        } else {
-//            System.out.println("There is not allowed special character in string.");
-//            return false;
-//        }
     }
 
     private void radioCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioCustomerActionPerformed
-        // TODO add your handling code here:
+        radioSupplier.setSelected(false);
     }//GEN-LAST:event_radioCustomerActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-
         CardLayout layout = (CardLayout) panelRight.getLayout();
         panelRight.remove(this);
         layout.previous(panelRight);
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void radioSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioSupplierActionPerformed
+        radioCustomer.setSelected(false);
+    }//GEN-LAST:event_radioSupplierActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
