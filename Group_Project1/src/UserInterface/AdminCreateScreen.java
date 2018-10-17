@@ -17,8 +17,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -153,24 +155,43 @@ public class AdminCreateScreen extends javax.swing.JPanel {
         String p1 = txtPword.getText();
         String p2 = txtRePword.getText();
         String username = txtUser.getText();
+
+        txtUser.setBorder(new LineBorder(new Color(128, 128, 128)));
+        txtPword.setBorder(new LineBorder(new Color(128, 128, 128)));
+        txtRePword.setBorder(new LineBorder(new Color(128, 128, 128)));
+        jLabel1.setForeground(Color.BLACK);
+        jLabel2.setForeground(Color.BLACK);
+        jLabel3.setForeground(Color.BLACK);
         if (username == null || username.equals("")) {
             JOptionPane.showMessageDialog(null, "Username can't be empty!");
-            return;
-        }
-        if (p1 == null || p1.equals("")) {
-            JOptionPane.showMessageDialog(null, "Password can't be empty!");
+            txtUser.setBorder(BorderFactory.createLineBorder(Color.RED));
+            jLabel1.setForeground(Color.RED);
             return;
         }
         if (!usernamePatternCorrect()) {
             JOptionPane.showMessageDialog(null, "Username should be the form of xxx_xxx@xxx.xxx");
+            txtUser.setBorder(BorderFactory.createLineBorder(Color.RED));
+            jLabel1.setForeground(Color.RED);
+            return;
+        }
+        if (p1 == null || p1.equals("")) {
+            JOptionPane.showMessageDialog(null, "Password can't be empty!");
+            txtPword.setBorder(BorderFactory.createLineBorder(Color.RED));
+            jLabel2.setForeground(Color.RED);
             return;
         }
         if (!passwordPatternCorrect()) {
             JOptionPane.showMessageDialog(null, "Password could be a combination of number, alphabet, +, _ or $");
+            txtPword.setBorder(BorderFactory.createLineBorder(Color.RED));
+            jLabel2.setForeground(Color.RED);
             return;
         }
         if (!p1.equals(p2)) {
             JOptionPane.showMessageDialog(null, "Passwords don't match!");
+            txtPword.setBorder(BorderFactory.createLineBorder(Color.RED));
+            txtRePword.setBorder(BorderFactory.createLineBorder(Color.RED));
+            jLabel3.setForeground(Color.RED);
+            jLabel2.setForeground(Color.RED);
             return;
         }
         if (!radioCustomer.isSelected() && !radioSupplier.isSelected()) {
@@ -189,9 +210,9 @@ public class AdminCreateScreen extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Supplier created Successfully!");
             toMainScreen();
         }
-        
+
     }//GEN-LAST:event_btnCreateActionPerformed
-    
+
     private void toMainScreen() {
         CardLayout layout = (CardLayout) this.panelRight.getLayout();
         this.panelRight.remove(this);
@@ -204,7 +225,7 @@ public class AdminCreateScreen extends javax.swing.JPanel {
         }
         layout.previous(panelRight);
     }
-    
+
     private boolean passwordPatternCorrect() {
         Pattern p = Pattern.compile("[a-zA-Z0-9_+$]+");
         Matcher m = p.matcher(txtPword.getText());
@@ -213,7 +234,7 @@ public class AdminCreateScreen extends javax.swing.JPanel {
     }
 
     private boolean usernamePatternCorrect() {
-        Pattern p = Pattern.compile("^[^_][a-zA-Z0-9]+_[a-zA-Z0-9]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+$");
+        Pattern p = Pattern.compile("^[a-zA-Z0-9]+_[a-zA-Z0-9]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+$");
         Matcher m = p.matcher(txtUser.getText());
         boolean b = m.matches();
         return b;
