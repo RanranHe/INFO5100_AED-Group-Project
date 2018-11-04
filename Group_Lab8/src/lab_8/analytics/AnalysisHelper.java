@@ -22,9 +22,8 @@ import lab_8.entities.User;
  * @author harshalneelkamal
  */
 public class AnalysisHelper {
-    
-    
-    public void userWithMostLikes(){
+
+    public void userWithMostLikes() {
 //        Map<Integer, Integer> userLinkcount =new HashMap<Integer, Integer>();
 //        
 //        Map<Integer, User>user=DataStore.getInstance().getUsers();
@@ -46,48 +45,71 @@ public class AnalysisHelper {
 //                maxId = id;
 //            }
 //        }
-      
-        Map<Integer, Integer> userLikecount = new HashMap<Integer,Integer>();
-        Map<Integer, User>users = DataStore.getInstance().getUsers();
-        for(User user : users.values()){
-            for(Comment c : user.getComments()){
-                int likes = 0; 
-                if(userLikecount.containsKey(user.getId()))
+
+        Map<Integer, Integer> userLikecount = new HashMap<Integer, Integer>();
+        Map<Integer, User> users = DataStore.getInstance().getUsers();
+        for (User user : users.values()) {
+            for (Comment c : user.getComments()) {
+                int likes = 0;
+                if (userLikecount.containsKey(user.getId())) {
                     likes = userLikecount.get(user.getId());
+                }
                 likes += c.getLikes();
                 userLikecount.put(user.getId(), likes);
             }
         }
         int max = 0;
         int maxId = 0;
-        for(int id : userLikecount.keySet()){
-            if(userLikecount.get(id) >max){
+        for (int id : userLikecount.keySet()) {
+            if (userLikecount.get(id) > max) {
                 max = userLikecount.get(id);
                 maxId = id;
             }
         }
 
-        System.out.println("User with most likes :"+max+"\n"+users.get(maxId));
+        System.out.println("User with most likes :" + max + "\n" + users.get(maxId));
     }
-    
-    public void getFiveMostLikedComment(){
+
+    public void getFiveMostLikedComment() {
 
         Map<Integer, Comment> Comments = DataStore.getInstance().getComments();
-        
+
         List<Comment> commentList = new ArrayList<>(Comments.values());
-        
-        Collections.sort(commentList, new Comparator<Comment>(){
+
+        Collections.sort(commentList, new Comparator<Comment>() {
             @Override
-            public int compare(Comment o1, Comment o2){
+            public int compare(Comment o1, Comment o2) {
                 return o2.getLikes() - o1.getLikes();
             }
         });
-        
+
         System.out.println("5 most like comments: ");
-        for(int i = 0; i<commentList.size()&& i< 5; i++){
+        for (int i = 0; i < commentList.size() && i < 5; i++) {
             System.out.println(commentList.get(i));
         }
 
     }
+
+    // 1. Find Average number of likes per comment.
+    public void averageLikesPerComment() {
+        Map<Integer, Comment> Comments = DataStore.getInstance().getComments();
+
+        int totalLikes = 0;
+        int totalComments = 0;
+
+        for (Comment c : Comments.values()) {
+            totalLikes = totalLikes + c.getLikes();
+            totalComments++;
+        }
+        System.out.println("1. Average number of likes per comment: " + totalLikes / totalComments);
+    }
     
+    // 4. Top 5 inactive users based on posts.
+    // 5. Top 5 inactive users based on comments.
+    // 6. Top 5 inactive users overall (comments, posts and likes) 
+    public void getFiveInactiveUsersOverall() {
+        
+    }
+    
+    // 7. Top 5 proactive users overall (comments, posts and likes)
 }
