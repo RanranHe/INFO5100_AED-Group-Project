@@ -89,6 +89,10 @@ public class Lab_8 {
         helper.getFiveMostLikedComment();
         // 1. Find Average number of likes per comment.
         helper.averageLikesPerComment();
+        // 2. Post with most liked comments.
+        helper.postWithPostLikedComments();
+        // 3. Post with most comments.
+        helper.postWithMostComments();
     }
     
 }

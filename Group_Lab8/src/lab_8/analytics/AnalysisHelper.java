@@ -104,6 +104,61 @@ public class AnalysisHelper {
         System.out.println("1. Average number of likes per comment: " + totalLikes / totalComments);
     }
     
+    // 2. Post with most liked comments.
+    public void postWithPostLikedComments() {
+        Map<Integer, Post> Posts = DataStore.getInstance().getPosts();
+        List<Post> postList = new ArrayList<>(Posts.values());
+        Map<Integer, Post> postToLikes = new HashMap<Integer, Post>();
+
+        for (Post p : postList) {
+            List<Comment> list = p.getComments();
+            Collections.sort(list, new Comparator<Comment>() {
+                @Override
+                public int compare(Comment o1, Comment o2) {
+                    return o2.getLikes() - o1.getLikes();
+                }
+            });
+            postToLikes.put(list.get(0).getLikes(), p);
+        }
+        TreeMap<Integer, Post> sorted = new TreeMap<>();
+        sorted.putAll(postToLikes);
+
+        Post result = sorted.lastEntry().getValue();
+
+        System.out.println("2. Post with most liked comments: ");
+        System.out.println("Post Id: " + result.getPostId());
+        System.out.println("Likes Number: " + sorted.lastEntry().getKey());
+        System.out.println("Posting User Id: " + result.getUserId());
+        System.out.println("Contains comments: ");
+        for (Comment c : result.getComments()) {
+            System.out.println("Comment " + c.getId() + " with " + c.getLikes() + " Likes: " + c.getText());
+        }
+    }
+
+    // 3. Post with most comments.
+    public void postWithMostComments() {
+        Map<Integer, Post> Posts = DataStore.getInstance().getPosts();
+        List<Post> postList = new ArrayList<>(Posts.values());
+        Map<Integer, Post> commentsNum = new HashMap<Integer, Post>();
+
+        for (Post p : postList) {
+            commentsNum.put(p.getComments().size(), p);
+        }
+
+        TreeMap<Integer, Post> sorted = new TreeMap<>();
+        sorted.putAll(commentsNum);
+
+        Post result = sorted.lastEntry().getValue();
+
+        System.out.println("3. Post with most comments: ");
+        System.out.println("Post Id: " + result.getPostId());
+        System.out.println("Posting User Id: " + result.getUserId());
+        System.out.println("Contains " + sorted.lastEntry().getKey() + " comments: ");
+        for (Comment c : result.getComments()) {
+            System.out.println("Comment " + c.getId() + " with " + c.getLikes() + " Likes: " + c.getText());
+        }
+    }
+    
     // 4. Top 5 inactive users based on posts.
     // 5. Top 5 inactive users based on comments.
     // 6. Top 5 inactive users overall (comments, posts and likes) 
