@@ -39,12 +39,14 @@ public class DataReader {
     }
     
     public String[] getFileHeader() throws IOException{
-        String line = "";
-        if((line = reader.readLine()) != null){
-            String[] rows = line.split(",");
-            return rows;
+        if(header == null){
+            String line = "";
+            if((line = reader.readLine()) != null){
+                String[] rows = line.split(",");
+                header = rows;
+            }
         }
-        return null;
+        return header;
     }
     
 }
