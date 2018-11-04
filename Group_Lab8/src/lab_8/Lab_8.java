@@ -87,6 +87,8 @@ public class Lab_8 {
     private void runAnalysis(){
         helper.userWithMostLikes();
         helper.getFiveMostLikedComment();
+        // 1. Find Average number of likes per comment.
+        helper.averageLikesPerComment();
     }
     
 }
