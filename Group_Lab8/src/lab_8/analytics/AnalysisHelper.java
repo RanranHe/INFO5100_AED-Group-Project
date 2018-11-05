@@ -205,8 +205,106 @@ public class AnalysisHelper {
     }
 
     // 4. Top 5 inactive users based on posts.
+    public void getFiveInactiveUserByPosts(){
+        Map<Integer, User> Users = DataStore.getInstance().getUsers();
+        List<User> userList = new ArrayList<>(Users.values());
+
+        Map<Integer, User> activities = new HashMap<Integer, User>();
+
+        for (User u : userList) {
+            int totalPosts = getTotalPostsByUser(u);
+            activities.put(totalPosts, u);
+        }
+
+        TreeMap<Integer, User> sorted = new TreeMap<>();
+        sorted.putAll(activities);
+
+        Iterator<Integer> it = sorted.keySet().iterator();
+
+        System.out.println();
+        System.out.println("4. Top 5 inactive users based on posts: ");
+        int num = 0;
+        while (it.hasNext()) {
+            for (int i = 0; i < Users.size(); i++) {
+                try {
+                    int next = it.next();
+                    User user = sorted.get(next);
+                    if (i + num < 5) {
+                        System.out.println("   " + (i + 1 + num) + ". User ID: " + user.getId() + " Name: "
+                                + user.getFirstName() + " " + user.getLastName() + " Total Posts: " + next);
+                        for (User u : userList) {
+                            if (next == getTotalPostsByUser(u) && u.getId() != user.getId()) {
+                                if (i + num + 1 < 5) {
+                                    System.out.println("   " + (i + 2 + num) + ". User ID: " + u.getId() + " Name: "
+                                            + u.getFirstName() + " " + u.getLastName() + " Total Posts: " + next);
+                                    num++;
+                                } else {
+                                    System.out.println("The following user tied the fifth place: ");
+                                    System.out.println("   " + (i + 2 + num) + ". User ID: " + u.getId() + " Name: "
+                                            + u.getFirstName() + " " + u.getLastName() + " Total Posts: " + next);
+                                    num++;
+                                }
+
+                            }
+                        }
+                    }
+                } catch (NoSuchElementException e) {
+
+                }
+            }
+        }
+    }
     
     // 5. Top 5 inactive users based on comments.
+    public void getFiveInactiveUsersByComments() {
+        Map<Integer, User> Users = DataStore.getInstance().getUsers();
+        List<User> userList = new ArrayList<>(Users.values());
+
+        Map<Integer, User> activities = new HashMap<Integer, User>();
+
+        for (User u : userList) {
+            int totalComments = u.getComments().size();
+            activities.put(totalComments, u);
+        }
+
+        TreeMap<Integer, User> sorted = new TreeMap<>();
+        sorted.putAll(activities);
+
+        Iterator<Integer> it = sorted.keySet().iterator();
+
+        System.out.println();
+        System.out.println("5. Top 5 inactive users based on comments: ");
+        int num = 0;
+        while (it.hasNext()) {
+            for (int i = 0; i < Users.size(); i++) {
+                try {
+                    int next = it.next();
+                    User user = sorted.get(next);
+                    if (i + num < 5) {
+                        System.out.println("   " + (i + 1 + num) + ". User ID: " + user.getId() + " Name: "
+                                + user.getFirstName() + " " + user.getLastName() + " Total Posts: " + next);
+                        for (User u : userList) {
+                            if (next == u.getComments().size() && u.getId() != user.getId()) {
+                                if (i + num + 1 < 5) {
+                                    System.out.println("   " + (i + 2 + num) + ". User ID: " + u.getId() + " Name: "
+                                            + u.getFirstName() + " " + u.getLastName() + " Total Posts: " + next);
+                                    num++;
+                                } else {
+                                    System.out.println("The following user tied the fifth place: ");
+                                    System.out.println("   " + (i + 2 + num) + ". User ID: " + u.getId() + " Name: "
+                                            + u.getFirstName() + " " + u.getLastName() + " Total Posts: " + next);
+                                    num++;
+                                }
+
+                            }
+                        }
+                    }
+                } catch (NoSuchElementException e) {
+
+                }
+            }
+        }
+    }
     
     // 6. Top 5 inactive users overall (comments, posts and likes) 
     public void getFiveInactiveUsersOverall() {
