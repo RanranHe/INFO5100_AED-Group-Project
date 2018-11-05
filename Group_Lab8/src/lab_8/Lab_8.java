@@ -93,6 +93,10 @@ public class Lab_8 {
         helper.postWithPostLikedComments();
         // 3. Post with most comments.
         helper.postWithMostComments();
+        // 4. Top 5 inactive users based on posts.
+    
+        // 5. Top 5 inactive users based on comments.
+        
         // 6. Top 5 inactive users overall (comments, posts and likes) 
         helper.getFiveInactiveUsersOverall();
         // 7. Top 5 proactive users overall (comments, posts and likes)

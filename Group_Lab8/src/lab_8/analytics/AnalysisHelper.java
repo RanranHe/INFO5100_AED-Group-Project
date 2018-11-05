@@ -144,10 +144,10 @@ public class AnalysisHelper {
         }
 
         System.out.println();
-        System.out.println("The following Posts tied the top place:  ");
         for (Post p : postList) {
             for (Comment c : p.getComments()) {
                 if (c.getLikes() == flag && postId != p.getPostId()) {
+                    System.out.println("The following Post tied the top place:  ");
                     System.out.println("   Post Id: " + p.getPostId());
                     System.out.println("   Likes Number: " + flag);
                     System.out.println("   Posting User Id: " + p.getUserId());
@@ -188,10 +188,10 @@ public class AnalysisHelper {
         }
 
         System.out.println();
-        System.out.println("The following Posts tied the top place:  ");
         for (Post p : postList) {
             for (Comment c : p.getComments()) {
                 if (c.getLikes() == flag && postId != p.getPostId()) {
+                    System.out.println("The following Post tied the top place:  ");
                     System.out.println("   Post Id: " + p.getPostId());
                     System.out.println("   Posting User Id: " + p.getUserId());
                     System.out.println("   Contains " + flag + " comments: ");
@@ -205,7 +205,9 @@ public class AnalysisHelper {
     }
 
     // 4. Top 5 inactive users based on posts.
+    
     // 5. Top 5 inactive users based on comments.
+    
     // 6. Top 5 inactive users overall (comments, posts and likes) 
     public void getFiveInactiveUsersOverall() {
         Map<Integer, User> Users = DataStore.getInstance().getUsers();
