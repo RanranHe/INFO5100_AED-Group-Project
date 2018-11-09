@@ -90,7 +90,7 @@ public class Lab_8 {
         // 1. Find Average number of likes per comment.
         helper.averageLikesPerComment();
         // 2. Post with most liked comments.
-        helper.postWithPostLikedComments();
+        helper.postWithMostLikedComments();
         // 3. Post with most comments.
         helper.postWithMostComments();
         // 4. Top 5 inactive users based on posts.
@@ -102,5 +102,4 @@ public class Lab_8 {
         // 7. Top 5 proactive users overall (comments, posts and likes)
         helper.getFiveProactiveUsersOverall();
     }
-    
 }

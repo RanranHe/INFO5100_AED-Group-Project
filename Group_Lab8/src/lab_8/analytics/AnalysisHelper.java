@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.TreeMap;
 import lab_8.entities.Comment;
@@ -26,28 +27,6 @@ import lab_8.entities.User;
 public class AnalysisHelper {
 
     public void userWithMostLikes() {
-//        Map<Integer, Integer> userLinkcount =new HashMap<Integer, Integer>();
-//        
-//        Map<Integer, User>user=DataStore.getInstance().getUsers();
-//        for(User user : user.values()){
-//            for(Comment c: user.getComments()){
-//                int likes = 0;
-//                if(userLikecount.containsKey(user.getId()))
-//                    likes=userLikecount.get(user.getId());
-//                likes+=c.getLikes();
-//                userLikecount.put(user.getId(),likes);
-//            }
-//        }
-//        
-//        int max=0;
-//        int maxId=0;
-//        for(int id:userLikecount.keySet()){
-//            if(userLikecount.get(id)>max){
-//                max=userLikecount.get(id);
-//                maxId = id;
-//            }
-//        }
-
         Map<Integer, Integer> userLikecount = new HashMap<Integer, Integer>();
         Map<Integer, User> users = DataStore.getInstance().getUsers();
         for (User user : users.values()) {
@@ -108,54 +87,58 @@ public class AnalysisHelper {
     }
 
     // 2. Post with most liked comments.
-    public void postWithPostLikedComments() {
-        Map<Integer, Post> Posts = DataStore.getInstance().getPosts();
-        List<Post> postList = new ArrayList<>(Posts.values());
-        Map<Integer, Post> postToLikes = new HashMap<Integer, Post>();
+    public void postWithMostLikedComments() {
+        Map<Integer, Comment> comments = DataStore.getInstance().getComments();
+        // Key: postId  Value: number of likes of the most liked comment under the post
+        Map<Integer, Integer> PostWithMostLikes = new HashMap<>();
 
-        for (Post p : postList) {
-            List<Comment> list = p.getComments();
-            Collections.sort(list, new Comparator<Comment>() {
-                @Override
-                public int compare(Comment o1, Comment o2) {
-                    return o2.getLikes() - o1.getLikes();
+        Iterator<Comment> it = comments.values().iterator();
+        while (it.hasNext()) {
+            Comment next = it.next();
+            int postId = next.getPostId();
+            int likes = next.getLikes();
+            if (PostWithMostLikes.containsKey(postId)) {
+                int currentMax = PostWithMostLikes.get(postId);
+                if (likes > currentMax) {
+                    PostWithMostLikes.remove(postId);
+                    PostWithMostLikes.put(postId, likes);
                 }
-            });
-            postToLikes.put(list.get(0).getLikes(), p);
+            } else {
+                PostWithMostLikes.put(postId, likes);
+            }
         }
 
-        TreeMap<Integer, Post> sorted = new TreeMap<>();
-        sorted.putAll(postToLikes);
-
-        Iterator<Integer> it = sorted.descendingKeySet().iterator();
+        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(PostWithMostLikes.entrySet());
+        Collections.sort(list, descendingComp);
 
         System.out.println();
         System.out.println("2. Post with most liked comments: ");
 
-        int next = it.next();
-        int flag = next;
-        int postId = sorted.get(next).getPostId();
-        System.out.println("Post Id: " + postId);
-        System.out.println("Likes Number: " + next);
-        System.out.println("Posting User Id: " + sorted.get(next).getUserId());
-        System.out.println("Contains comments: ");
-        for (Comment c : sorted.get(next).getComments()) {
-            System.out.println("   Comment " + c.getId() + " with " + c.getLikes() + " Likes: " + c.getText());
-        }
-
-        System.out.println();
-        for (Post p : postList) {
-            for (Comment c : p.getComments()) {
-                if (c.getLikes() == flag && postId != p.getPostId()) {
-                    System.out.println("The following Post tied the top place:  ");
-                    System.out.println("   Post Id: " + p.getPostId());
-                    System.out.println("   Likes Number: " + flag);
-                    System.out.println("   Posting User Id: " + p.getUserId());
-                    System.out.println("   Contains comments: ");
-                    for (Comment co : p.getComments()) {
-                        System.out.println("      Comment " + co.getId() + " with " + co.getLikes() + " Likes: " + co.getText());
+        for (int i = 0; i < list.size(); i++) {
+            if (i == 0) {
+                int postId = list.get(i).getKey();
+                Post post = getPostById(postId);
+                System.out.println("  Post Id: " + postId);
+                System.out.println("  Likes Number: " + list.get(i).getValue());
+                System.out.println("  Posting User Id: " + post.getUserId());
+                System.out.println("  Contains comments: ");
+                for (Comment c : post.getComments()) {
+                    System.out.println("     - Comment " + c.getId() + " with " + c.getLikes() + " Likes: " + c.getText());
+                }
+            } else {
+                if (list.get(i).getValue().equals(list.get(0).getValue())) {;
+                    System.out.println("  The following Post tied the top place: ");
+                    int postId = list.get(i).getKey();
+                    Post post = getPostById(postId);
+                    System.out.println("    Post Id: " + postId);
+                    System.out.println("    Likes Number: " + list.get(i).getValue());
+                    System.out.println("    Posting User Id: " + post.getUserId());
+                    System.out.println("    Contains comments: ");
+                    for (Comment c : post.getComments()) {
+                        System.out.println("       - Comment " + c.getId() + " with " + c.getLikes() + " Likes: " + c.getText());
                     }
-                    System.out.println();
+                } else {
+                    break;
                 }
             }
         }
@@ -163,200 +146,232 @@ public class AnalysisHelper {
 
     // 3. Post with most comments.
     public void postWithMostComments() {
-        Map<Integer, Post> Posts = DataStore.getInstance().getPosts();
-        List<Post> postList = new ArrayList<>(Posts.values());
-        Map<Integer, Post> commentsNum = new HashMap<Integer, Post>();
+        Map<Integer, Post> posts = DataStore.getInstance().getPosts();
+        // Key: Post Id  Value: total_comments under the post
+        Map<Integer, Integer> totalComments = new HashMap<>();
 
-        for (Post p : postList) {
-            commentsNum.put(p.getComments().size(), p);
+        Iterator<Entry<Integer, Post>> it = posts.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Entry<Integer, Post> next = it.next();
+            int postId = next.getKey();
+            Post post = next.getValue();
+
+            totalComments.put(postId, post.getComments().size());
         }
-        TreeMap<Integer, Post> sorted = new TreeMap<>();
-        sorted.putAll(commentsNum);
 
-        Iterator<Integer> it = sorted.descendingKeySet().iterator();
+        List<Entry<Integer, Integer>> list = new ArrayList<>(totalComments.entrySet());
+        Collections.sort(list, descendingComp);
 
-        int next = it.next();
-        int flag = next;
-        int postId = sorted.get(next).getPostId();
         System.out.println();
         System.out.println("3. Post with most comments: ");
-        System.out.println("Post Id: " + postId);
-        System.out.println("Posting User Id: " + sorted.get(next).getUserId());
-        System.out.println("Contains " + next + " comments: ");
-        for (Comment c : sorted.get(next).getComments()) {
-            System.out.println("   Comment " + c.getId() + " with " + c.getLikes() + " Likes: " + c.getText());
-        }
-
-        System.out.println();
-        for (Post p : postList) {
-            for (Comment c : p.getComments()) {
-                if (c.getLikes() == flag && postId != p.getPostId()) {
+        for (int i = 0; i < list.size(); i++) {
+            if (i == 0) {
+                int postId = list.get(i).getKey();
+                Post post = getPostById(postId);
+                System.out.println("Post Id: " + postId);
+                System.out.println("Posting User Id: " + post.getUserId());
+                System.out.println("Contains " + list.get(i).getValue() + " comments: ");
+                for (Comment c : post.getComments()) {
+                    System.out.println("   Comment " + c.getId() + " with " + c.getLikes() + " Likes: " + c.getText());
+                }
+            } else {
+                if (list.get(i).getValue().equals(list.get(0).getValue())) {
+                    int postId = list.get(i).getKey();
+                    Post post = getPostById(postId);
                     System.out.println("The following Post tied the top place:  ");
-                    System.out.println("   Post Id: " + p.getPostId());
-                    System.out.println("   Posting User Id: " + p.getUserId());
-                    System.out.println("   Contains " + flag + " comments: ");
-                    for (Comment co : sorted.get(next).getComments()) {
+                    System.out.println("   Post Id: " + post.getPostId());
+                    System.out.println("   Posting User Id: " + post.getUserId());
+                    System.out.println("   Contains " + list.get(i).getValue() + " comments: ");
+                    for (Comment co : post.getComments()) {
                         System.out.println("      Comment " + co.getId() + " with " + co.getLikes() + " Likes: " + co.getText());
                     }
-                    System.out.println();
                 }
             }
         }
     }
 
     // 4. Top 5 inactive users based on posts.
-    public void getFiveInactiveUserByPosts(){
-        Map<Integer, User> Users = DataStore.getInstance().getUsers();
-        List<User> userList = new ArrayList<>(Users.values());
+    public void getFiveInactiveUserByPosts() {
+        Map<Integer, User> users = DataStore.getInstance().getUsers();
+        // Key: userId  Value: total_post
+        Map<Integer, Integer> totalPosts = new HashMap<>();
 
-        Map<Integer, User> activities = new HashMap<Integer, User>();
+        Iterator<Map.Entry<Integer, User>> it = users.entrySet().iterator();
 
-        for (User u : userList) {
-            int totalPosts = getTotalPostsByUser(u);
-            activities.put(totalPosts, u);
+        while (it.hasNext()) {
+            Entry<Integer, User> next = it.next();
+            User user = next.getValue();
+            int userId = next.getKey();
+
+            totalPosts.put(userId, getTotalPostsByUser(user));
         }
 
-        TreeMap<Integer, User> sorted = new TreeMap<>();
-        sorted.putAll(activities);
-
-        Iterator<Integer> it = sorted.keySet().iterator();
+        List<Entry<Integer, Integer>> list = new ArrayList<>(totalPosts.entrySet());
+        Collections.sort(list, ascendingComp);
 
         System.out.println();
         System.out.println("4. Top 5 inactive users based on posts: ");
-        int num = 0;
-        while (it.hasNext()) {
-            for (int i = 0; i < Users.size(); i++) {
-                try {
-                    int next = it.next();
-                    User user = sorted.get(next);
-                    if (i + num < 5) {
-                        System.out.println("   " + (i + 1 + num) + ". User ID: " + user.getId() + " Name: "
-                                + user.getFirstName() + " " + user.getLastName() + " Total Posts: " + next);
-                        for (User u : userList) {
-                            if (next == getTotalPostsByUser(u) && u.getId() != user.getId()) {
-                                if (i + num + 1 < 5) {
-                                    System.out.println("   " + (i + 2 + num) + ". User ID: " + u.getId() + " Name: "
-                                            + u.getFirstName() + " " + u.getLastName() + " Total Posts: " + next);
-                                    num++;
-                                } else {
-                                    System.out.println("The following user tied the fifth place: ");
-                                    System.out.println("   " + (i + 2 + num) + ". User ID: " + u.getId() + " Name: "
-                                            + u.getFirstName() + " " + u.getLastName() + " Total Posts: " + next);
-                                    num++;
-                                }
-
-                            }
-                        }
-                    }
-                } catch (NoSuchElementException e) {
-
+        for (int i = 0; i < list.size(); i++) {
+            if (i < 5) {
+                int userId = list.get(i).getKey();
+                User user = getUserById(userId);
+                System.out.println("   " + (i + 1) + ". User ID: " + userId + " Name: "
+                        + user.getFirstName() + " " + user.getLastName() + " Total Posts: " + list.get(i).getValue());
+            } else {
+                if (list.get(i).getValue().equals(list.get(4).getValue())) {
+                    System.out.println("  The following Post tied the fifth place:");
+                    int userId = list.get(i).getKey();
+                    User user = getUserById(userId);
+                    System.out.println("     " + (i + 1) + ". User ID: " + userId + " Name: "
+                            + user.getFirstName() + " " + user.getLastName() + " Total Posts: " + list.get(i).getValue());
+                } else {
+                    break;
                 }
             }
         }
     }
-    
+
     // 5. Top 5 inactive users based on comments.
     public void getFiveInactiveUsersByComments() {
-        Map<Integer, User> Users = DataStore.getInstance().getUsers();
-        List<User> userList = new ArrayList<>(Users.values());
+        Map<Integer, User> users = DataStore.getInstance().getUsers();
+        // Key: userId  Value: total_comment 
+        Map<Integer, Integer> totalComments = new HashMap<>();
 
-        Map<Integer, User> activities = new HashMap<Integer, User>();
+        Iterator<Map.Entry<Integer, User>> it = users.entrySet().iterator();
 
-        for (User u : userList) {
-            int totalComments = u.getComments().size();
-            activities.put(totalComments, u);
+        while (it.hasNext()) {
+            Entry<Integer, User> next = it.next();
+            User user = next.getValue();
+            int userId = next.getKey();
+
+            totalComments.put(userId, user.getComments().size());
         }
 
-        TreeMap<Integer, User> sorted = new TreeMap<>();
-        sorted.putAll(activities);
-
-        Iterator<Integer> it = sorted.keySet().iterator();
+        List<Entry<Integer, Integer>> list = new ArrayList<>(totalComments.entrySet());
+        Collections.sort(list, ascendingComp);
 
         System.out.println();
         System.out.println("5. Top 5 inactive users based on comments: ");
-        int num = 0;
-        while (it.hasNext()) {
-            for (int i = 0; i < Users.size(); i++) {
-                try {
-                    int next = it.next();
-                    User user = sorted.get(next);
-                    if (i + num < 5) {
-                        System.out.println("   " + (i + 1 + num) + ". User ID: " + user.getId() + " Name: "
-                                + user.getFirstName() + " " + user.getLastName() + " Total Posts: " + next);
-                        for (User u : userList) {
-                            if (next == u.getComments().size() && u.getId() != user.getId()) {
-                                if (i + num + 1 < 5) {
-                                    System.out.println("   " + (i + 2 + num) + ". User ID: " + u.getId() + " Name: "
-                                            + u.getFirstName() + " " + u.getLastName() + " Total Posts: " + next);
-                                    num++;
-                                } else {
-                                    System.out.println("The following user tied the fifth place: ");
-                                    System.out.println("   " + (i + 2 + num) + ". User ID: " + u.getId() + " Name: "
-                                            + u.getFirstName() + " " + u.getLastName() + " Total Posts: " + next);
-                                    num++;
-                                }
-
-                            }
-                        }
-                    }
-                } catch (NoSuchElementException e) {
-
+        for (int i = 0; i < list.size(); i++) {
+            if (i < 5) {
+                int userId = list.get(i).getKey();
+                User user = getUserById(userId);
+                System.out.println("   " + (i + 1) + ". User ID: " + userId + " Name: "
+                        + user.getFirstName() + " " + user.getLastName() + " Total Comments: " + list.get(i).getValue());
+            } else {
+                if (list.get(i).getValue().equals(list.get(4).getValue())) {
+                    System.out.println("  The following Post tied the fifth place:");
+                    int userId = list.get(i).getKey();
+                    User user = getUserById(userId);
+                    System.out.println("     " + (i + 1) + ". User ID: " + userId + " Name: "
+                            + user.getFirstName() + " " + user.getLastName() + " Total Comments: " + list.get(i).getValue());
+                } else {
+                    break;
                 }
             }
         }
     }
-    
-    // 6. Top 5 inactive users overall (comments, posts and likes) 
+
+    // 6. Top 5 inactive users overall (comments, posts and likes)
     public void getFiveInactiveUsersOverall() {
-        Map<Integer, User> Users = DataStore.getInstance().getUsers();
-        List<User> userList = new ArrayList<>(Users.values());
+        Map<Integer, User> users = DataStore.getInstance().getUsers();
+        // Key: userId  Value: activeScores = total_post + total_comment 
+        Map<Integer, Integer> activeScores = new HashMap<>();
 
-        Map<Integer, User> activities = new HashMap<Integer, User>();
+        Iterator<Map.Entry<Integer, User>> it = users.entrySet().iterator();
 
-        for (User u : userList) {
-            int totalComments = u.getComments().size();
-            int totalCommentsLikes = getTotalCommentsLikesByUser(u);
-            int totalPosts = getTotalPostsByUser(u);
-            activities.put(totalComments + totalCommentsLikes + totalPosts, u);
+        while (it.hasNext()) {
+            Entry<Integer, User> next = it.next();
+            User user = next.getValue();
+            int userId = next.getKey();
+
+            int scores = user.getComments().size() + getTotalPostsByUser(user) + getTotalCommentsLikesByUser(user);
+            activeScores.put(userId, scores);
         }
 
-        TreeMap<Integer, User> sorted = new TreeMap<>();
-        sorted.putAll(activities);
-
-        Iterator<Integer> it = sorted.keySet().iterator();
+        List<Entry<Integer, Integer>> list = new ArrayList<>(activeScores.entrySet());
+        Collections.sort(list, ascendingComp);
 
         System.out.println();
         System.out.println("6. Top 5 inactive users overall: ");
-        int num = 0;
-        while (it.hasNext()) {
-            for (int i = 0; i < Users.size(); i++) {
-                try {
-                    int next = it.next();
-                    User user = sorted.get(next);
-                    if (i + num < 5) {
-                        System.out.println("   " + (i + 1 + num) + ". User ID: " + user.getId() + " Name: "
-                                + user.getFirstName() + " " + user.getLastName() + " Activities Points: " + next);
-                        for (User u : userList) {
-                            int total = getTotalPostsByUser(u) + getTotalCommentsLikesByUser(u) + u.getComments().size();
-                            if (next == total && u.getId() != user.getId()) {
-                                if (i + num + 1 < 5) {
-                                    System.out.println("   " + (i + 2 + num) + ". User ID: " + u.getId() + " Name: "
-                                            + u.getFirstName() + " " + u.getLastName() + " Activities Points: " + next);
-                                    num++;
-                                } else {
-                                    System.out.println("The following user tied the fifth place: ");
-                                    System.out.println("   " + (i + 2 + num) + ". User ID: " + u.getId() + " Name: "
-                                            + u.getFirstName() + " " + u.getLastName() + " Activities Points: " + next);
-                                    num++;
-                                }
-
-                            }
-                        }
-                    }
-                } catch (NoSuchElementException e) {
-
+        for (int i = 0; i < list.size(); i++) {
+            if (i < 5) {
+                int userId = list.get(i).getKey();
+                User user = getUserById(userId);
+                System.out.println("   " + (i + 1) + ". User ID: " + userId + " Name: "
+                        + user.getFirstName() + " " + user.getLastName() + " Activities Points: " + list.get(i).getValue());
+            } else {
+                if (list.get(i).getValue().equals(list.get(4).getValue())) {
+                    System.out.println("  The following Post tied the fifth place:");
+                    int userId = list.get(i).getKey();
+                    User user = getUserById(userId);
+                    System.out.println("     " + (i + 1) + ". User ID: " + userId + " Name: "
+                            + user.getFirstName() + " " + user.getLastName() + " Activities Points: " + list.get(i).getValue());
+                } else {
+                    break;
                 }
             }
+        }
+    }
+
+    // 7. Top 5 proactive users overall (comments, posts and likes)
+    public void getFiveProactiveUsersOverall() {
+        Map<Integer, User> users = DataStore.getInstance().getUsers();
+        // Key: userId  Value: activeScores = total_post + total_comment 
+        Map<Integer, Integer> activeScores = new HashMap<>();
+
+        Iterator<Map.Entry<Integer, User>> it = users.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Entry<Integer, User> next = it.next();
+            User user = next.getValue();
+            int userId = next.getKey();
+
+            int scores = user.getComments().size() + getTotalPostsByUser(user) + getTotalCommentsLikesByUser(user);
+            activeScores.put(userId, scores);
+        }
+
+        List<Entry<Integer, Integer>> list = new ArrayList<>(activeScores.entrySet());
+        Collections.sort(list, descendingComp);
+
+        System.out.println();
+        System.out.println("7. Top 5 proactive users overall: ");
+        for (int i = 0; i < list.size(); i++) {
+            if (i < 5) {
+                int userId = list.get(i).getKey();
+                User user = getUserById(userId);
+                System.out.println("   " + (i + 1) + ". User ID: " + userId + " Name: "
+                        + user.getFirstName() + " " + user.getLastName() + " Activities Points: " + list.get(i).getValue());
+            } else {
+                if (list.get(i).getValue().equals(list.get(4).getValue())) {
+                    System.out.println("  The following Post tied the fifth place:");
+                    int userId = list.get(i).getKey();
+                    User user = getUserById(userId);
+                    System.out.println("     " + (i + 1) + ". User ID: " + userId + " Name: "
+                            + user.getFirstName() + " " + user.getLastName() + " Activities Points: " + list.get(i).getValue());
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+    private User getUserById(int id) {
+        Map<Integer, User> users = DataStore.getInstance().getUsers();
+        if (users.containsKey(id)) {
+            return users.get(id);
+        } else {
+            return null;
+        }
+    }
+
+    private Post getPostById(int id) {
+        Map<Integer, Post> posts = DataStore.getInstance().getPosts();
+        if (posts.containsKey(id)) {
+            return posts.get(id);
+        } else {
+            return null;
         }
     }
 
@@ -380,57 +395,17 @@ public class AnalysisHelper {
         return totalCommentsLikes;
     }
 
-    // 7. Top 5 proactive users overall (comments, posts and likes)
-    public void getFiveProactiveUsersOverall() {
-        Map<Integer, User> Users = DataStore.getInstance().getUsers();
-        List<User> userList = new ArrayList<>(Users.values());
-
-        Map<Integer, User> activities = new HashMap<Integer, User>();
-
-        for (User u : userList) {
-            int totalComments = u.getComments().size();
-            int totalCommentsLikes = getTotalCommentsLikesByUser(u);
-            int totalPosts = getTotalPostsByUser(u);
-            activities.put(totalComments + totalCommentsLikes + totalPosts, u);
+    Comparator<Map.Entry<Integer, Integer>> descendingComp = new Comparator<Map.Entry<Integer, Integer>>() {
+        @Override
+        public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+            return o2.getValue() - o1.getValue();
         }
+    };
 
-        TreeMap<Integer, User> sorted = new TreeMap<>();
-        sorted.putAll(activities);
-
-        Iterator<Integer> it = sorted.descendingKeySet().iterator();
-
-        System.out.println();
-        System.out.println("7. Top 5 proactive users overall: ");
-        int num = 0;
-        while (it.hasNext()) {
-            for (int i = 0; i < Users.size(); i++) {
-                try {
-                    int next = it.next();
-                    User user = sorted.get(next);
-                    if (i + num < 5) {
-                        System.out.println("   " + (i + 1 + num) + ". User ID: " + user.getId() + " Name: "
-                                + user.getFirstName() + " " + user.getLastName() + " Activities Points: " + next);
-                        for (User u : userList) {
-                            int total = getTotalPostsByUser(u) + getTotalCommentsLikesByUser(u) + u.getComments().size();
-                            if (next == total && u.getId() != user.getId()) {
-                                if (i + num + 1 < 5) {
-                                    System.out.println("   " + (i + 2 + num) + ". User ID: " + u.getId() + " Name: "
-                                            + u.getFirstName() + " " + u.getLastName() + " Activities Points: " + next);
-                                    num++;
-                                } else {
-                                    System.out.println("The following user tied the fifth place: ");
-                                    System.out.println("   " + (i + 2 + num) + ". User ID: " + u.getId() + " Name: "
-                                            + u.getFirstName() + " " + u.getLastName() + " Activities Points: " + next);
-                                    num++;
-                                }
-
-                            }
-                        }
-                    }
-                } catch (NoSuchElementException e) {
-
-                }
-            }
+    Comparator<Map.Entry<Integer, Integer>> ascendingComp = new Comparator<Map.Entry<Integer, Integer>>() {
+        @Override
+        public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+            return o1.getValue() - o2.getValue();
         }
-    }
+    };
 }
