@@ -6,7 +6,6 @@
 package lab_8.analytics;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -14,8 +13,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.NoSuchElementException;
-import java.util.TreeMap;
 import lab_8.entities.Comment;
 import lab_8.entities.Post;
 import lab_8.entities.User;
@@ -27,7 +24,7 @@ import lab_8.entities.User;
 public class AnalysisHelper {
 
     public void userWithMostLikes() {
-        Map<Integer, Integer> userLikecount = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> userLikecount = new HashMap<>();
         Map<Integer, User> users = DataStore.getInstance().getUsers();
         for (User user : users.values()) {
             for (Comment c : user.getComments()) {
