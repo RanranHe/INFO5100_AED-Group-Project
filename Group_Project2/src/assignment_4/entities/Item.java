@@ -10,16 +10,26 @@ package assignment_4.entities;
  * @author harshalneelkamal
  */
 public class Item {
-    int productId;
-    int salesPrice;
-    int quantity;
+    private int itemId;
+    private int productId;
+    private int salesPrice;
+    private int quantity;
 
-    public Item(int productId, int salesPrice, int quantity) {
+    public Item(int itemId, int productId, int salesPrice, int quantity) {
+        this.itemId = itemId;
         this.productId = productId;
         this.salesPrice = salesPrice;
         this.quantity = quantity;
     }
 
+    public int getItemId() {
+        return this.itemId;
+    }
+    
+    public void setItemId(int id) {
+        this.itemId = id;
+    }
+    
     public int getProductId() {
         return productId;
     }
@@ -43,6 +53,4 @@ public class Item {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    
-    
 }

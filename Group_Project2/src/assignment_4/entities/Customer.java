@@ -5,10 +5,30 @@
  */
 package assignment_4.entities;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author harshalneelkamal
  */
 public class Customer {
+        private int customerId;
+    private ArrayList<Order> orders;
     
+    public Customer(int customerId) {
+        this.customerId = customerId;
+        this.orders = new ArrayList<>();
+    }
+    
+    public int getCustomerId() {
+        return this.customerId;
+    }
+    
+    public void setCustomerId(int newId) {
+        this.customerId = newId;
+    }
+    
+    public ArrayList<Order> getCustomerOrders() {
+        return this.orders;
+    }
 }
