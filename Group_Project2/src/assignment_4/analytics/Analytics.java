@@ -67,4 +67,74 @@ public class Analytics {
             }
         }
     }
+
+    // 2. Our 3 best customers 
+    public void getThreeBestCustomers() {
+        Map<Integer, Customer> customers = DataStore.getInstance().getCustomers();
+        // Key: CustomerId  Value: Total revenue of orders placed by the customer
+        Map<Integer, Integer> revenueFromCustomer = new HashMap<>();
+        Map<Integer, Integer> turnOverFromCustomer = new HashMap<>();
+
+        Iterator<Entry<Integer, Customer>> it = customers.entrySet().iterator();
+        while (it.hasNext()) {
+            Entry<Integer, Customer> next = it.next();
+            ArrayList<Order> orders = next.getValue().getCustomerOrders();
+            int customerId = next.getKey();
+            int totalRevenue = 0;
+            int turnOver = 0;
+            for (Order order : orders) {
+                for (Item item : order.getItem()) {
+                    int minPrice = getMinPrice(item.getProductId());
+                    totalRevenue = totalRevenue + (item.getSalesPrice() - minPrice) * item.getQuantity();
+                    turnOver = turnOver + item.getSalesPrice() * item.getQuantity();
+                }
+            }
+            revenueFromCustomer.put(customerId, totalRevenue);
+            turnOverFromCustomer.put(customerId, turnOver);
+        }
+
+        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(revenueFromCustomer.entrySet());
+        Collections.sort(list, descendingComp);
+
+        List<Map.Entry<Integer, Integer>> listTurnOver = new ArrayList<>(turnOverFromCustomer.entrySet());
+        Collections.sort(listTurnOver, descendingComp);
+
+        System.out.println("--------------------------------------------");
+        System.out.println("2-1. Our 3 best customers based on revenue: ");
+        for (int i = 0; i < list.size(); i++) {
+            if (i < 3) {
+                System.out.println("  Customer Id: " + list.get(i).getKey() + "  Total revenue brought: " + list.get(i).getValue());
+            } else {
+                if (list.get(2).getValue().equals(list.get(i).getValue())) {
+                    System.out.println("  Customer Id: " + list.get(i).getKey() + " tied the third place.");
+                } else {
+                    break;
+                }
+            }
+        }
+
+        System.out.println("2-2. Our 3 best customers based on turnover: ");
+        for (int i = 0; i < listTurnOver.size(); i++) {
+            if (i < 3) {
+                System.out.println("  Customer Id: " + listTurnOver.get(i).getKey() + "  Total turnover brought: " + listTurnOver.get(i).getValue());
+            } else {
+                if (listTurnOver.get(2).getValue().equals(listTurnOver.get(i).getValue())) {
+                    System.out.println("  Customer Id: " + listTurnOver.get(i).getKey() + " tied the third place.");
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+    // helper function: get min price of a product
+    private int getMinPrice(int id) {
+        Map<Integer, Product> products = DataStore.getInstance().getProducts();
+
+        if (products.containsKey(id)) {
+            return products.get(id).getMinPrice();
+        } else {
+            throw new NullPointerException("Product doesn't exist!");
+        }
+    }
 }
