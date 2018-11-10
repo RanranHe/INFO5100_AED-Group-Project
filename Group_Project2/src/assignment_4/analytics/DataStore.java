@@ -15,7 +15,7 @@ import java.util.Map;
 
 /**
  *
- * @author Ranran
+ * @author Wu Yunyi
  */
 public class DataStore {
     private static DataStore dataStore;
