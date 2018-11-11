@@ -31,6 +31,9 @@ public class GateWay {
         DataGenerator generator = DataGenerator.getInstance();
         orderReader = new DataReader(generator.getOrderFilePath());
         productReader = new DataReader(generator.getProductCataloguePath());
+        
+//        orderReader = new DataReader("./SalesData.csv");
+//        productReader = new DataReader("./ProductCatalogue.csv");
     }
 
     public static void main(String args[]) throws IOException {
