@@ -5,7 +5,7 @@
  */
 package assignment_4;
 
-
+import assignment_4.analytics.Analytics;
 import assignment_4.analytics.DataStore;
 import assignment_4.entities.Customer;
 import assignment_4.entities.Item;
@@ -25,7 +25,7 @@ public class GateWay {
 
     DataReader orderReader;
     DataReader productReader;
-  
+    Analytics analytics = new Analytics();
 
     public GateWay() throws IOException {
         DataGenerator generator = DataGenerator.getInstance();
@@ -133,6 +133,9 @@ public class GateWay {
     }
 
     private void runAnalysis() {
-       
+        analytics.getThreeMostPopularProduct();
+        analytics.getThreeBestCustomers();
+        analytics.getTopThreeBestSalesPeople();
+        analytics.totalRevenueForTheYear();
     }
 }
