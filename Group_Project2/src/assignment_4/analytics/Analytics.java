@@ -137,4 +137,59 @@ public class Analytics {
             throw new NullPointerException("Product doesn't exist!");
         }
     }
+
+    // 3. Our top 3 best sales people
+    public void getTopThreeBestSalesPeople() {
+        Map<Integer, SalesPerson> salesPersons = DataStore.getInstance().getSalesPersons();
+        // Key: SalesPersonId  Value: Total revenue of orders created by the sales person
+        Map<Integer, Integer> revenueBySalesPerson = new HashMap<>();
+
+        Iterator<Entry<Integer, SalesPerson>> it = salesPersons.entrySet().iterator();
+        while (it.hasNext()) {
+            Entry<Integer, SalesPerson> next = it.next();
+            ArrayList<Order> orders = next.getValue().getSalesOrders();
+            int salesId = next.getKey();
+            int totalRevenue = 0;
+            for (Order order : orders) {
+                for (Item item : order.getItem()) {
+                    int minPrice = getMinPrice(item.getProductId());
+                    totalRevenue = totalRevenue + (item.getSalesPrice() - minPrice) * item.getQuantity();
+                }
+            }
+            revenueBySalesPerson.put(salesId, totalRevenue);
+        }
+
+        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(revenueBySalesPerson.entrySet());
+        Collections.sort(list, descendingComp);
+
+        System.out.println("--------------------------------------------");
+        System.out.println("3. Our top 3 best sales people: ");
+        for (int i = 0; i < list.size(); i++) {
+            if (i < 3) {
+                System.out.println("  Sales Person Id: " + list.get(i).getKey() + "  Total revenue: " + list.get(i).getValue());
+            } else {
+                if (list.get(2).getValue().equals(list.get(i).getValue())) {
+                    System.out.println("  Customer Id: " + list.get(i).getKey() + " tied the third place.");
+                } else {
+                    return;
+                }
+            }
+        }
+    }
+
+    // 4. Our total revenue for the year
+    public void totalRevenueForTheYear() {
+        Map<Integer, Order> orders = DataStore.getInstance().getOrders();
+        int totalRevenue = 0;
+
+        Iterator<Order> it = orders.values().iterator();
+        while (it.hasNext()) {
+            Order next = it.next();
+            for (Item item : next.getItem()) {
+                totalRevenue = totalRevenue + (item.getSalesPrice() - getMinPrice(item.getProductId())) * item.getQuantity();
+            }
+        }
+        System.out.println("--------------------------------------------");
+        System.out.println("4. Our total revenue for the year is: " + totalRevenue);
+    }
 }

@@ -134,5 +134,8 @@ public class GateWay {
 
     private void runAnalysis() {
         analytics.getThreeMostPopularProduct();
+        analytics.getThreeBestCustomers();
+        analytics.getTopThreeBestSalesPeople();
+        analytics.totalRevenueForTheYear();
     }
 }
