@@ -30,4 +30,10 @@ public class CustomerDir {
         customer.setAddress(address);
         customerList.add(customer);
     }
+    
+    public Customer createCustomer(String firstName, String lastName, String email, String phone) {
+        Customer customer = new Customer(firstName, lastName, email, phone);
+        this.customerList.add(customer);
+        return customer;
+    }
 }

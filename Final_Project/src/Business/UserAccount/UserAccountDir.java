@@ -5,6 +5,7 @@
  */
 package Business.UserAccount;
 
+import Business.Customer.Customer;
 import Business.Employee.Employee;
 import Business.Restaurant.Restaurant;
 import Business.Role.Role;
@@ -28,10 +29,19 @@ public class UserAccountDir {
     
     public UserAccount authenticateUser(String username, String password){
         for (UserAccount ua : userAccountList)
-            if (ua.getUsername().equals(username) && ua.getPassword().equals(password)){
+            if (ua.getUsername().equalsIgnoreCase(username) && ua.getPassword().equals(password)){
                 return ua;
             }
         return null;
+    }
+    
+    public boolean isUsernameValid(String username) {
+        for (UserAccount ua : userAccountList) {
+            if (ua.getUsername().equalsIgnoreCase(username)){
+                return false;
+            } 
+        }
+        return true;    
     }
 
     public RestaurantAccount createRestaurantAccount(String username, String password, Restaurant rest, Role role) {
@@ -44,6 +54,11 @@ public class UserAccountDir {
         EmployeeAccount ua = new EmployeeAccount(username, password, role, em);
         userAccountList.add(ua);
         return ua;
-
+    }
+    
+    public CustomerAccount createCustomerAccount(String username, String password, Customer customer) {
+        CustomerAccount ua = new CustomerAccount(username, password, customer);
+        userAccountList.add(ua);
+        return ua;
     }
 }
