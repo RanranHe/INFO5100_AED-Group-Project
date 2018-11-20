@@ -25,6 +25,14 @@ public class UserAccountDir {
     public ArrayList<UserAccount> getUserAccountList() {
         return this.userAccountList;
     }
+    
+    public UserAccount authenticateUser(String username, String password){
+        for (UserAccount ua : userAccountList)
+            if (ua.getUsername().equals(username) && ua.getPassword().equals(password)){
+                return ua;
+            }
+        return null;
+    }
 
     public RestaurantAccount createRestaurantAccount(String username, String password, Restaurant rest, Role role) {
         RestaurantAccount ra = new RestaurantAccount(username, password, rest);
