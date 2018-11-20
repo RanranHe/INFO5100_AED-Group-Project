@@ -18,13 +18,13 @@ public class LoginJFrame extends javax.swing.JFrame {
      */
     public LoginJFrame() {
         initComponents();
-        this.setSize(250, 450);
+        this.setSize(250, 400);
         this.setLocationRelativeTo(null);
         
-        LoginJPanel lp = new LoginJPanel(this.LoginContainer);
-        this.LoginContainer.add("LoginJPanel", lp);
-        CardLayout layout = (CardLayout) LoginContainer.getLayout();
-        layout.next(this.LoginContainer);
+        LoginJPanel lp = new LoginJPanel(this.leftPanel, this);
+        this.leftPanel.add(lp);
+        CardLayout layout = (CardLayout)this.leftPanel.getLayout();
+        layout.next(this.leftPanel);
     }
 
     /**
@@ -36,21 +36,28 @@ public class LoginJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        LoginContainer = new javax.swing.JPanel();
+        leftPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(800, 430));
 
-        LoginContainer.setLayout(new java.awt.CardLayout());
+        leftPanel.setLayout(new java.awt.CardLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(LoginContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 250, Short.MAX_VALUE)
+                .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 250, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(LoginContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 221, Short.MAX_VALUE)
+                .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 221, Short.MAX_VALUE))
         );
 
         pack();
@@ -93,6 +100,6 @@ public class LoginJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel LoginContainer;
+    private javax.swing.JPanel leftPanel;
     // End of variables declaration//GEN-END:variables
 }

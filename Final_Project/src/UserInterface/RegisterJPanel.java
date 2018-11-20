@@ -7,7 +7,10 @@ package UserInterface;
 
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
+import Interface.Customer.CustomerRegistrationInfoJPanel;
 import java.awt.CardLayout;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -15,16 +18,21 @@ import javax.swing.JPanel;
  * @author ranranhe
  */
 public class RegisterJPanel extends javax.swing.JPanel {
+
     private EcoSystem system;
     private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
-    private JPanel LoginContainer;
+    private JPanel leftPanel;
+    private JFrame frame;
+
     /**
      * Creates new form RegisterJPanel
      */
-    public RegisterJPanel(JPanel LoginContainer) {
+    public RegisterJPanel(JPanel leftPanel, JFrame frame) {
         initComponents();
         system = dB4OUtil.retrieveSystem();
-        this.LoginContainer = LoginContainer;
+        this.leftPanel = leftPanel;
+        this.frame = frame;
+        this.setSize(250, 430);
     }
 
     /**
@@ -36,22 +44,24 @@ public class RegisterJPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        registerButton = new javax.swing.JButton();
+        LoginButton = new javax.swing.JButton();
         passwordField = new javax.swing.JPasswordField();
         cancelButton = new javax.swing.JButton();
         userNameJTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        loginJButton1 = new javax.swing.JButton();
+        registerJButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         passwordField1 = new javax.swing.JPasswordField();
+        jLabel6 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
 
-        registerButton.setText("Login Here!");
-        registerButton.addActionListener(new java.awt.event.ActionListener() {
+        LoginButton.setText("Login Here!");
+        LoginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                registerButtonActionPerformed(evt);
+                LoginButtonActionPerformed(evt);
             }
         });
 
@@ -71,11 +81,11 @@ public class RegisterJPanel extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel2.setText("Password:");
 
-        loginJButton1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        loginJButton1.setText("Register");
-        loginJButton1.addActionListener(new java.awt.event.ActionListener() {
+        registerJButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        registerJButton.setText("Register");
+        registerJButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginJButton1ActionPerformed(evt);
+                registerJButtonActionPerformed(evt);
             }
         });
 
@@ -86,34 +96,57 @@ public class RegisterJPanel extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel5.setText("Confirm Password:");
 
+        jLabel6.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel6.setText("Role:");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Please select a role...", "Customer", "Restaurant", "DeliveryMan" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
+                        .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(loginJButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel4)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1)
-                                    .addComponent(userNameJTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
-                                    .addComponent(passwordField)
-                                    .addComponent(passwordField1))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(65, 65, 65)
+                                .addComponent(LoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(2, 2, 2)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(userNameJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel1))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel6)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGroup(layout.createSequentialGroup()
+                                                    .addGap(6, 6, 6)
+                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(registerJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addGap(2, 2, 2))))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel5)
+                                        .addComponent(passwordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel2))
+                                    .addGap(2, 2, 2))))
+                        .addGap(0, 8, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -121,47 +154,75 @@ public class RegisterJPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jLabel3)
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userNameJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passwordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(loginJButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(registerJButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cancelButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(registerButton)
-                .addGap(17, 17, 17))
+                .addComponent(LoginButton)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
-        RegisterJPanel rp = new RegisterJPanel(this.LoginContainer);
-        this.LoginContainer.add("RegisterJPanel", rp);
-        CardLayout layout = (CardLayout) this.LoginContainer.getLayout();
-        LoginContainer.remove(this);
-        layout.next(this.LoginContainer);
-    }//GEN-LAST:event_registerButtonActionPerformed
+    private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
+        this.frame.setSize(250, 430);
+        LoginJPanel lp = new LoginJPanel(this.leftPanel, this.frame);
+        this.leftPanel.add("RegisterJPanel", lp);
+        CardLayout layout = (CardLayout) this.leftPanel.getLayout();
+        leftPanel.remove(this);
+        layout.next(this.leftPanel);
+    }//GEN-LAST:event_LoginButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        // TODO add your handling code here:
+        this.frame.setVisible(false);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void loginJButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginJButton1ActionPerformed
-//        String userName = userNameJTextField.getText();
-//        // Get Password
-//        char[] passwordCharArray = passwordField.getPassword();
-//        String password = String.valueOf(passwordCharArray);
+    private void registerJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerJButtonActionPerformed
+        String username = userNameJTextField.getText();
+        // Get Password
+        char[] passwordCharArray1 = passwordField.getPassword();
+        String password1 = String.valueOf(passwordCharArray1);
+        char[] passwordCharArray2 = passwordField1.getPassword();
+        String password2 = String.valueOf(passwordCharArray2);
+
+        if (system.getUserAccountDirectory().isUsernameValid(username)) {
+            if (password1.equals(password2)) {
+                if (jComboBox1.getSelectedItem().equals("Please select a role...")) {
+                    JOptionPane.showMessageDialog(null, "Please select your role!");
+                }
+                if (jComboBox1.getSelectedItem().equals("Customer")) {
+                    this.frame.setSize(500, 430);
+                    
+                    CustomerRegistrationInfoJPanel cp = new CustomerRegistrationInfoJPanel(this.leftPanel, this.frame, username, password1);
+                    this.leftPanel.add("CustomerRegistrationInfoJPanel", cp);
+                    CardLayout layout = (CardLayout) this.leftPanel.getLayout();
+                    leftPanel.remove(this);
+                    layout.next(this.leftPanel);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Passwords don't match!");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Username already exists!");
+        }
 //
 //        // check whether the user account exists
 //        UserAccount userAccount = system.getUserAccountDirectory().authenticateUser(userName, password);
@@ -175,20 +236,26 @@ public class RegisterJPanel extends javax.swing.JPanel {
 //        } else {
 //            JOptionPane.showMessageDialog(null, "User Account doesn't exist.");
 //        }
-    }//GEN-LAST:event_loginJButton1ActionPerformed
+    }//GEN-LAST:event_registerJButtonActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton LoginButton;
     private javax.swing.JButton cancelButton;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JButton loginJButton1;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JPasswordField passwordField1;
-    private javax.swing.JButton registerButton;
+    private javax.swing.JButton registerJButton;
     private javax.swing.JTextField userNameJTextField;
     // End of variables declaration//GEN-END:variables
 }

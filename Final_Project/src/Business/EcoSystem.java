@@ -5,6 +5,7 @@
  */
 package Business;
 
+import Business.Customer.CustomerDir;
 import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.Role.Role;
@@ -19,6 +20,7 @@ public class EcoSystem extends Organization {
 
     private static EcoSystem business;
     private ArrayList<Network> networkList;
+    private CustomerDir customers;
 
     public static EcoSystem getInstance() {
         if (business == null) {
@@ -43,6 +45,7 @@ public class EcoSystem extends Organization {
     private EcoSystem() {
         super(null, null);
         networkList = new ArrayList<>();
+        customers = new CustomerDir();
     }
 
     public ArrayList<Network> getNetworkList() {
@@ -52,14 +55,8 @@ public class EcoSystem extends Organization {
     public void setNetworkList(ArrayList<Network> networkList) {
         this.networkList = networkList;
     }
-
-//    public boolean checkIfUserIsUnique(String userName){
-//        if(!this.getUserAccountDirectory().checkIfUsernameIsUnique(userName)){
-//            return false;
-//        }
-//        for(Network network:networkList){
-//            
-//        }
-//        return true;
-//    }
+    
+    public CustomerDir getCustomers() {
+        return this.customers;
+    }
 }
