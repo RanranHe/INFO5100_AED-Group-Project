@@ -10,11 +10,13 @@ package Business.Employee;
  * @author ranranhe
  */
 public class Employee {
+
     private int id;
     private String firstName;
     private String lastName;
     private String fullName;
     private String phone;
+    private String email;
     private static int count = 0;
 
     public Employee(String firstName, String lastName) {
@@ -37,20 +39,28 @@ public class Employee {
     public void getFirstName(String firstName) {
         this.firstName = firstName;
     }
-    
+
     public void getLastName(String lastName) {
         this.lastName = lastName;
     }
-            
+
     public String getFullName() {
         return fullName;
     }
-    
+
     public String getPhone() {
         return this.phone;
     }
-    
+
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

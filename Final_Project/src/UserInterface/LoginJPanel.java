@@ -157,7 +157,7 @@ public class LoginJPanel extends javax.swing.JPanel {
         UserAccount userAccount = system.getUserAccountDirectory().authenticateUser(userName, password);
 
         if (userAccount != null) {
-            MainJFrame mFrame = new MainJFrame("Customer", userAccount);
+            MainJFrame mFrame = new MainJFrame(userAccount);
             this.frame.setVisible(false);
             mFrame.setVisible(true);
             mFrame.setSize(500, 300);
