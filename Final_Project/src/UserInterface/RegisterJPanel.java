@@ -7,7 +7,7 @@ package UserInterface;
 
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
-import Interface.Customer.CustomerRegistrationInfoJPanel;
+import UserInterface.Customer.CustomerRegistrationInfoJPanel;
 import java.awt.CardLayout;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;

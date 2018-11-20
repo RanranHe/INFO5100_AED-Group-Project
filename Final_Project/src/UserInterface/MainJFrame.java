@@ -6,7 +6,7 @@
 package UserInterface;
 
 import Business.UserAccount.UserAccount;
-import Interface.Customer.CustomerInfoJPanel;
+import UserInterface.Customer.CustomerInfoJPanel;
 import java.awt.CardLayout;
 
 /**
