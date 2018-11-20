@@ -18,9 +18,15 @@ public class MainJFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainJFrame
      */
-    public MainJFrame(String type, UserAccount userAccount) {
+    public MainJFrame(UserAccount userAccount) {
         initComponents();
-        if (type.equalsIgnoreCase("Customer")) {
+        if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Customer")) {
+            CustomerInfoJPanel cp = new CustomerInfoJPanel(userAccount);
+            infoPanel.add(cp);
+            CardLayout layout = (CardLayout)this.infoPanel.getLayout();
+            layout.next(infoPanel);
+        }
+        if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Manager")) {
             CustomerInfoJPanel cp = new CustomerInfoJPanel(userAccount);
             infoPanel.add(cp);
             CardLayout layout = (CardLayout)this.infoPanel.getLayout();
