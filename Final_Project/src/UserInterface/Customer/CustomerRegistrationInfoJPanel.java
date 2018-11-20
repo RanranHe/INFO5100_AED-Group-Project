@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Interface.Customer;
+package UserInterface.Customer;
 
 import Business.Customer.Customer;
 import Business.DB4OUtil.DB4OUtil;

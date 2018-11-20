@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Interface.Customer;
+package UserInterface.Customer;
 
 import Business.UserAccount.CustomerAccount;
 import Business.UserAccount.UserAccount;
