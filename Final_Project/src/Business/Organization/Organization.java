@@ -20,13 +20,18 @@ public abstract class Organization {
 
     private int organizationId;
     private String name;
+    private City city;
     private WorkQueue workQ;
     private RestaurantDir restaurants;
     private EmployeeDir employees;
     private UserAccountDir userAccounts;
-    private ArrayList<Role> roles;
     private static int counter;
 
+    
+    public enum City {
+        Boston
+    }
+    
     public enum Type {
 
         Manager("Manager Organization"),
@@ -43,10 +48,11 @@ public abstract class Organization {
         }
     }
 
-    public Organization(String name) {
+    public Organization(String name, City city) {
         counter++;
         this.organizationId = counter;
         this.name = name;
+        this.city = city;
         this.workQ = new WorkQueue();
         this.restaurants = new RestaurantDir();
         this.employees = new EmployeeDir();
@@ -54,7 +60,7 @@ public abstract class Organization {
     }
 
     public abstract ArrayList<Role> getSupportedRole();
-    
+
     public int getOrganizationID() {
         return organizationId;
     }
@@ -65,6 +71,18 @@ public abstract class Organization {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCityName() {
+        return this.city.name();
+    }
+    
+    public City getCity() {
+        return this.city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 
     public EmployeeDir getEmployeeDirectory() {

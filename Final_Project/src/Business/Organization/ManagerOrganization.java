@@ -15,8 +15,8 @@ import java.util.ArrayList;
  */
 public class ManagerOrganization extends Organization {
 
-    public ManagerOrganization() {
-        super(Organization.Type.Manager.getValue());
+    public ManagerOrganization(City city) {
+        super(Organization.Type.Manager.getValue(), city);
     }
     
     @Override

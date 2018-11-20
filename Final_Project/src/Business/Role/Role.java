@@ -16,7 +16,8 @@ public abstract class Role {
         Manager("Manager"),
         Customer("Customer"),
         DeliveryMan("Delivery Man"),
-        Restaurant("Restaurant");
+        Restaurant("Restaurant"),
+        SystemManager("System Manager");
         
         private String value;
         private RoleType(String value){
@@ -35,5 +36,9 @@ public abstract class Role {
     
     public Role(RoleType type) {
         this.type = type;
+    }
+    
+    public RoleType getRole() {
+        return this.type;
     }
 }
