@@ -211,8 +211,8 @@ public class RegisterJPanel extends javax.swing.JPanel {
                 if (jComboBox1.getSelectedItem().equals("Customer")) {
                     this.frame.setSize(500, 430);
                     
-                    CustomerRegistrationInfoJPanel cp = new CustomerRegistrationInfoJPanel(this.leftPanel, this.frame);
-                    this.leftPanel.add("CustomerInfoJPanel", cp);
+                    CustomerRegistrationInfoJPanel cp = new CustomerRegistrationInfoJPanel(this.leftPanel, this.frame, username, password1);
+                    this.leftPanel.add("CustomerRegistrationInfoJPanel", cp);
                     CardLayout layout = (CardLayout) this.leftPanel.getLayout();
                     leftPanel.remove(this);
                     layout.next(this.leftPanel);

@@ -43,7 +43,7 @@
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="cancelButton" min="-2" pref="112" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="AddressTextField" alignment="0" min="-2" pref="344" max="-2" attributes="0"/>
+                              <Component id="addressTextField" alignment="0" min="-2" pref="344" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -72,7 +72,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="AddressTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="addressTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -133,7 +133,7 @@
         <Property name="text" type="java.lang.String" value="Address: "/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="AddressTextField">
+    <Component class="javax.swing.JTextField" name="addressTextField">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>

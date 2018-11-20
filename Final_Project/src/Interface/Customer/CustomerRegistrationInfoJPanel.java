@@ -5,9 +5,14 @@
  */
 package Interface.Customer;
 
+import Business.Customer.Customer;
+import Business.DB4OUtil.DB4OUtil;
+import Business.EcoSystem;
+import Business.UserAccount.UserAccount;
 import UserInterface.RegisterJPanel;
 import java.awt.CardLayout;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -15,15 +20,22 @@ import javax.swing.JPanel;
  * @author ranranhe
  */
 public class CustomerRegistrationInfoJPanel extends javax.swing.JPanel {
+
     private JPanel leftPanel;
     private JFrame frame;
+    private String username;
+    private String password;
+    private EcoSystem system = DB4OUtil.getInstance().retrieveSystem();
+
     /**
      * Creates new form CustomerInfoJPanel
      */
-    public CustomerRegistrationInfoJPanel(JPanel leftPanel, JFrame frame) {
+    public CustomerRegistrationInfoJPanel(JPanel leftPanel, JFrame frame, String username, String password) {
         initComponents();
         this.leftPanel = leftPanel;
         this.frame = frame;
+        this.username = username;
+        this.password = password;
     }
 
     /**
@@ -41,7 +53,7 @@ public class CustomerRegistrationInfoJPanel extends javax.swing.JPanel {
         firstNameTextField = new javax.swing.JTextField();
         lastNameTextField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        AddressTextField = new javax.swing.JTextField();
+        addressTextField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         phoneTextField = new javax.swing.JTextField();
         emailTextField = new javax.swing.JTextField();
@@ -119,7 +131,7 @@ public class CustomerRegistrationInfoJPanel extends javax.swing.JPanel {
                                     .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(AddressTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(addressTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -140,7 +152,7 @@ public class CustomerRegistrationInfoJPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(AddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(addressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(phoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -167,12 +179,33 @@ public class CustomerRegistrationInfoJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
-        // TODO add your handling code here:
+        if (firstNameTextField.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "First name can't be empty!");
+        }
+        if (lastNameTextField.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Last name can't be empty!");
+        }
+        if (phoneTextField.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Phone number can't be empty!");
+        }
+        if (emailTextField.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Email can't be empty!");
+        }
+        Customer customer = new Customer(firstNameTextField.getText(), lastNameTextField.getText(),
+                phoneTextField.getText(), emailTextField.getText());
+        UserAccount ua = system.getUserAccountDirectory().createCustomerAccount(username, password, customer);
+        
+        
+//
+//        CustomerInfoJPanel cp = new CustomerInfoJPanel(ua);
+//        infoPanel.add(cp);
+//        CardLayout layout = (CardLayout) this.infoPanel.getLayout();
+//        layout.next(infoPanel);
     }//GEN-LAST:event_submitButtonActionPerformed
 
-
+//    emailTextField , firstNameTextField lastNameTextField phoneTextField
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField AddressTextField;
+    private javax.swing.JTextField addressTextField;
     private javax.swing.JButton cancelButton;
     private javax.swing.JTextField emailTextField;
     private javax.swing.JTextField firstNameTextField;
