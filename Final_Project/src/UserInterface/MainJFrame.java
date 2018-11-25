@@ -7,6 +7,10 @@ package UserInterface;
 
 import Business.UserAccount.UserAccount;
 import UserInterface.Customer.CustomerInfoJPanel;
+import UserInterface.DeliveryMan.DeliveryManInfoJPanel;
+import UserInterface.Manager.ManagerInfoJPanel;
+import UserInterface.Restaurant.RestaurantInfoJPanel;
+import UserInterface.SystemManager.SystemManagerInfoJPanel;
 import java.awt.CardLayout;
 
 /**
@@ -27,7 +31,25 @@ public class MainJFrame extends javax.swing.JFrame {
             layout.next(infoPanel);
         }
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Manager")) {
-            CustomerInfoJPanel cp = new CustomerInfoJPanel(userAccount);
+            ManagerInfoJPanel cp = new ManagerInfoJPanel(userAccount);
+            infoPanel.add(cp);
+            CardLayout layout = (CardLayout)this.infoPanel.getLayout();
+            layout.next(infoPanel);
+        }
+        if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Delivery Man")) {
+            DeliveryManInfoJPanel cp = new DeliveryManInfoJPanel(userAccount);
+            infoPanel.add(cp);
+            CardLayout layout = (CardLayout)this.infoPanel.getLayout();
+            layout.next(infoPanel);
+        }
+        if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("System Manager")) {
+            SystemManagerInfoJPanel cp = new SystemManagerInfoJPanel(userAccount);
+            infoPanel.add(cp);
+            CardLayout layout = (CardLayout)this.infoPanel.getLayout();
+            layout.next(infoPanel);
+        }
+        if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Restaurant")) {
+            RestaurantInfoJPanel cp = new RestaurantInfoJPanel(userAccount);
             infoPanel.add(cp);
             CardLayout layout = (CardLayout)this.infoPanel.getLayout();
             layout.next(infoPanel);

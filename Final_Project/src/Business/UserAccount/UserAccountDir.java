@@ -44,7 +44,7 @@ public class UserAccountDir {
         return true;    
     }
 
-    public RestaurantAccount createRestaurantAccount(String username, String password, Restaurant rest, Role role) {
+    public RestaurantAccount createRestaurantAccount(String username, String password, Restaurant rest) {
         RestaurantAccount ra = new RestaurantAccount(username, password, rest);
         userAccountList.add(ra);
         return ra;
@@ -60,5 +60,9 @@ public class UserAccountDir {
         CustomerAccount ua = new CustomerAccount(username, password, customer);
         userAccountList.add(ua);
         return ua;
+    }
+    
+    public void addAccount(UserAccount account) {
+        userAccountList.add(account);
     }
 }

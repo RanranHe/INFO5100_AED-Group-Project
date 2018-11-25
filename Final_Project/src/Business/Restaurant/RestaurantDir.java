@@ -21,4 +21,10 @@ public class RestaurantDir {
     public ArrayList<Restaurant> getRestaurantList() {
         return this.restaurantList;
     }
+    
+    public Restaurant createRestaurant(String name, String address, String phone) {
+        Restaurant res = new Restaurant(name, address, phone);
+        this.restaurantList.add(res);
+        return res;
+    }
 }

@@ -7,6 +7,7 @@ package Business;
 
 import Business.Customer.CustomerDir;
 import Business.Network.Network;
+import Business.Network.Network.State;
 import Business.Organization.Organization;
 import Business.Role.Role;
 import Business.Role.SystemManagerRole;
@@ -29,12 +30,6 @@ public class EcoSystem extends Organization {
         return business;
     }
 
-    public Network createAndAddNetwork() {
-        Network network = new Network();
-        networkList.add(network);
-        return network;
-    }
-
     @Override
     public ArrayList<Role> getSupportedRole() {
         ArrayList<Role> roleList = new ArrayList<>();
@@ -43,7 +38,7 @@ public class EcoSystem extends Organization {
     }
 
     private EcoSystem() {
-        super(null, null);
+        super(null);
         networkList = new ArrayList<>();
         customers = new CustomerDir();
     }
@@ -54,6 +49,12 @@ public class EcoSystem extends Organization {
 
     public void setNetworkList(ArrayList<Network> networkList) {
         this.networkList = networkList;
+    }
+    
+    public Network createNetwork(State state) {
+        Network network = new Network(state);
+        this.networkList.add(network);
+        return network;
     }
     
     public CustomerDir getCustomers() {

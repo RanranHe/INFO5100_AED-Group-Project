@@ -163,7 +163,7 @@ public class LoginJPanel extends javax.swing.JPanel {
             mFrame.setSize(500, 300);
             mFrame.setLocationRelativeTo(null);
         } else {
-            JOptionPane.showMessageDialog(null, "User Account doesn't exist.");
+            JOptionPane.showMessageDialog(null, "Account doesn't exist.");
         }
     }//GEN-LAST:event_loginJButton1ActionPerformed
 

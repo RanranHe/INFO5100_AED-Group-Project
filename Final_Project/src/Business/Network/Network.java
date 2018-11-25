@@ -5,7 +5,9 @@
  */
 package Business.Network;
 
+import Business.Enterprise.Enterprise;
 import Business.Enterprise.EnterpriseDir;
+import Business.Organization.Organization.City;
 
 /**
  *
@@ -15,9 +17,15 @@ public class Network {
 
     private String name;
     private EnterpriseDir enterpriseDir;
+    private State state;
 
-    public Network() {
+    public enum State {
+        MA
+    }
+    
+    public Network(State state) {
         enterpriseDir = new EnterpriseDir();
+        this.state = state;
     }
 
     public String getName() {
@@ -30,5 +38,12 @@ public class Network {
 
     public EnterpriseDir getEnterpriseDirectory() {
         return enterpriseDir;
+    }
+    
+    public Enterprise createEnterprise(String name, City city) {
+        Enterprise enter = new Enterprise(name, city);
+        enter.createOrganizations();
+        this.enterpriseDir.getEnterpriseList().add(enter);
+        return enter;
     }
 }
