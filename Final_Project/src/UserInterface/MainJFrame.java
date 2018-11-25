@@ -5,6 +5,7 @@
  */
 package UserInterface;
 
+import Business.EcoSystem;
 import Business.UserAccount.UserAccount;
 import UserInterface.Customer.CustomerInfoJPanel;
 import UserInterface.DeliveryMan.DeliveryManInfoJPanel;
@@ -22,34 +23,34 @@ public class MainJFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainJFrame
      */
-    public MainJFrame(UserAccount userAccount) {
+    public MainJFrame(EcoSystem system, UserAccount userAccount) {
         initComponents();
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Customer")) {
-            CustomerInfoJPanel cp = new CustomerInfoJPanel(userAccount);
+            CustomerInfoJPanel cp = new CustomerInfoJPanel(system, userAccount);
             infoPanel.add(cp);
             CardLayout layout = (CardLayout)this.infoPanel.getLayout();
             layout.next(infoPanel);
         }
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Manager")) {
-            ManagerInfoJPanel cp = new ManagerInfoJPanel(userAccount);
+            ManagerInfoJPanel cp = new ManagerInfoJPanel(system, userAccount);
             infoPanel.add(cp);
             CardLayout layout = (CardLayout)this.infoPanel.getLayout();
             layout.next(infoPanel);
         }
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Delivery Man")) {
-            DeliveryManInfoJPanel cp = new DeliveryManInfoJPanel(userAccount);
+            DeliveryManInfoJPanel cp = new DeliveryManInfoJPanel(system, userAccount);
             infoPanel.add(cp);
             CardLayout layout = (CardLayout)this.infoPanel.getLayout();
             layout.next(infoPanel);
         }
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("System Manager")) {
-            SystemManagerInfoJPanel cp = new SystemManagerInfoJPanel(userAccount);
+            SystemManagerInfoJPanel cp = new SystemManagerInfoJPanel(system, userAccount);
             infoPanel.add(cp);
             CardLayout layout = (CardLayout)this.infoPanel.getLayout();
             layout.next(infoPanel);
         }
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Restaurant")) {
-            RestaurantInfoJPanel cp = new RestaurantInfoJPanel(userAccount);
+            RestaurantInfoJPanel cp = new RestaurantInfoJPanel(system, userAccount);
             infoPanel.add(cp);
             CardLayout layout = (CardLayout)this.infoPanel.getLayout();
             layout.next(infoPanel);

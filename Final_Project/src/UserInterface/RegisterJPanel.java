@@ -5,7 +5,6 @@
  */
 package UserInterface;
 
-import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import UserInterface.Customer.CustomerRegistrationInfoJPanel;
 import java.awt.CardLayout;
@@ -20,16 +19,15 @@ import javax.swing.JPanel;
 public class RegisterJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
-    private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
     private JPanel leftPanel;
     private JFrame frame;
 
     /**
      * Creates new form RegisterJPanel
      */
-    public RegisterJPanel(JPanel leftPanel, JFrame frame) {
+    public RegisterJPanel(EcoSystem system, JPanel leftPanel, JFrame frame) {
         initComponents();
-        system = dB4OUtil.retrieveSystem();
+        this.system = system;
         this.leftPanel = leftPanel;
         this.frame = frame;
         this.setSize(250, 430);
@@ -160,7 +158,7 @@ public class RegisterJPanel extends javax.swing.JPanel {
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
         this.frame.setSize(250, 430);
-        LoginJPanel lp = new LoginJPanel(this.leftPanel, this.frame);
+        LoginJPanel lp = new LoginJPanel(this.system, this.leftPanel, this.frame);
         this.leftPanel.add("RegisterJPanel", lp);
         CardLayout layout = (CardLayout) this.leftPanel.getLayout();
         leftPanel.remove(this);
@@ -182,7 +180,7 @@ public class RegisterJPanel extends javax.swing.JPanel {
         if (system.getUserAccountDirectory().isUsernameValid(username)) {
             if (password1.equals(password2)) {
                 this.frame.setSize(500, 430);
-                CustomerRegistrationInfoJPanel cp = new CustomerRegistrationInfoJPanel(this.leftPanel, this.frame, username, password1);
+                CustomerRegistrationInfoJPanel cp = new CustomerRegistrationInfoJPanel(this.system, this.leftPanel, this.frame, username, password1);
                 this.leftPanel.add("CustomerRegistrationInfoJPanel", cp);
                 CardLayout layout = (CardLayout) this.leftPanel.getLayout();
                 leftPanel.remove(this);

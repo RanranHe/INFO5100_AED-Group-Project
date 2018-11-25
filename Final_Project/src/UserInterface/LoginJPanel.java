@@ -5,7 +5,6 @@
  */
 package UserInterface;
 
-import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.UserAccount.UserAccount;
 import java.awt.CardLayout;
@@ -20,16 +19,15 @@ import javax.swing.JPanel;
 public class LoginJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
-    private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
     private JPanel leftPanel;
     private JFrame frame;
 
     /**
      * Creates new form LoginJPanel
      */
-    public LoginJPanel(JPanel leftPanel, JFrame frame) {
+    public LoginJPanel(EcoSystem system, JPanel leftPanel, JFrame frame) {
         initComponents();
-        system = dB4OUtil.retrieveSystem();
+        this.system = system;
         this.leftPanel = leftPanel;
         this.frame = frame;
         this.setSize(250, 380);
@@ -157,7 +155,7 @@ public class LoginJPanel extends javax.swing.JPanel {
         UserAccount userAccount = system.getUserAccountDirectory().authenticateUser(userName, password);
 
         if (userAccount != null) {
-            MainJFrame mFrame = new MainJFrame(userAccount);
+            MainJFrame mFrame = new MainJFrame(this.system, userAccount);
             this.frame.setVisible(false);
             mFrame.setVisible(true);
             mFrame.setSize(500, 300);
@@ -169,7 +167,7 @@ public class LoginJPanel extends javax.swing.JPanel {
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         this.frame.setSize(250, 460);
-        RegisterJPanel rp = new RegisterJPanel(this.leftPanel, this.frame);
+        RegisterJPanel rp = new RegisterJPanel(this.system, this.leftPanel, this.frame);
         this.leftPanel.add("RegisterJPanel", rp);
         CardLayout layout = (CardLayout) this.leftPanel.getLayout();
         leftPanel.remove(this);

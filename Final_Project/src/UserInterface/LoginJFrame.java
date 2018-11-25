@@ -5,6 +5,8 @@
  */
 package UserInterface;
 
+import Business.DB4OUtil.DB4OUtil;
+import Business.EcoSystem;
 import java.awt.CardLayout;
 
 /**
@@ -12,16 +14,18 @@ import java.awt.CardLayout;
  * @author ranranhe
  */
 public class LoginJFrame extends javax.swing.JFrame {
-
+    private EcoSystem system;
+    private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
     /**
      * Creates new form MainJFrame
      */
     public LoginJFrame() {
         initComponents();
+        system = dB4OUtil.retrieveSystem();
         this.setSize(250, 400);
         this.setLocationRelativeTo(null);
         
-        LoginJPanel lp = new LoginJPanel(this.leftPanel, this);
+        LoginJPanel lp = new LoginJPanel(this.system, this.leftPanel, this);
         this.leftPanel.add(lp);
         CardLayout layout = (CardLayout)this.leftPanel.getLayout();
         layout.next(this.leftPanel);

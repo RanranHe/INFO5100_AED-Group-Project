@@ -5,6 +5,7 @@
  */
 package UserInterface.Customer;
 
+import Business.EcoSystem;
 import Business.UserAccount.CustomerAccount;
 import Business.UserAccount.UserAccount;
 
@@ -13,14 +14,15 @@ import Business.UserAccount.UserAccount;
  * @author ranranhe
  */
 public class CustomerInfoJPanel extends javax.swing.JPanel {
-    
+    private EcoSystem system;
     private CustomerAccount customerAccount;
 
     /**
      * Creates new form CustomerInfoJPanel
      */
-    public CustomerInfoJPanel(UserAccount userAccount) {
+    public CustomerInfoJPanel(EcoSystem system, UserAccount userAccount) {
         initComponents();
+        this.system = system;
         this.customerAccount = (CustomerAccount) userAccount;
         
         RoleNameLabel.setText(userAccount.getRole().getRoleType().getValue()+" " +userAccount.getUsername());

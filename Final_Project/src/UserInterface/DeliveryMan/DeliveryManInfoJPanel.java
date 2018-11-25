@@ -5,6 +5,7 @@
  */
 package UserInterface.DeliveryMan;
 
+import Business.EcoSystem;
 import Business.UserAccount.EmployeeAccount;
 import Business.UserAccount.UserAccount;
 
@@ -14,12 +15,14 @@ import Business.UserAccount.UserAccount;
  */
 public class DeliveryManInfoJPanel extends javax.swing.JPanel {
 
+    private EcoSystem system;
     private EmployeeAccount account;
     /**
      * Creates new form ManagerInfoJPanel
      */
-    public DeliveryManInfoJPanel(UserAccount userAccount) {
+    public DeliveryManInfoJPanel(EcoSystem system, UserAccount userAccount) {
         initComponents();
+        this.system = system;
         this.account = (EmployeeAccount) userAccount;
     }
 

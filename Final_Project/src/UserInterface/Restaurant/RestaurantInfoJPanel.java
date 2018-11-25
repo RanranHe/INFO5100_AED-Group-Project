@@ -5,6 +5,7 @@
  */
 package UserInterface.Restaurant;
 
+import Business.EcoSystem;
 import Business.UserAccount.RestaurantAccount;
 import Business.UserAccount.UserAccount;
 
@@ -13,14 +14,15 @@ import Business.UserAccount.UserAccount;
  * @author ranranhe
  */
 public class RestaurantInfoJPanel extends javax.swing.JPanel {
-
+    private EcoSystem system;
     private RestaurantAccount account;
 
     /**
      * Creates new form RestaurantInfoJPanel
      */
-    public RestaurantInfoJPanel(UserAccount account) {
+    public RestaurantInfoJPanel(EcoSystem system, UserAccount account) {
         initComponents();
+        this.system = system;
         this.account = (RestaurantAccount) account;
     }
 
