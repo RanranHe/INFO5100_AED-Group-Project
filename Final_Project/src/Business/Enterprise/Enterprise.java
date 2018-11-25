@@ -20,9 +20,9 @@ import java.util.ArrayList;
 public class Enterprise extends Organization {
     private OrganizationDir organizations;
     private RestaurantDir restaurants;
-    private City city;
+    private String city;
     
-    public Enterprise(String name, City city) {
+    public Enterprise(String name, String city) {
         super(name);
         this.city = city;
         this.restaurants = new RestaurantDir();
@@ -40,6 +40,10 @@ public class Enterprise extends Organization {
     
     public RestaurantDir getRestaurantDirectory() {
         return restaurants;
+    }
+    
+    public String getCity() {
+        return this.city;
     }
 
     @Override

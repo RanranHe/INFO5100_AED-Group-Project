@@ -6,12 +6,13 @@
 package Business;
 
 import Business.Customer.CustomerDir;
+import Business.Enterprise.Enterprise;
 import Business.Network.Network;
-import Business.Network.Network.State;
 import Business.Organization.Organization;
 import Business.Role.Role;
 import Business.Role.SystemManagerRole;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -50,13 +51,22 @@ public class EcoSystem extends Organization {
     public void setNetworkList(ArrayList<Network> networkList) {
         this.networkList = networkList;
     }
-    
-    public Network createNetwork(State state) {
+
+    public Network createNetwork(String state) {
         Network network = new Network(state);
         this.networkList.add(network);
         return network;
     }
     
+    public Network getNetworkByState(String state) {
+        for (Network net:this.networkList) {
+            if (net.getState().equals(state)) {
+                return net;
+            }
+        }
+        return null;
+    }
+
     public CustomerDir getCustomers() {
         return this.customers;
     }

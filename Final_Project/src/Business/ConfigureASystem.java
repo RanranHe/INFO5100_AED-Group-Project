@@ -39,25 +39,33 @@ public class ConfigureASystem {
         UserAccount ua3 = system.getUserAccountDirectory().createCustomerAccount("1", "1", c2);
         
         // MA NETWORK 
-        Network network1 = system.createNetwork(Network.State.MA);
+        Network network1 = system.createNetwork("MA");
         
         // BOSTON Enterprise with organiztions created
-        Enterprise enter1 = network1.createEnterprise("Boston Delivery Company", Organization.City.Boston);
+        Enterprise enter1 = network1.createEnterprise("Boston Delivery Company", "Boston");
         
-        // BOSTON Employee Organization
-        Employee employee2 = enter1.getEmployeeDirectory().createEmployee("Manager", "Manager");
-        UserAccount ua4 = enter1.getUserAccountDirectory().createEmployeeAccount("manager", "manager", new ManagerRole(), employee2);
-        system.getUserAccountDirectory().addAccount(ua4);
-        
-        Employee employee3 = enter1.getEmployeeDirectory().createEmployee("Delivery", "Man");
-        UserAccount ua5 = enter1.getUserAccountDirectory().createEmployeeAccount("deliveryman", "deliveryman", new DeliveryManRole(), employee3);
-        system.getUserAccountDirectory().addAccount(ua5);
-        
+//        // BOSTON Employee Organization
+//        Employee employee2 = enter1.getEmployeeDirectory().createEmployee("Manager", "Manager");
+//        UserAccount ua4 = enter1.getUserAccountDirectory().createEmployeeAccount("manager", "manager", new ManagerRole(), employee2);
+//        system.getUserAccountDirectory().addAccount(ua4);
+//        
+//        Employee employee3 = enter1.getEmployeeDirectory().createEmployee("Delivery", "Man");
+//        UserAccount ua5 = enter1.getUserAccountDirectory().createEmployeeAccount("deliveryman", "deliveryman", new DeliveryManRole(), employee3);
+//        system.getUserAccountDirectory().addAccount(ua5);
+//        
         // BOSTON Restaurant List
         Restaurant res1 = enter1.getRestaurantDirectory().createRestaurant("Row 34", "383 Congress St, Boston, MA 02210", "(617) 553-5900");
+        res1.setCategory(Restaurant.Category.Seafood);
+        res1.setDescription("This stylish brick-&-wood eatery serves an extensive oyster menu plus fish entrees & craft beers.");
         UserAccount ua6 = enter1.getUserAccountDirectory().createRestaurantAccount("row34", "row34", res1);
-        system.getUserAccountDirectory().addAccount(ua6);
-
+//        system.getUserAccountDirectory().addAccount(ua6);
+        
+        Restaurant res2 = enter1.getRestaurantDirectory().createRestaurant("Legal Harborside", "270 Northern Ave, Boston, MA 02210", "(617) 477-2900");
+        res2.setCategory(Restaurant.Category.Seafood);
+        res2.setDescription("Specializing in upmarket seafood, this contemporary chain also serves steaks & cocktails.");
+        UserAccount ua7 = enter1.getUserAccountDirectory().createRestaurantAccount("row34", "row34", res1);
+//        system.getUserAccountDirectory().addAccount(ua6);
+        
         return system;
     }
 

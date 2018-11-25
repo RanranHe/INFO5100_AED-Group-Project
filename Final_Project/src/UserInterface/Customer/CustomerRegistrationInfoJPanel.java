@@ -9,6 +9,7 @@ import Business.Customer.Customer;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.UserAccount.UserAccount;
+import UserInterface.MainJFrame;
 import UserInterface.RegisterJPanel;
 import java.awt.CardLayout;
 import javax.swing.JFrame;
@@ -195,14 +196,15 @@ public class CustomerRegistrationInfoJPanel extends javax.swing.JPanel {
         Customer customer = new Customer(firstNameTextField.getText(), lastNameTextField.getText(),
                 phoneTextField.getText(), emailTextField.getText());
         UserAccount ua = system.getUserAccountDirectory().createCustomerAccount(username, password, customer);
-        
+
         DB4OUtil.getInstance().storeSystem(system);
-        
-        leftPanel.remove(this);
-        CustomerInfoJPanel cp = new CustomerInfoJPanel(this.system, ua);
-        leftPanel.add(cp);
-        CardLayout layout = (CardLayout) this.leftPanel.getLayout();
-        layout.next(leftPanel);
+
+        this.frame.dispose();
+        MainJFrame mFrame = new MainJFrame(this.system, ua);
+        this.frame.dispose();
+        mFrame.setVisible(true);
+        mFrame.setSize(500, 400);
+        mFrame.setLocationRelativeTo(null);
     }//GEN-LAST:event_submitButtonActionPerformed
 
 //    emailTextField , firstNameTextField lastNameTextField phoneTextField

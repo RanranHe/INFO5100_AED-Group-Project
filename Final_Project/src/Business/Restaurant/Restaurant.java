@@ -20,11 +20,18 @@ public class Restaurant {
     private String name;
     private String address;
     private String phone;
+    private Category category;
+    private String description;
     private ArrayList<Dash> menu;
     private ArrayList<OrderRequest> orders;
     private ArrayList<ReviewRequest> reviews;
     private double rate;
     private static int counter = 0;
+
+    public enum Category {
+
+        Seafood
+    }
 
     public Restaurant(String name, String address, String phone) {
         this.id = counter;
@@ -66,6 +73,22 @@ public class Restaurant {
         this.phone = phone;
     }
 
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String des) {
+        this.description = des;
+    }
+
+    public Category getCategory() {
+        return this.category;
+    }
+
+    public void setCategory(Category cat) {
+        this.category = cat;
+    }
+
     public ArrayList<Dash> getMenu() {
         return this.menu;
     }
@@ -77,12 +100,11 @@ public class Restaurant {
     public ArrayList<ReviewRequest> getReviews() {
         return this.reviews;
     }
-    
 
     public double getRate() {
         return this.rate;
     }
-    
+
     public void updateRate() {
         int sum = 0;
         if (reviews.isEmpty()) {
@@ -94,5 +116,10 @@ public class Restaurant {
             BigDecimal bd = new BigDecimal(sum / reviews.size());
             this.rate = bd.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
         }
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }

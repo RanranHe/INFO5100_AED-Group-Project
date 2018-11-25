@@ -24,10 +24,6 @@ public abstract class Organization {
     private EmployeeDir employees;
     private UserAccountDir userAccounts;
     private static int counter;
-
-    public enum City {
-        Boston
-    }
     
     public enum Type {
 
