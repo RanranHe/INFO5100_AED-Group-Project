@@ -72,6 +72,12 @@ public class ConfigureASystem {
         Restaurant res2 = enter1.getRestaurantDirectory().createRestaurant("Legal Harborside", "270 Northern Ave, Boston, MA 02210", "(617) 477-2900");
         res2.setCategory(Restaurant.Category.Seafood);
         res2.setDescription("Specializing in upmarket seafood, this contemporary chain also serves steaks & cocktails.");
+        Dash d1 = new Dash(res1, "D1", 10);
+        Dash d2 = new Dash(res1, "D2", 14);
+        Dash d3 = new Dash(res1, "D3", 11.99);
+        res2.addDashToMenu(d1);
+        res2.addDashToMenu(d2);
+        res2.addDashToMenu(d3);
         UserAccount ua7 = enter1.getUserAccountDirectory().createRestaurantAccount("row34", "row34", res1);
 //        system.getUserAccountDirectory().addAccount(ua6);
         
