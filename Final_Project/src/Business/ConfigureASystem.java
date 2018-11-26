@@ -5,6 +5,7 @@ import Business.Employee.Employee;
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
 import Business.Organization.Organization;
+import Business.Restaurant.Dash;
 import Business.Restaurant.Restaurant;
 import Business.Role.DeliveryManRole;
 import Business.Role.ManagerRole;
@@ -57,7 +58,15 @@ public class ConfigureASystem {
         Restaurant res1 = enter1.getRestaurantDirectory().createRestaurant("Row 34", "383 Congress St, Boston, MA 02210", "(617) 553-5900");
         res1.setCategory(Restaurant.Category.Seafood);
         res1.setDescription("This stylish brick-&-wood eatery serves an extensive oyster menu plus fish entrees & craft beers.");
+        Dash dash1 = new Dash(res1, "Dash1", 20);
+        Dash dash2 = new Dash(res1, "Dash2", 30);
+        Dash dash3 = new Dash(res1, "Dash3", 27.6);
+        res1.addDashToMenu(dash1);
+        res1.addDashToMenu(dash2);
+        res1.addDashToMenu(dash3);
         UserAccount ua6 = enter1.getUserAccountDirectory().createRestaurantAccount("row34", "row34", res1);
+        
+        
 //        system.getUserAccountDirectory().addAccount(ua6);
         
         Restaurant res2 = enter1.getRestaurantDirectory().createRestaurant("Legal Harborside", "270 Northern Ave, Boston, MA 02210", "(617) 477-2900");

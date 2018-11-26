@@ -92,6 +92,10 @@ public class Restaurant {
     public ArrayList<Dash> getMenu() {
         return this.menu;
     }
+    
+    public void addDashToMenu(Dash dash) {
+        this.menu.add(dash);
+    }
 
     public ArrayList<OrderRequest> getOrders() {
         return this.orders;

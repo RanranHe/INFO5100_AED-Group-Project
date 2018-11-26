@@ -157,9 +157,9 @@ public class LoginJPanel extends javax.swing.JPanel {
         if (userAccount != null) {
             MainJFrame mFrame = new MainJFrame(this.system, userAccount);
             this.frame.dispose();
-            mFrame.setVisible(true);
             mFrame.setSize(500, 400);
             mFrame.setLocationRelativeTo(null);
+            mFrame.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Account doesn't exist.");
         }

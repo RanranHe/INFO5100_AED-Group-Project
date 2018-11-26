@@ -5,34 +5,45 @@
  */
 package UserInterface.Customer;
 
+import Business.Customer.DashOrder;
+import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
+import Business.Restaurant.Dash;
 import Business.Restaurant.Restaurant;
+import Business.UserAccount.CustomerAccount;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author ranranhe
  */
-public class RestaurantDetailJPanel extends javax.swing.JPanel {
+public class RestaurantDetailsJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
     private Restaurant restaurant;
+    private CustomerAccount account;
 
     /**
-     * Creates new form detailJPanel
+     * Creates new form RestaurantDetailsJPanel
      */
-    public RestaurantDetailJPanel(EcoSystem system, Restaurant restaurant) {
+    public RestaurantDetailsJPanel(EcoSystem system, Restaurant restaurant, CustomerAccount account) {
         initComponents();
         this.system = system;
         this.restaurant = restaurant;
+        this.account = account;
 
         showImage();
+        populateTable(restaurant.getMenu());
+
         addressTextArea.setText(restaurant.getAddress());
         addressTextArea.setEnabled(false);
         categoryLabel.setText(restaurant.getCategory().name());
@@ -42,7 +53,18 @@ public class RestaurantDetailJPanel extends javax.swing.JPanel {
         phoneLabel.setText(restaurant.getPhone());
     }
 
-    public void showImage() {
+    private void populateTable(ArrayList<Dash> list) {
+        DefaultTableModel dtm = (DefaultTableModel) menuTable.getModel();
+        dtm.setRowCount(0);
+        for (Dash dash : list) {
+            Object row[] = new Object[2];
+            row[0] = dash;
+            row[1] = dash.getPrice();
+            dtm.addRow(row);
+        }
+    }
+
+    private void showImage() {
         String path = "Images/Restaurant/default.png";
         String fileName = "default.PNG";
         try {
@@ -56,9 +78,8 @@ public class RestaurantDetailJPanel extends javax.swing.JPanel {
                     }
                 }
             }
-            System.out.println(path);
             BufferedImage image = ImageIO.read(new File(path));
-            
+
             int radio = 0;
             if (image.getWidth() / 250 < image.getHeight() / 180) {
                 radio = image.getWidth() / 250;
@@ -93,10 +114,8 @@ public class RestaurantDetailJPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        detailPanel = new javax.swing.JPanel();
-        imageLabel = new javax.swing.JLabel();
-        nameLabel = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         phoneLabel = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -106,15 +125,14 @@ public class RestaurantDetailJPanel extends javax.swing.JPanel {
         addressTextArea = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
         descriptionTextArea = new javax.swing.JTextArea();
-
-        detailPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        nameLabel.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        nameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        nameLabel.setText("<Restaurant Name>");
-
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jLabel1.setText("Address: ");
+        jLabel1 = new javax.swing.JLabel();
+        imageLabel = new javax.swing.JLabel();
+        nameLabel = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        menuTable = new javax.swing.JTable();
+        addButton = new javax.swing.JButton();
+        quantitySpinner = new javax.swing.JSpinner();
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel2.setText("Phone:");
@@ -150,38 +168,43 @@ public class RestaurantDetailJPanel extends javax.swing.JPanel {
         descriptionTextArea.setDragEnabled(false);
         jScrollPane3.setViewportView(descriptionTextArea);
 
-        javax.swing.GroupLayout detailPanelLayout = new javax.swing.GroupLayout(detailPanel);
-        detailPanel.setLayout(detailPanelLayout);
-        detailPanelLayout.setHorizontalGroup(
-            detailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(detailPanelLayout.createSequentialGroup()
-                .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 638, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1, Short.MAX_VALUE))
-            .addGroup(detailPanelLayout.createSequentialGroup()
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel1.setText("Address: ");
+
+        nameLabel.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        nameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        nameLabel.setText("<Restaurant Name>");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(detailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane3)
                     .addComponent(jLabel4)
-                    .addGroup(detailPanelLayout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(detailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel1)
                             .addComponent(jLabel3)
                             .addComponent(categoryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane2)
                             .addComponent(jLabel2)
                             .addComponent(phoneLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
+            .addComponent(nameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        detailPanelLayout.setVerticalGroup(
-            detailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(detailPanelLayout.createSequentialGroup()
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(nameLabel)
                 .addGap(18, 18, 18)
-                .addGroup(detailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(detailPanelLayout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -198,45 +221,128 @@ public class RestaurantDetailJPanel extends javax.swing.JPanel {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addContainerGap(121, Short.MAX_VALUE))
         );
+
+        jTabbedPane1.addTab("Details", jPanel1);
+
+        menuTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Dash", "Price"
+            }
+        ));
+        jScrollPane1.setViewportView(menuTable);
+
+        addButton.setText("Add to Cart");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
+
+        quantitySpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(quantitySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(67, 67, 67))))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(117, 117, 117)
+                        .addComponent(quantitySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(addButton)))
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Menu", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 655, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(detailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 498, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(detailPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .addComponent(jTabbedPane1)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        int selectedRow = menuTable.getSelectedRow();
+
+        if (selectedRow >= 0) {
+            Dash dash = (Dash) menuTable.getValueAt(selectedRow, 0);
+            int quantity = (int) quantitySpinner.getValue();
+            DashOrder order = new DashOrder(this.restaurant, dash, quantity);
+
+            if (!this.account.getCart().isCartEmpty()) {
+                for (DashOrder or : this.account.getCart().getItemList()) {
+                    if (!or.getRestaurant().equals(this.restaurant)) {
+                        this.account.getCart().clearCart();
+                        break;
+                    }
+                    if (or.getRestaurant().equals(this.restaurant) && or.getDash().equals(dash)) {
+                        order.setQuantity(or.getQuantity() + quantity);
+                        this.account.getCart().getItemList().remove(or);
+                        break;
+                    }
+                }
+            }
+            this.account.getCart().addToCart(order);
+
+            JOptionPane.showMessageDialog(null, "Dash has been successfully added to Shopping Cart");
+            DB4OUtil.getInstance().storeSystem(system);
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a dash.");
+        }
+    }//GEN-LAST:event_addButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
     private javax.swing.JTextArea addressTextArea;
     private javax.swing.JLabel categoryLabel;
     private javax.swing.JTextArea descriptionTextArea;
-    private javax.swing.JPanel detailPanel;
     private javax.swing.JLabel imageLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable menuTable;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JLabel phoneLabel;
+    private javax.swing.JSpinner quantitySpinner;
     // End of variables declaration//GEN-END:variables
 }

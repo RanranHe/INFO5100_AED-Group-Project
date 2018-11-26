@@ -21,7 +21,6 @@ public class Customer {
     private String phone;
     private String email;
     private ArrayList<OrderRequest> orders;
-    private ShoppingCart cart;
     private static int count = 0;
 
     public Customer(String firstName, String lastName, String email, String phone) {
@@ -91,13 +90,5 @@ public class Customer {
     
     public ArrayList<OrderRequest> getOrders() {
         return this.orders;
-    }
-    
-    public ShoppingCart getCart() {
-        return this.cart;
-    }
-    
-    public void clearCart(){
-        this.cart = new ShoppingCart();
     }
 }
