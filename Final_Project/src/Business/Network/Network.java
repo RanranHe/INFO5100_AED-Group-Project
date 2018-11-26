@@ -5,7 +5,10 @@
  */
 package Business.Network;
 
+import Business.Enterprise.Enterprise;
 import Business.Enterprise.EnterpriseDir;
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  *
@@ -15,9 +18,11 @@ public class Network {
 
     private String name;
     private EnterpriseDir enterpriseDir;
-
-    public Network() {
+    private String state;
+    
+    public Network(String state) {
         enterpriseDir = new EnterpriseDir();
+        this.state = state;
     }
 
     public String getName() {
@@ -30,5 +35,29 @@ public class Network {
 
     public EnterpriseDir getEnterpriseDirectory() {
         return enterpriseDir;
+    }
+     
+    public void setState(String state) {
+        this.state = state;
+    }
+    
+    public String getState() {
+        return this.state;
+    }
+    
+    public Enterprise createEnterprise(String name, String city) {
+        Enterprise enter = new Enterprise(name, city);
+        enter.createOrganizations();
+        this.enterpriseDir.getEnterpriseList().add(enter);
+        return enter;
+    }
+    
+    public Enterprise getEnterpriseByCity(String city) {
+        for (Enterprise en:this.enterpriseDir.getEnterpriseList()) {
+            if (en.getCity().equals(city)) {
+                return en;
+            }
+        }
+        return null;
     }
 }

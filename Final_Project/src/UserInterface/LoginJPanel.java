@@ -5,8 +5,10 @@
  */
 package UserInterface;
 
-import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
+import Business.Enterprise.Enterprise;
+import Business.Network.Network;
+import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import java.awt.CardLayout;
 import javax.swing.JFrame;
@@ -20,16 +22,15 @@ import javax.swing.JPanel;
 public class LoginJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
-    private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
     private JPanel leftPanel;
     private JFrame frame;
 
     /**
      * Creates new form LoginJPanel
      */
-    public LoginJPanel(JPanel leftPanel, JFrame frame) {
+    public LoginJPanel(EcoSystem system, JPanel leftPanel, JFrame frame) {
         initComponents();
-        system = dB4OUtil.retrieveSystem();
+        this.system = system;
         this.leftPanel = leftPanel;
         this.frame = frame;
         this.setSize(250, 380);
@@ -153,23 +154,49 @@ public class LoginJPanel extends javax.swing.JPanel {
         char[] passwordCharArray = passwordField.getPassword();
         String password = String.valueOf(passwordCharArray);
 
-        // check whether the user account exists
-        UserAccount userAccount = system.getUserAccountDirectory().authenticateUser(userName, password);
+        // check whether if it is the system manager / Customer user account
+        UserAccount account = system.getUserAccountDirectory().authenticateUser(userName, password);
 
-        if (userAccount != null) {
-            MainJFrame mFrame = new MainJFrame(userAccount);
-            this.frame.setVisible(false);
-            mFrame.setVisible(true);
-            mFrame.setSize(500, 300);
+        Network inNetwork = null;
+        Organization inOrganization = null;
+        Enterprise inEnterprise = null;
+
+        if (account == null) {
+            for (Network net : system.getNetworkList()) {
+                for (Enterprise en : net.getEnterpriseDirectory().getEnterpriseList()) {
+                    account = en.getUserAccountDirectory().authenticateUser(userName, password);
+                    if (account == null) {
+                        for (Organization or : en.getOrganizationDirectory().getOrganizationList()) {
+                            account = or.getUserAccountDirectory().authenticateUser(userName, password);
+                            if (account != null) {
+                                inNetwork = net;
+                                inEnterprise = en;
+                                inOrganization = or;
+                                break;
+                            }
+                        }
+                    } else {
+                        inNetwork = net;
+                        inEnterprise = en;
+                        break;
+                    }
+                }
+            }
+        }
+        if (account != null) {
+            MainJFrame mFrame = new MainJFrame(this.system, account);
+            this.frame.dispose();
+            mFrame.setSize(500, 400);
             mFrame.setLocationRelativeTo(null);
+            mFrame.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "User Account doesn't exist.");
+            JOptionPane.showMessageDialog(null, "Account doesn't exist.");
         }
     }//GEN-LAST:event_loginJButton1ActionPerformed
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         this.frame.setSize(250, 460);
-        RegisterJPanel rp = new RegisterJPanel(this.leftPanel, this.frame);
+        RegisterJPanel rp = new RegisterJPanel(this.system, this.leftPanel, this.frame);
         this.leftPanel.add("RegisterJPanel", rp);
         CardLayout layout = (CardLayout) this.leftPanel.getLayout();
         leftPanel.remove(this);

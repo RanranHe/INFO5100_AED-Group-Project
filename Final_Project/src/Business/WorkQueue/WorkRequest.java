@@ -42,8 +42,10 @@ public abstract class WorkRequest {
             return value;
         }
     }
-
-    public WorkRequest() {
+    
+    public WorkRequest(UserAccount sender, UserAccount receiver) {
+        this.sender = sender;
+        this.receiver = receiver;
         requestDate = new Date();
     }
 

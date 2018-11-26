@@ -5,6 +5,8 @@
  */
 package Business.WorkQueue;
 
+import Business.UserAccount.UserAccount;
+
 /**
  *
  * @author ranranhe
@@ -12,6 +14,10 @@ package Business.WorkQueue;
 public class ReviewRequest extends WorkRequest {
     private int rate;
     private OrderRequest order;
+
+    public ReviewRequest(UserAccount sender, UserAccount receiver) {
+        super(sender, receiver);
+    }
     
     public int getRate() {
         return this.rate;

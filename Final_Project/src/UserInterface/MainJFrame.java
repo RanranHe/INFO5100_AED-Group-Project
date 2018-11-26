@@ -5,8 +5,13 @@
  */
 package UserInterface;
 
+import Business.EcoSystem;
 import Business.UserAccount.UserAccount;
-import UserInterface.Customer.CustomerInfoJPanel;
+import UserInterface.Customer.CustomerMainJPanel;
+import UserInterface.DeliveryMan.DeliveryManInfoJPanel;
+import UserInterface.Manager.ManagerInfoJPanel;
+import UserInterface.Restaurant.RestaurantInfoJPanel;
+import UserInterface.SystemManager.SystemManagerInfoJPanel;
 import java.awt.CardLayout;
 
 /**
@@ -18,19 +23,37 @@ public class MainJFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainJFrame
      */
-    public MainJFrame(UserAccount userAccount) {
+    public MainJFrame(EcoSystem system, UserAccount userAccount) {
         initComponents();
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Customer")) {
-            CustomerInfoJPanel cp = new CustomerInfoJPanel(userAccount);
-            infoPanel.add(cp);
-            CardLayout layout = (CardLayout)this.infoPanel.getLayout();
-            layout.next(infoPanel);
+            CustomerMainJPanel cp = new CustomerMainJPanel(system, this.container, userAccount, this);
+            container.add(cp);
+            CardLayout layout = (CardLayout)this.container.getLayout();
+            layout.next(container);
         }
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Manager")) {
-            CustomerInfoJPanel cp = new CustomerInfoJPanel(userAccount);
-            infoPanel.add(cp);
-            CardLayout layout = (CardLayout)this.infoPanel.getLayout();
-            layout.next(infoPanel);
+            ManagerInfoJPanel cp = new ManagerInfoJPanel(system, userAccount);
+            container.add(cp);
+            CardLayout layout = (CardLayout)this.container.getLayout();
+            layout.next(container);
+        }
+        if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Delivery Man")) {
+            DeliveryManInfoJPanel cp = new DeliveryManInfoJPanel(system, userAccount);
+            container.add(cp);
+            CardLayout layout = (CardLayout)this.container.getLayout();
+            layout.next(container);
+        }
+        if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("System Manager")) {
+            SystemManagerInfoJPanel cp = new SystemManagerInfoJPanel(system, userAccount);
+            container.add(cp);
+            CardLayout layout = (CardLayout)this.container.getLayout();
+            layout.next(container);
+        }
+        if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Restaurant")) {
+            RestaurantInfoJPanel cp = new RestaurantInfoJPanel(system, userAccount);
+            container.add(cp);
+            CardLayout layout = (CardLayout)this.container.getLayout();
+            layout.next(container);
         }
     }
 
@@ -43,21 +66,21 @@ public class MainJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        infoPanel = new javax.swing.JPanel();
+        container = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        infoPanel.setLayout(new java.awt.CardLayout());
+        container.setLayout(new java.awt.CardLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(infoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(infoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -99,6 +122,6 @@ public class MainJFrame extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel infoPanel;
+    private javax.swing.JPanel container;
     // End of variables declaration//GEN-END:variables
 }

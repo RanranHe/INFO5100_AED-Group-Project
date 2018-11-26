@@ -9,6 +9,7 @@ import Business.Customer.Customer;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.UserAccount.UserAccount;
+import UserInterface.MainJFrame;
 import UserInterface.RegisterJPanel;
 import java.awt.CardLayout;
 import javax.swing.JFrame;
@@ -25,13 +26,14 @@ public class CustomerRegistrationInfoJPanel extends javax.swing.JPanel {
     private JFrame frame;
     private String username;
     private String password;
-    private EcoSystem system = DB4OUtil.getInstance().retrieveSystem();
+    private EcoSystem system;
 
     /**
      * Creates new form CustomerInfoJPanel
      */
-    public CustomerRegistrationInfoJPanel(JPanel leftPanel, JFrame frame, String username, String password) {
+    public CustomerRegistrationInfoJPanel(EcoSystem system, JPanel leftPanel, JFrame frame, String username, String password) {
         initComponents();
+        this.system = system;
         this.leftPanel = leftPanel;
         this.frame = frame;
         this.username = username;
@@ -171,7 +173,7 @@ public class CustomerRegistrationInfoJPanel extends javax.swing.JPanel {
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         this.frame.setSize(250, 460);
-        RegisterJPanel rp = new RegisterJPanel(this.leftPanel, this.frame);
+        RegisterJPanel rp = new RegisterJPanel(this.system, this.leftPanel, this.frame);
         this.leftPanel.add("RegisterJPanel", rp);
         CardLayout layout = (CardLayout) this.leftPanel.getLayout();
         leftPanel.remove(this);
@@ -194,13 +196,15 @@ public class CustomerRegistrationInfoJPanel extends javax.swing.JPanel {
         Customer customer = new Customer(firstNameTextField.getText(), lastNameTextField.getText(),
                 phoneTextField.getText(), emailTextField.getText());
         UserAccount ua = system.getUserAccountDirectory().createCustomerAccount(username, password, customer);
-        
-        
-//
-//        CustomerInfoJPanel cp = new CustomerInfoJPanel(ua);
-//        infoPanel.add(cp);
-//        CardLayout layout = (CardLayout) this.infoPanel.getLayout();
-//        layout.next(infoPanel);
+
+        DB4OUtil.getInstance().storeSystem(system);
+
+        this.frame.dispose();
+        MainJFrame mFrame = new MainJFrame(this.system, ua);
+        this.frame.dispose();
+        mFrame.setVisible(true);
+        mFrame.setSize(500, 400);
+        mFrame.setLocationRelativeTo(null);
     }//GEN-LAST:event_submitButtonActionPerformed
 
 //    emailTextField , firstNameTextField lastNameTextField phoneTextField
