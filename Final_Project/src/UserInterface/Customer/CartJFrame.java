@@ -9,6 +9,7 @@ import Business.Customer.DashOrder;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.UserAccount.CustomerAccount;
+import java.awt.CardLayout;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -30,26 +31,15 @@ public class CartJFrame extends javax.swing.JFrame {
         this.system = system;
         this.account = account;
 
+        
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-        deleteButton.setEnabled(false);
-        modifyButton.setEnabled(false);
-
-        populateTable(account.getCart().getItemList());
+        
+        CartJPanel panel = new CartJPanel(this.system, this.account, this);
+        this.container.add(panel);
+        CardLayout layout = (CardLayout) this.container.getLayout();
+        layout.next(container);
     }
 
-    private void populateTable(ArrayList<DashOrder> list) {
-        DefaultTableModel dtm = (DefaultTableModel) cartTable.getModel();
-        dtm.setRowCount(0);
-        for (DashOrder order : list) {
-            Object row[] = new Object[3];
-            row[0] = order;
-            row[1] = order.getQuantity();
-            row[2] = order.getTotalPrice();
-            dtm.addRow(row);
-        }
-        priceLabel.setText(this.account.getCart().getTotalPrice() + "");
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -61,193 +51,27 @@ public class CartJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel3 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        cartTable = new javax.swing.JTable();
-        restaurantLabel = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        priceLabel = new javax.swing.JLabel();
-        checkoutButton = new javax.swing.JButton();
-        deleteButton = new javax.swing.JButton();
-        clearButton = new javax.swing.JButton();
-        modifyButton = new javax.swing.JButton();
+        container = new javax.swing.JPanel();
 
         jLabel3.setText("jLabel3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Shopping Cart");
-
-        cartTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Dash", "Quantity", "Price"
-            }
-        ));
-        cartTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cartTableMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(cartTable);
-
-        restaurantLabel.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        restaurantLabel.setText("<Restaurant>");
-
-        jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        jLabel2.setText("Total:");
-
-        priceLabel.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        priceLabel.setText("<Price>");
-
-        checkoutButton.setText("Checkout");
-
-        deleteButton.setText("Delete");
-        deleteButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteButtonActionPerformed(evt);
-            }
-        });
-
-        clearButton.setText("Clear Cart");
-        clearButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clearButtonActionPerformed(evt);
-            }
-        });
-
-        modifyButton.setText("Modify Quantity");
-        modifyButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modifyButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(53, 53, 53)
-                .addComponent(priceLabel)
-                .addGap(54, 54, 54))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(restaurantLabel))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(deleteButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(clearButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(modifyButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(checkoutButton)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addComponent(restaurantLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(priceLabel))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(checkoutButton)
-                    .addComponent(deleteButton)
-                    .addComponent(clearButton)
-                    .addComponent(modifyButton))
-                .addContainerGap())
-        );
+        container.setLayout(new java.awt.CardLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
-        int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to clear all the items in the shopping cart?",
-                "Clear Shopping Cart", JOptionPane.YES_NO_OPTION);
-        if (choice == JOptionPane.YES_OPTION) {
-            this.account.getCart().clearCart();
-            DB4OUtil.getInstance().storeSystem(system);
-            populateTable(this.account.getCart().getItemList());
-        }
-    }//GEN-LAST:event_clearButtonActionPerformed
-
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        int selectedRow = cartTable.getSelectedRow();
-
-        if (selectedRow >= 0) {
-            DashOrder order = (DashOrder) cartTable.getValueAt(selectedRow, 0);
-            this.account.getCart().getItemList().remove(order);
-        }
-        DB4OUtil.getInstance().storeSystem(system);
-        populateTable(this.account.getCart().getItemList());
-        deleteButton.setEnabled(false);
-        modifyButton.setEnabled(false);
-    }//GEN-LAST:event_deleteButtonActionPerformed
-
-    private void cartTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cartTableMouseClicked
-        deleteButton.setEnabled(true);
-        modifyButton.setEnabled(true);
-    }//GEN-LAST:event_cartTableMouseClicked
-
-    private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
-        int selectedRow = cartTable.getSelectedRow();
-
-        if (selectedRow >= 0) {
-            DashOrder order = (DashOrder) cartTable.getValueAt(selectedRow, 0);
-            String input = JOptionPane.showInputDialog(null, "Please enter the quantity: ",
-                    "Quantity Change", JOptionPane.PLAIN_MESSAGE);
-            if (input != null) {
-                try {
-                    int newQuantity = Integer.parseInt(input);
-                    if (newQuantity == 0) {
-                        this.account.getCart().getItemList().remove(order);
-                    } else {
-                        order.setQuantity(newQuantity);
-                    }
-                    DB4OUtil.getInstance().storeSystem(system);
-                    populateTable(this.account.getCart().getItemList());
-                    deleteButton.setEnabled(false);
-                    modifyButton.setEnabled(false);
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Please enter a number");
-                }
-            }
-        }
-    }//GEN-LAST:event_modifyButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -285,17 +109,7 @@ public class CartJFrame extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable cartTable;
-    private javax.swing.JButton checkoutButton;
-    private javax.swing.JButton clearButton;
-    private javax.swing.JButton deleteButton;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel container;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton modifyButton;
-    private javax.swing.JLabel priceLabel;
-    private javax.swing.JLabel restaurantLabel;
     // End of variables declaration//GEN-END:variables
 }

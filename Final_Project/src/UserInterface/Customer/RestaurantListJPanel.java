@@ -212,6 +212,7 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
 
     private void cartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartButtonActionPerformed
         CartJFrame frame = new CartJFrame(this.system, this.account);
+        frame.setSize(500, 620);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }//GEN-LAST:event_cartButtonActionPerformed

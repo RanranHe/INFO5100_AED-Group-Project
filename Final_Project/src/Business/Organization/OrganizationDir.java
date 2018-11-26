@@ -5,6 +5,7 @@
  */
 package Business.Organization;
 
+import Business.Organization.Organization.Type;
 import java.util.ArrayList;
 
 /**
@@ -20,5 +21,23 @@ public class OrganizationDir {
     
     public ArrayList<Organization> getOrganizationList() {
         return this.organizationList;
+    }
+    
+    public Organization getTypicalOrganization(Type type) {
+        if (type.equals(Type.DeliveryMan)) {
+            for (Organization or:this.organizationList) {
+                if (or.getName().equalsIgnoreCase(Type.DeliveryMan.getValue())) {
+                    return or;
+                }
+            }
+        }
+        if (type.equals(Type.Manager)) {
+            for (Organization or:this.organizationList) {
+                if (or.getName().equalsIgnoreCase(Type.Manager.getValue())) {
+                    return or;
+                }
+            }
+        }
+        return null;
     }
 }

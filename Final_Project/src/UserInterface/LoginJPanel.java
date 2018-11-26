@@ -6,6 +6,9 @@
 package UserInterface;
 
 import Business.EcoSystem;
+import Business.Enterprise.Enterprise;
+import Business.Network.Network;
+import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import java.awt.CardLayout;
 import javax.swing.JFrame;
@@ -151,11 +154,38 @@ public class LoginJPanel extends javax.swing.JPanel {
         char[] passwordCharArray = passwordField.getPassword();
         String password = String.valueOf(passwordCharArray);
 
-        // check whether the user account exists
-        UserAccount userAccount = system.getUserAccountDirectory().authenticateUser(userName, password);
+        // check whether if it is the system manager / Customer user account
+        UserAccount account = system.getUserAccountDirectory().authenticateUser(userName, password);
 
-        if (userAccount != null) {
-            MainJFrame mFrame = new MainJFrame(this.system, userAccount);
+        Network inNetwork = null;
+        Organization inOrganization = null;
+        Enterprise inEnterprise = null;
+
+        if (account == null) {
+            for (Network net : system.getNetworkList()) {
+                for (Enterprise en : net.getEnterpriseDirectory().getEnterpriseList()) {
+                    account = en.getUserAccountDirectory().authenticateUser(userName, password);
+                    if (account == null) {
+                        for (Organization or : en.getOrganizationDirectory().getOrganizationList()) {
+                            account = or.getUserAccountDirectory().authenticateUser(userName, password);
+                            System.out.println(account);
+                            if (account != null) {
+                                inNetwork = net;
+                                inEnterprise = en;
+                                inOrganization = or;
+                                break;
+                            }
+                        }
+                    } else {
+                        inNetwork = net;
+                        inEnterprise = en;
+                        break;
+                    }
+                }
+            }
+        }
+        if (account != null) {
+            MainJFrame mFrame = new MainJFrame(this.system, account);
             this.frame.dispose();
             mFrame.setSize(500, 400);
             mFrame.setLocationRelativeTo(null);

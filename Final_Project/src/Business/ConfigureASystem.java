@@ -4,6 +4,7 @@ import Business.Customer.Customer;
 import Business.Employee.Employee;
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
+import Business.Organization.ManagerOrganization;
 import Business.Organization.Organization;
 import Business.Restaurant.Dash;
 import Business.Restaurant.Restaurant;
@@ -46,12 +47,13 @@ public class ConfigureASystem {
         Enterprise enter1 = network1.createEnterprise("Boston Delivery Company", "Boston");
         
 //        // BOSTON Employee Organization
-//        Employee employee2 = enter1.getEmployeeDirectory().createEmployee("Manager", "Manager");
-//        UserAccount ua4 = enter1.getUserAccountDirectory().createEmployeeAccount("manager", "manager", new ManagerRole(), employee2);
+        Employee employee2 = enter1.getEmployeeDirectory().createEmployee("Manager", "Manager");
+        ManagerOrganization mo1 = (ManagerOrganization) enter1.getOrganizationDirectory().getTypicalOrganization(Organization.Type.Manager);
+        UserAccount ua4 = mo1.getUserAccountDirectory().createEmployeeAccount("manager", "manager", new ManagerRole(), employee2);
 //        system.getUserAccountDirectory().addAccount(ua4);
 //        
-//        Employee employee3 = enter1.getEmployeeDirectory().createEmployee("Delivery", "Man");
-//        UserAccount ua5 = enter1.getUserAccountDirectory().createEmployeeAccount("deliveryman", "deliveryman", new DeliveryManRole(), employee3);
+        Employee employee3 = enter1.getEmployeeDirectory().createEmployee("Delivery", "Man");
+        UserAccount ua5 = mo1.getUserAccountDirectory().createEmployeeAccount("deliveryman", "deliveryman", new DeliveryManRole(), employee3);
 //        system.getUserAccountDirectory().addAccount(ua5);
 //        
         // BOSTON Restaurant List
@@ -78,7 +80,7 @@ public class ConfigureASystem {
         res2.addDashToMenu(d1);
         res2.addDashToMenu(d2);
         res2.addDashToMenu(d3);
-        UserAccount ua7 = enter1.getUserAccountDirectory().createRestaurantAccount("row34", "row34", res1);
+        UserAccount ua7 = enter1.getUserAccountDirectory().createRestaurantAccount("legal", "legal", res1);
 //        system.getUserAccountDirectory().addAccount(ua6);
         
         return system;
