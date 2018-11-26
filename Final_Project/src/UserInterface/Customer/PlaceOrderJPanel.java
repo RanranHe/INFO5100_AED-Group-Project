@@ -17,6 +17,7 @@ import Business.UserAccount.UserAccount;
 import Business.WorkQueue.OrderRequest;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -72,7 +73,8 @@ public class PlaceOrderJPanel extends javax.swing.JPanel {
             row[2] = order.getTotalPrice();
             dtm.addRow(row);
         }
-        priceLabel.setText(this.customerAccount.getCart().getTotalPrice() + "");
+        BigDecimal bd = new BigDecimal(this.customerAccount.getCart().getTotalPrice());
+        priceLabel.setText(bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "");
     }
 
     /**

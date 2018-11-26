@@ -9,6 +9,7 @@ import Business.Customer.DashOrder;
 import Business.UserAccount.CustomerAccount;
 import Business.UserAccount.RestaurantAccount;
 import Business.WorkQueue.OrderRequest;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -31,13 +32,13 @@ public class OrderConfirmationJPanel extends javax.swing.JPanel {
         this.customerAccount = (CustomerAccount) order.getSender();
         RestaurantAccount restaurantAccount = (RestaurantAccount) order.getReceiver();
         populateTable(customerAccount.getCart().getItemList());
-        
+
         this.restaurantLabel.setText(restaurantAccount.getRestaurant().getName());
         this.nameLabel.setText(order.getDeliveryName());
         this.addressLabel.setText(order.getDeliveryAddress());
         this.phoneLabel.setText(order.getDeliveryPhone());
     }
-    
+
     private void populateTable(ArrayList<DashOrder> list) {
         DefaultTableModel dtm = (DefaultTableModel) cartTable.getModel();
         dtm.setRowCount(0);
@@ -48,7 +49,8 @@ public class OrderConfirmationJPanel extends javax.swing.JPanel {
             row[2] = or.getTotalPrice();
             dtm.addRow(row);
         }
-        priceLabel.setText(this.customerAccount.getCart().getTotalPrice() + "");
+        BigDecimal bd = new BigDecimal(this.customerAccount.getCart().getTotalPrice());
+        priceLabel.setText(bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "");
     }
 
     /**

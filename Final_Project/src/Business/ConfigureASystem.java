@@ -80,7 +80,7 @@ public class ConfigureASystem {
         res2.addDashToMenu(d1);
         res2.addDashToMenu(d2);
         res2.addDashToMenu(d3);
-        UserAccount ua7 = enter1.getUserAccountDirectory().createRestaurantAccount("legal", "legal", res1);
+        UserAccount ua7 = enter1.getUserAccountDirectory().createRestaurantAccount("legal", "legal", res2);
 //        system.getUserAccountDirectory().addAccount(ua6);
         
         return system;

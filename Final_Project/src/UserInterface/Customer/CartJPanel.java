@@ -12,6 +12,7 @@ import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
 import Business.UserAccount.CustomerAccount;
 import java.awt.CardLayout;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -61,7 +62,8 @@ public class CartJPanel extends javax.swing.JPanel {
             row[2] = order.getTotalPrice();
             dtm.addRow(row);
         }
-        priceLabel.setText(this.account.getCart().getTotalPrice() + "");
+        BigDecimal bd = new BigDecimal(this.account.getCart().getTotalPrice());
+        priceLabel.setText(bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "");
     }
 
     /**
