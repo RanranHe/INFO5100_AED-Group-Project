@@ -20,7 +20,6 @@ public class Customer {
     private String address;
     private String phone;
     private String email;
-    private ArrayList<OrderRequest> orders;
     private static int count = 0;
 
     public Customer(String firstName, String lastName, String email, String phone) {
@@ -30,7 +29,6 @@ public class Customer {
         this.address = "";
         this.email = email;
         this.phone = phone;
-        this.orders = new ArrayList<>();
         id = count;
         count++;
     }
@@ -86,9 +84,5 @@ public class Customer {
     
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-    
-    public ArrayList<OrderRequest> getOrders() {
-        return this.orders;
     }
 }

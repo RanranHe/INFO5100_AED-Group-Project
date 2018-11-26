@@ -8,6 +8,7 @@ package UserInterface.Customer;
 import Business.Customer.DashOrder;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
+import Business.Enterprise.Enterprise;
 import Business.UserAccount.CustomerAccount;
 import java.awt.CardLayout;
 import java.util.ArrayList;
@@ -22,19 +23,20 @@ public class CartJFrame extends javax.swing.JFrame {
 
     private EcoSystem system;
     private CustomerAccount account;
+    private Enterprise en;
 
     /**
      * Creates new form CartJFrame
      */
-    public CartJFrame(EcoSystem system, CustomerAccount account) {
+    public CartJFrame(EcoSystem system, CustomerAccount account, Enterprise en) {
         initComponents();
         this.system = system;
         this.account = account;
-
+        this.en = en;
         
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
-        CartJPanel panel = new CartJPanel(this.system, this.account, this);
+        CartJPanel panel = new CartJPanel(this.system, this.container, this.account, this.en);
         this.container.add(panel);
         CardLayout layout = (CardLayout) this.container.getLayout();
         layout.next(container);

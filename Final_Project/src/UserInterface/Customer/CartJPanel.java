@@ -6,13 +6,15 @@
 package UserInterface.Customer;
 
 import Business.Customer.DashOrder;
+import Business.Customer.ShoppingCart;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
+import Business.Enterprise.Enterprise;
 import Business.UserAccount.CustomerAccount;
+import java.awt.CardLayout;
 import java.util.ArrayList;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,29 +25,33 @@ public class CartJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
     private CustomerAccount account;
-    private JFrame frame;
+    private Enterprise en;
+    private JPanel container;
 
     /**
      * Creates new form CartJPanel
      */
-    public CartJPanel(EcoSystem system, CustomerAccount account, JFrame frame) {
+    public CartJPanel(EcoSystem system, JPanel container, CustomerAccount account, Enterprise en) {
         initComponents();
 
         this.system = system;
+        this.container = container;
         this.account = account;
-        this.frame = frame;
+        this.en = en;
 
         deleteButton.setEnabled(false);
         modifyButton.setEnabled(false);
 
         if (!account.getCart().getItemList().isEmpty()) {
             restaurantLabel.setText(account.getCart().getItemList().get(0).getRestaurant().getName());
+        } else {
+            checkoutButton.setEnabled(false);
         }
-
+        
         populateTable(account.getCart().getItemList());
     }
 
-    private void populateTable(ArrayList<DashOrder> list) {
+    public void populateTable(ArrayList<DashOrder> list) {
         DefaultTableModel dtm = (DefaultTableModel) cartTable.getModel();
         dtm.setRowCount(0);
         for (DashOrder order : list) {
@@ -77,6 +83,12 @@ public class CartJPanel extends javax.swing.JPanel {
         modifyButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         restaurantLabel = new javax.swing.JLabel();
+
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         cartTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -200,7 +212,11 @@ public class CartJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_cartTableMouseClicked
 
     private void checkoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkoutButtonActionPerformed
-        // TODO add your handling code here:
+        PlaceOrderJPanel panel = new PlaceOrderJPanel(this.system, this.container, this.account, 
+            account.getCart().getItemList().get(0).getRestaurant(), this.en);
+        this.container.add(panel);
+        CardLayout layout = (CardLayout) this.container.getLayout();
+        layout.next(this.container);
     }//GEN-LAST:event_checkoutButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
@@ -251,6 +267,10 @@ public class CartJPanel extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_modifyButtonActionPerformed
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        
+    }//GEN-LAST:event_formMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

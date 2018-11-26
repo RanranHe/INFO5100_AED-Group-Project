@@ -8,6 +8,7 @@ package UserInterface.Customer;
 import Business.Customer.DashOrder;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
+import Business.Enterprise.Enterprise;
 import Business.Restaurant.Dash;
 import Business.Restaurant.Restaurant;
 import Business.UserAccount.CustomerAccount;
@@ -31,15 +32,17 @@ public class RestaurantDetailsJPanel extends javax.swing.JPanel {
     private EcoSystem system;
     private Restaurant restaurant;
     private CustomerAccount account;
+    private Enterprise en;
 
     /**
      * Creates new form RestaurantDetailsJPanel
      */
-    public RestaurantDetailsJPanel(EcoSystem system, Restaurant restaurant, CustomerAccount account) {
+    public RestaurantDetailsJPanel(EcoSystem system, Restaurant restaurant, CustomerAccount account, Enterprise en) {
         initComponents();
         this.system = system;
         this.restaurant = restaurant;
         this.account = account;
+        this.en = en;
 
         showImage();
         populateTable(restaurant.getMenu());

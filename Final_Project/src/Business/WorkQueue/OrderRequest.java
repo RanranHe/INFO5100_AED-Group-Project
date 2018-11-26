@@ -5,7 +5,8 @@
  */
 package Business.WorkQueue;
 
-import Business.Restaurant.Dash;
+import Business.Customer.DashOrder;
+import Business.UserAccount.UserAccount;
 import java.util.ArrayList;
 
 /**
@@ -14,9 +15,41 @@ import java.util.ArrayList;
  */
 public class OrderRequest extends WorkRequest {
     private StatusEnum status;
-    private ArrayList<Dash> dashes;
+    private String deliveryName;
+    private String deliveryAddress;
+    private String deliveryPhone;
+    private ArrayList<DashOrder> dashes;
+
+    public OrderRequest(UserAccount sender, UserAccount receiver, ArrayList<DashOrder> dashes) {
+        super(sender, receiver);
+        this.dashes =dashes;
+    }
     
-    public ArrayList<Dash> getDashes() {
+    public String getDeliveryName() {
+        return this.deliveryName;
+    }
+    
+    public void setDeliveryName(String name) {
+        this.deliveryName = name;
+    }
+    
+    public String getDeliveryAddress() {
+        return this.deliveryAddress;
+    }
+    
+    public void setDeliveryAddress(String address) {
+        this.deliveryAddress = address;
+    }
+    
+    public String getDeliveryPhone() {
+        return this.deliveryPhone;
+    }
+    
+    public void setDeliveryPhone(String phone) {
+        this.deliveryPhone = phone;
+    }
+    
+    public ArrayList<DashOrder> getDashes() {
         return this.dashes;
     }
     

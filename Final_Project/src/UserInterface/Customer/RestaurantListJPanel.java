@@ -202,7 +202,7 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
 
         if (index >= 0) {
             restaurantNameLabel.setText(restaurant.getName());
-            RestaurantDetailsJPanel panel = new RestaurantDetailsJPanel(this.system, restaurant, this.account);
+            RestaurantDetailsJPanel panel = new RestaurantDetailsJPanel(this.system, restaurant, this.account, en);
             detailPanel.remove(this);
             detailPanel.add(panel);
             CardLayout layout = (CardLayout)this.detailPanel.getLayout();
@@ -211,7 +211,7 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_RestaurantTableMouseClicked
 
     private void cartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartButtonActionPerformed
-        CartJFrame frame = new CartJFrame(this.system, this.account);
+        CartJFrame frame = new CartJFrame(this.system, this.account, this.en);
         frame.setSize(500, 620);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
