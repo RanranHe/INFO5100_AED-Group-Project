@@ -145,7 +145,7 @@ public class LoginJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        this.frame.setVisible(false);
+        System.exit(0);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void loginJButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginJButton1ActionPerformed
@@ -186,11 +186,10 @@ public class LoginJPanel extends javax.swing.JPanel {
         if (account != null) {
             MainJFrame mFrame = new MainJFrame(this.system, account);
             this.frame.dispose();
-            mFrame.setSize(500, 400);
             mFrame.setLocationRelativeTo(null);
             mFrame.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "Account doesn't exist.");
+            JOptionPane.showMessageDialog(null, "Username/Password doesn't match our records.");
         }
     }//GEN-LAST:event_loginJButton1ActionPerformed
 

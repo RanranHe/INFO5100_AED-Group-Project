@@ -10,6 +10,7 @@ import Business.Enterprise.Enterprise;
 import Business.Network.Network;
 import Business.UserAccount.CustomerAccount;
 import Business.UserAccount.UserAccount;
+import UserInterface.LoginJFrame;
 import java.awt.CardLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -61,6 +62,8 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         goButton = new javax.swing.JButton();
+        logoutButton = new javax.swing.JButton();
+        profileButton = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         jLabel1.setText("Welcome, ");
@@ -106,42 +109,65 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
             }
         });
 
+        logoutButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        logoutButton.setText("Logout");
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutButtonActionPerformed(evt);
+            }
+        });
+
+        profileButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        profileButton.setText("My Profile");
+        profileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profileButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(274, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(goButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel4)
+                        .addGap(131, 131, 131)
+                        .addComponent(jLabel5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(64, 64, 64)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(62, 62, 62)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27)
-                                .addComponent(goButton))
-                            .addComponent(jLabel3)
+                                .addComponent(jLabel3)
+                                .addGap(208, 208, 208))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nameLabel))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(117, 117, 117)
-                        .addComponent(jLabel4)
-                        .addGap(131, 131, 131)
-                        .addComponent(jLabel5)))
-                .addContainerGap(266, Short.MAX_VALUE))
+                                .addComponent(nameLabel)))
+                        .addGap(18, 18, 18)
+                        .addComponent(logoutButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(profileButton)))
+                .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(17, Short.MAX_VALUE)
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(nameLabel))
-                .addGap(33, 33, 33)
+                    .addComponent(nameLabel)
+                    .addComponent(logoutButton)
+                    .addComponent(profileButton))
+                .addGap(111, 111, 111)
                 .addComponent(jLabel3)
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -149,14 +175,12 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(71, 71, 71))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(goButton)
-                        .addGap(149, 149, 149))))
+                        .addGap(78, 78, 78)))
+                .addContainerGap(185, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -176,18 +200,30 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
     private void goButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goButtonActionPerformed
         if (jList1.getSelectedValue() != null && jList2.getSelectedValue() != null) {
             Enterprise en = system.getNetworkByState((String)jList2.getSelectedValue()).getEnterpriseByCity((String)jList1.getSelectedValue());
-            RestaurantListJPanel panel = new RestaurantListJPanel(system, this.container, this.customerAccount, en);
+            RestaurantListJPanel panel = new RestaurantListJPanel(system, this.container, this.customerAccount, en, this.frame);
             container.add(panel);
             CardLayout layout = (CardLayout)this.container.getLayout();
             layout.next(container);
-            this.frame.setSize(950, 600);
-            this.frame.setLocationRelativeTo(null);
         }
     }//GEN-LAST:event_goButtonActionPerformed
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
        goButton.setEnabled(true);
     }//GEN-LAST:event_jList1ValueChanged
+
+    private void profileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileButtonActionPerformed
+        CustomerProfileJPanel panel = new CustomerProfileJPanel(this.system, this.container, this.customerAccount, this.frame);
+        this.container.add(panel);
+        CardLayout layout = (CardLayout) this.container.getLayout();
+        layout.next(this.container);
+    }//GEN-LAST:event_profileButtonActionPerformed
+
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+        LoginJFrame lf = new LoginJFrame();
+        this.frame.dispose();;
+        lf.setLocationRelativeTo(null);
+        lf.setVisible(true);
+    }//GEN-LAST:event_logoutButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -200,6 +236,8 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
     private javax.swing.JList jList2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton logoutButton;
     private javax.swing.JLabel nameLabel;
+    private javax.swing.JButton profileButton;
     // End of variables declaration//GEN-END:variables
 }

@@ -15,6 +15,7 @@ import Business.UserAccount.CustomerAccount;
 import Business.UserAccount.RestaurantAccount;
 import Business.UserAccount.UserAccount;
 import Business.WorkQueue.OrderRequest;
+import Business.WorkQueue.WorkRequest;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.math.BigDecimal;
@@ -283,6 +284,9 @@ public class PlaceOrderJPanel extends javax.swing.JPanel {
         or.setDeliveryName(this.nameTextField.getText());
         or.setDeliveryPhone(this.phoneTextField.getText());
         or.setMessage(this.commentTextArea.getText());
+        or.setStatus(WorkRequest.StatusEnum.Processing);
+        BigDecimal bd = new BigDecimal(this.customerAccount.getCart().getTotalPrice());
+        or.setAmount(bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
         
         customerAccount.getCart().clearCart();
         customerAccount.getWorkQueue().getWorkRequestList().add(or);
