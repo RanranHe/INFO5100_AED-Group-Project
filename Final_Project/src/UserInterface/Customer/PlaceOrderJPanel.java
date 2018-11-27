@@ -283,6 +283,8 @@ public class PlaceOrderJPanel extends javax.swing.JPanel {
         or.setDeliveryName(this.nameTextField.getText());
         or.setDeliveryPhone(this.phoneTextField.getText());
         or.setMessage(this.commentTextArea.getText());
+        BigDecimal bd = new BigDecimal(this.customerAccount.getCart().getTotalPrice());
+        or.setAmount(bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
         
         customerAccount.getCart().clearCart();
         customerAccount.getWorkQueue().getWorkRequestList().add(or);

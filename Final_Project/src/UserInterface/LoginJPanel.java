@@ -145,7 +145,7 @@ public class LoginJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        this.frame.setVisible(false);
+        System.exit(0);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void loginJButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginJButton1ActionPerformed

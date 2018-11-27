@@ -10,6 +10,7 @@ import Business.Enterprise.Enterprise;
 import Business.Network.Network;
 import Business.UserAccount.CustomerAccount;
 import Business.UserAccount.UserAccount;
+import UserInterface.LoginJFrame;
 import java.awt.CardLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -110,6 +111,11 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
 
         logoutButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         logoutButton.setText("Logout");
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutButtonActionPerformed(evt);
+            }
+        });
 
         profileButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         profileButton.setText("My Profile");
@@ -196,7 +202,7 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
     private void goButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goButtonActionPerformed
         if (jList1.getSelectedValue() != null && jList2.getSelectedValue() != null) {
             Enterprise en = system.getNetworkByState((String)jList2.getSelectedValue()).getEnterpriseByCity((String)jList1.getSelectedValue());
-            RestaurantListJPanel panel = new RestaurantListJPanel(system, this.container, this.customerAccount, en);
+            RestaurantListJPanel panel = new RestaurantListJPanel(system, this.container, this.customerAccount, en, this.frame);
             container.add(panel);
             CardLayout layout = (CardLayout)this.container.getLayout();
             layout.next(container);
@@ -210,11 +216,18 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jList1ValueChanged
 
     private void profileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileButtonActionPerformed
-        CustomerProfileJPanel panel = new CustomerProfileJPanel(this.system, this.container, this.customerAccount);
+        CustomerProfileJPanel panel = new CustomerProfileJPanel(this.system, this.container, this.customerAccount, this.frame);
         this.container.add(panel);
         CardLayout layout = (CardLayout) this.container.getLayout();
         layout.next(this.container);
     }//GEN-LAST:event_profileButtonActionPerformed
+
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+        LoginJFrame lf = new LoginJFrame();
+        this.frame.dispose();;
+        lf.setLocationRelativeTo(null);
+        lf.setVisible(true);
+    }//GEN-LAST:event_logoutButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

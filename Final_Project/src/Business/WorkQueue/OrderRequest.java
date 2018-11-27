@@ -18,6 +18,7 @@ public class OrderRequest extends WorkRequest {
     private String deliveryName;
     private String deliveryAddress;
     private String deliveryPhone;
+    private double amount;
     private ArrayList<DashOrder> dashes;
 
     public OrderRequest(UserAccount sender, UserAccount receiver, ArrayList<DashOrder> dashes) {
@@ -59,5 +60,13 @@ public class OrderRequest extends WorkRequest {
 
     public void setStatus(StatusEnum status) {
         this.status = status;
+    }
+    
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+    
+    public double getAmount() {
+        return this.amount;
     }
 }
