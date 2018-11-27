@@ -77,6 +77,7 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
         logoutButton = new javax.swing.JButton();
         cartButton = new javax.swing.JButton();
         profileButton = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(200, 404));
 
@@ -170,23 +171,32 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
             }
         });
 
+        backButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        backButton.setText("< Back");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(JPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
+                        .addComponent(backButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(areaLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 161, Short.MAX_VALUE)
+                        .addGap(80, 80, 80)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nameLabel)
@@ -209,7 +219,8 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
                     .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(logoutButton)
                     .addComponent(cartButton)
-                    .addComponent(profileButton))
+                    .addComponent(profileButton)
+                    .addComponent(backButton))
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
@@ -221,14 +232,14 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
     private void RestaurantTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RestaurantTableMouseClicked
         int index = RestaurantTable.getSelectedRow();
         TableModel model = RestaurantTable.getModel();
-        Restaurant restaurant = (Restaurant) model.getValueAt(index, 0);
 
         if (index >= 0) {
+            Restaurant restaurant = (Restaurant) model.getValueAt(index, 0);
             restaurantNameLabel.setText(restaurant.getName());
             RestaurantDetailsJPanel panel = new RestaurantDetailsJPanel(this.system, restaurant, this.account, en);
             detailPanel.remove(this);
             detailPanel.add(panel);
-            CardLayout layout = (CardLayout)this.detailPanel.getLayout();
+            CardLayout layout = (CardLayout) this.detailPanel.getLayout();
             layout.next(detailPanel);
         }
     }//GEN-LAST:event_RestaurantTableMouseClicked
@@ -254,11 +265,17 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
         lf.setVisible(true);
     }//GEN-LAST:event_logoutButtonActionPerformed
 
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        CardLayout layout = (CardLayout) this.container.getLayout();
+        layout.previous(this.container);
+    }//GEN-LAST:event_backButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel JPanel;
     private javax.swing.JTable RestaurantTable;
     private javax.swing.JLabel areaLabel;
+    private javax.swing.JButton backButton;
     private javax.swing.JButton cartButton;
     private javax.swing.JPanel detailPanel;
     private javax.swing.JLabel jLabel1;

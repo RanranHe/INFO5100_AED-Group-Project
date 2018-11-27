@@ -38,6 +38,7 @@ public class OrderConfirmationJPanel extends javax.swing.JPanel {
         this.addressLabel.setText(order.getDeliveryAddress());
         this.phoneLabel.setText(order.getDeliveryPhone());
         
+        cartTable.setEnabled(false);
         populateTable(order.getDashes());
     }
 
@@ -51,7 +52,7 @@ public class OrderConfirmationJPanel extends javax.swing.JPanel {
             row[2] = or.getTotalPrice();
             dtm.addRow(row);
         }
-        BigDecimal bd = new BigDecimal(this.customerAccount.getCart().getTotalPrice());
+        BigDecimal bd = new BigDecimal(this.order.getAmount());
         priceLabel.setText(bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "");
     }
 

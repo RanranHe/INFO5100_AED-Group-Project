@@ -26,6 +26,7 @@ public class MainJFrame extends javax.swing.JFrame {
     public MainJFrame(EcoSystem system, UserAccount userAccount) {
         initComponents();
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Customer")) {
+            this.setSize(950, 600);
             CustomerMainJPanel cp = new CustomerMainJPanel(system, this.container, userAccount, this);
             container.add(cp);
             CardLayout layout = (CardLayout)this.container.getLayout();

@@ -186,11 +186,10 @@ public class LoginJPanel extends javax.swing.JPanel {
         if (account != null) {
             MainJFrame mFrame = new MainJFrame(this.system, account);
             this.frame.dispose();
-            mFrame.setSize(600, 410);
             mFrame.setLocationRelativeTo(null);
             mFrame.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "Account doesn't exist.");
+            JOptionPane.showMessageDialog(null, "Username/Password doesn't match our records.");
         }
     }//GEN-LAST:event_loginJButton1ActionPerformed
 

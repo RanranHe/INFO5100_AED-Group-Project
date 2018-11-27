@@ -5,6 +5,7 @@
 package Business.WorkQueue;
 
 import Business.UserAccount.UserAccount;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -42,21 +43,21 @@ public abstract class WorkRequest {
             return value;
         }
     }
-    
+
     public WorkRequest(UserAccount sender, UserAccount receiver) {
         this.sender = sender;
         this.receiver = receiver;
-        requestDate = new Date();
+        this.requestDate = new Date();
     }
 
     public String getMessage() {
         return this.message;
     }
-    
+
     public void setMessage(String mess) {
         this.message = mess;
     }
-    
+
     public UserAccount getSender() {
         return sender;
     }
@@ -73,8 +74,10 @@ public abstract class WorkRequest {
         this.receiver = receiver;
     }
 
-    public Date getRequestDate() {
-        return requestDate;
+    public String getRequestDate() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = format.format(this.requestDate);
+        return dateString;
     }
 
     public void setRequestDate(Date requestDate) {
@@ -88,9 +91,9 @@ public abstract class WorkRequest {
     public void setResolveDate(Date resolveDate) {
         this.resolveDate = resolveDate;
     }
-    
+
     @Override
     public String toString() {
-        return this.requestDate.toString();
+        return this.getRequestDate();
     }
 }
