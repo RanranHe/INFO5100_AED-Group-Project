@@ -106,7 +106,6 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(RestaurantTable);
 
-        JPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         JPanel.setPreferredSize(new java.awt.Dimension(655, 498));
 
         restaurantNameLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
@@ -223,8 +222,8 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
                     .addComponent(backButton))
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
-                    .addComponent(JPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(JPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents

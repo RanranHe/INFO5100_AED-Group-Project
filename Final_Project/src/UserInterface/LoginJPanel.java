@@ -184,7 +184,7 @@ public class LoginJPanel extends javax.swing.JPanel {
             }
         }
         if (account != null) {
-            MainJFrame mFrame = new MainJFrame(this.system, account);
+            MainJFrame mFrame = new MainJFrame(this.system, account, inNetwork, inEnterprise);
             this.frame.dispose();
             mFrame.setLocationRelativeTo(null);
             mFrame.setVisible(true);

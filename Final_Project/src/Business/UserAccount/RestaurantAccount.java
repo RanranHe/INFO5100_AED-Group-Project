@@ -27,4 +27,9 @@ public class RestaurantAccount extends UserAccount {
     public void setRestaurant(Restaurant rest) {
         this.rest = rest;
     }
+    
+    @Override
+    public String toString() {
+        return this.rest.getName();
+    }
 }

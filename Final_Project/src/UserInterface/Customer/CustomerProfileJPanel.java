@@ -53,9 +53,7 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         saveButton.setEnabled(false);
         cancelButton.setEnabled(false);
         
-        nameLabel.setText(customer.getFirstName());
-        
-        populateTable(account.getWorkQueue().getWorkRequestList());
+        populateTable(this.account.getWorkQueue().getWorkRequestList());
     }
     
     private void populateTable(ArrayList<WorkRequest> list) {
@@ -65,7 +63,7 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
             OrderRequest or = (OrderRequest) wr;
             Object row[] = new Object[4];
             row[0] = or;
-            row[1] = or.getStatus().Processing.getValue();
+            row[1] = or.getStatus();
             RestaurantAccount restaurant = (RestaurantAccount)or.getReceiver();
             row[2] = restaurant.getRestaurant();
             row[3] = or.getAmount();
@@ -74,6 +72,7 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
     }
 
     private void setInfo() {
+        nameLabel.setText(customer.getFirstName());
         addressTextField.setText(customer.getAddress());
         emailTextField.setText(customer.getEmail());
         firstNameTextField.setText(customer.getFirstName());
@@ -83,9 +82,9 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
     }
 
     private void resetPasswordField() {
-        passwordTextField1.setText("");
-        passwordTextField2.setText("");
-        passwordTextField3.setText("");
+        passwordField.setText("");
+        passwordField1.setText("");
+        passwordField2.setText("");
     }
 
     private void setFieldsEditable(boolean b) {
@@ -124,13 +123,13 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         usernameTextField1 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        passwordTextField1 = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        passwordTextField2 = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        passwordTextField3 = new javax.swing.JTextField();
         submitButton = new javax.swing.JButton();
         cancelButton1 = new javax.swing.JButton();
+        passwordField = new javax.swing.JPasswordField();
+        passwordField1 = new javax.swing.JPasswordField();
+        passwordField2 = new javax.swing.JPasswordField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         orderTable = new javax.swing.JTable();
@@ -207,8 +206,8 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(211, 211, 211)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(258, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -236,7 +235,7 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
                         .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(196, 196, 196))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -311,15 +310,15 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
                         .addGroup(jPanel3Layout.createSequentialGroup()
                             .addComponent(jLabel14)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(passwordTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel3Layout.createSequentialGroup()
                             .addComponent(jLabel13)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(passwordTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(passwordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel3Layout.createSequentialGroup()
                             .addComponent(jLabel15)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(passwordTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(passwordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(62, 62, 62)
                         .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -332,16 +331,16 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(106, 106, 106)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13))
+                    .addComponent(jLabel13)
+                    .addComponent(passwordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14))
+                    .addComponent(jLabel14)
+                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15))
+                    .addComponent(jLabel15)
+                    .addComponent(passwordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(submitButton)
@@ -501,9 +500,13 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jTabbedPane1PropertyChange
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
-        String password = passwordTextField1.getText();
-        String new1 = passwordTextField2.getText();
-        String new2 = passwordTextField3.getText();
+        char[] passwordCharArray = passwordField2.getPassword();
+        String password = String.valueOf(passwordCharArray);
+        char[] passwordCharArray1 = passwordField.getPassword();
+        String new1 = String.valueOf(passwordCharArray1);
+        char[] passwordCharArray2 = passwordField1.getPassword();
+        String new2 = String.valueOf(passwordCharArray2);
+        
         if (password.equals(account.getPassword())) {
             if (!new1.equals("")) {
                 if (new1.equals(new2)) {
@@ -589,9 +592,9 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
     private javax.swing.JButton logoutButton;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTable orderTable;
-    private javax.swing.JTextField passwordTextField1;
-    private javax.swing.JTextField passwordTextField2;
-    private javax.swing.JTextField passwordTextField3;
+    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JPasswordField passwordField1;
+    private javax.swing.JPasswordField passwordField2;
     private javax.swing.JTextField phoneTextField;
     private javax.swing.JButton saveButton;
     private javax.swing.JButton submitButton;

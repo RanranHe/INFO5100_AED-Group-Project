@@ -5,6 +5,8 @@
  */
 package Business.Employee;
 
+import Business.Role.Role;
+
 /**
  *
  * @author ranranhe
@@ -36,12 +38,20 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public void getFirstName(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public void getLastName(String lastName) {
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
     }
 
     public String getFullName() {

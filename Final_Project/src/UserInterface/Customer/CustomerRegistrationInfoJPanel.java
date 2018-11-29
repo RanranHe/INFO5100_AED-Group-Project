@@ -200,10 +200,9 @@ public class CustomerRegistrationInfoJPanel extends javax.swing.JPanel {
         DB4OUtil.getInstance().storeSystem(system);
 
         this.frame.dispose();
-        MainJFrame mFrame = new MainJFrame(this.system, ua);
+        MainJFrame mFrame = new MainJFrame(this.system, ua, null, null);
         this.frame.dispose();
         mFrame.setVisible(true);
-        mFrame.setSize(500, 400);
         mFrame.setLocationRelativeTo(null);
     }//GEN-LAST:event_submitButtonActionPerformed
 

@@ -15,4 +15,8 @@ public class ManagerRole extends Role {
         super(Role.RoleType.Manager);
     }
     
+    @Override
+    public String toString() {
+        return Role.RoleType.Manager.getValue();
+    }
 }

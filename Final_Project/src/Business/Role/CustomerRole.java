@@ -14,5 +14,4 @@ public class CustomerRole extends Role {
     public CustomerRole() {
         super(Role.RoleType.Customer);
     }
-    
 }

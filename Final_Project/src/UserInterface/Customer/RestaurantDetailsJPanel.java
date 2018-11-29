@@ -13,12 +13,7 @@ import Business.Restaurant.Dash;
 import Business.Restaurant.Restaurant;
 import Business.UserAccount.CustomerAccount;
 import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -67,41 +62,41 @@ public class RestaurantDetailsJPanel extends javax.swing.JPanel {
     }
 
     private void showImage() {
-        String path = "Images/Restaurant/default.png";
-        String fileName = "default.PNG";
-        try {
-            File f = new File("Images/Restaurant");
-            if (f.isDirectory()) {
-                File[] F1 = f.listFiles();
-                for (File f2 : F1) {
-                    if (f2.getName().equalsIgnoreCase(restaurant.getId() + ".png")) {
-                        fileName = restaurant.getId() + ".png";
-                        path = "Images/Restaurant/" + fileName;
-                    }
-                }
-            }
-            BufferedImage image = ImageIO.read(new File(path));
-
-            int radio = 0;
-            if (image.getWidth() / 250 < image.getHeight() / 180) {
-                radio = image.getWidth() / 250;
-            } else {
-                radio = image.getHeight() / 180;
-            }
-            int x = 11, y = 20, cutW = 250 * radio, cutH = 180 * radio;
-
-            Rectangle rect = new Rectangle(x, y, cutW, cutH);
-            BufferedImage areaImage = image.getSubimage(rect.x, rect.y, rect.width, rect.height);
-
-            BufferedImage buffImg = new BufferedImage(cutW, cutH, BufferedImage.TYPE_INT_RGB);
-            buffImg.getGraphics().drawImage(areaImage.getScaledInstance(cutW, cutH, java.awt.Image.SCALE_SMOOTH), 0, 0, null);
-
-            String newPath = "Images/RestaurantCut/" + fileName;
-            ImageIO.write(buffImg, "png", new File(newPath));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ImageIcon image = new ImageIcon("Images/RestaurantCut/" + fileName);
+//        String path = "Images/Restaurant/default.png";
+//        String fileName = "default.PNG";
+//        try {
+//            File f = new File("Images/Restaurant");
+//            if (f.isDirectory()) {
+//                File[] F1 = f.listFiles();
+//                for (File f2 : F1) {
+//                    if (f2.getName().equalsIgnoreCase(restaurant.getId() + ".png")) {
+//                        fileName = restaurant.getId() + ".png";
+//                        path = "Images/Restaurant/" + fileName;
+//                    }
+//                }
+//            }
+//            BufferedImage image = ImageIO.read(new File(path));
+//
+//            int radio = 0;
+//            if (image.getWidth() / 250 < image.getHeight() / 180) {
+//                radio = image.getWidth() / 250;
+//            } else {
+//                radio = image.getHeight() / 180;
+//            }
+//            int x = 11, y = 20, cutW = 250 * radio, cutH = 180 * radio;
+//
+//            Rectangle rect = new Rectangle(x, y, cutW, cutH);
+//            BufferedImage areaImage = image.getSubimage(rect.x, rect.y, rect.width, rect.height);
+//
+//            BufferedImage buffImg = new BufferedImage(cutW, cutH, BufferedImage.TYPE_INT_RGB);
+//            buffImg.getGraphics().drawImage(areaImage.getScaledInstance(cutW, cutH, java.awt.Image.SCALE_SMOOTH), 0, 0, null);
+//
+//            String newPath = "Images/RestaurantCut/" + fileName;
+//            ImageIO.write(buffImg, "png", new File(newPath));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        ImageIcon image = new ImageIcon(restaurant.getPath());
 
         image.setImage(image.getImage().getScaledInstance(250, 180, Image.SCALE_DEFAULT));
         imageLabel.setIcon(image);
@@ -134,6 +129,8 @@ public class RestaurantDetailsJPanel extends javax.swing.JPanel {
         menuTable = new javax.swing.JTable();
         addButton = new javax.swing.JButton();
         quantitySpinner = new javax.swing.JSpinner();
+
+        jTabbedPane1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel2.setText("Phone:");
@@ -215,7 +212,7 @@ public class RestaurantDetailsJPanel extends javax.swing.JPanel {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(91, Short.MAX_VALUE))
+                .addContainerGap(87, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Details", jPanel1);
@@ -265,7 +262,7 @@ public class RestaurantDetailsJPanel extends javax.swing.JPanel {
                 .addComponent(quantitySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(addButton)
-                .addContainerGap(236, Short.MAX_VALUE))
+                .addContainerGap(232, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -282,7 +279,7 @@ public class RestaurantDetailsJPanel extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
     }// </editor-fold>//GEN-END:initComponents
 

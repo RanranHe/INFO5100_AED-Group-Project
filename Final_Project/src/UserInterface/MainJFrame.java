@@ -6,11 +6,14 @@
 package UserInterface;
 
 import Business.EcoSystem;
+import Business.Enterprise.Enterprise;
+import Business.Network.Network;
 import Business.UserAccount.UserAccount;
 import UserInterface.Customer.CustomerMainJPanel;
 import UserInterface.DeliveryMan.DeliveryManInfoJPanel;
+import UserInterface.DeliveryMan.DeliveryManMainJPanel;
 import UserInterface.Manager.ManagerInfoJPanel;
-import UserInterface.Restaurant.RestaurantInfoJPanel;
+import UserInterface.Restaurant.RestaurantMainJPanel;
 import UserInterface.SystemManager.SystemManagerInfoJPanel;
 import java.awt.CardLayout;
 
@@ -23,7 +26,7 @@ public class MainJFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainJFrame
      */
-    public MainJFrame(EcoSystem system, UserAccount userAccount) {
+    public MainJFrame(EcoSystem system, UserAccount userAccount, Network net, Enterprise en) {
         initComponents();
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Customer")) {
             this.setSize(950, 600);
@@ -39,7 +42,8 @@ public class MainJFrame extends javax.swing.JFrame {
             layout.next(container);
         }
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Delivery Man")) {
-            DeliveryManInfoJPanel cp = new DeliveryManInfoJPanel(system, userAccount);
+            this.setSize(950, 600);
+            DeliveryManMainJPanel cp = new DeliveryManMainJPanel(system, this.container, en, userAccount, this);
             container.add(cp);
             CardLayout layout = (CardLayout)this.container.getLayout();
             layout.next(container);
@@ -51,7 +55,8 @@ public class MainJFrame extends javax.swing.JFrame {
             layout.next(container);
         }
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Restaurant")) {
-            RestaurantInfoJPanel cp = new RestaurantInfoJPanel(system, userAccount);
+            this.setSize(950, 600);
+            RestaurantMainJPanel cp = new RestaurantMainJPanel(system, container, en, userAccount, this);
             container.add(cp);
             CardLayout layout = (CardLayout)this.container.getLayout();
             layout.next(container);
