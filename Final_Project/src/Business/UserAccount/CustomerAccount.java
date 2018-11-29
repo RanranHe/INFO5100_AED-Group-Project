@@ -8,6 +8,7 @@ package Business.UserAccount;
 import Business.Customer.Customer;
 import Business.Customer.ShoppingCart;
 import Business.Role.CustomerRole;
+import Business.WorkQueue.OrderRequest;
 
 /**
  *

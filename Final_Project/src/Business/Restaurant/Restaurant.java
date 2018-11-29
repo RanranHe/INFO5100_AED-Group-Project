@@ -7,8 +7,13 @@ package Business.Restaurant;
 
 import Business.WorkQueue.OrderRequest;
 import Business.WorkQueue.ReviewRequest;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -23,14 +28,15 @@ public class Restaurant {
     private Category category;
     private String description;
     private ArrayList<Dash> menu;
-    private ArrayList<OrderRequest> orders;
-    private ArrayList<ReviewRequest> reviews;
+//    private ArrayList<OrderRequest> orders;
+//    private ArrayList<ReviewRequest> reviews;
     private double rate;
     private static int counter = 0;
+    private String photoPath;
 
     public enum Category {
 
-        Seafood
+        Seafood, Chinese, Japanese, Korean, American, Mexicon
     }
 
     public Restaurant(String name, String address, String phone) {
@@ -39,10 +45,25 @@ public class Restaurant {
         this.name = name;
         this.address = address;
         this.phone = phone;
-        this.menu = new ArrayList<Dash>();
-        this.orders = new ArrayList<OrderRequest>();
-        this.reviews = new ArrayList<ReviewRequest>();
+        this.menu = new ArrayList<>();
+//        this.orders = new ArrayList<>();
+//        this.reviews = new ArrayList<>();
         this.rate = -1;
+
+        String path = "Images/RestaurantCut/default.png";
+        String fileName = "default.png";
+
+        File f = new File("Images/RestaurantCut");
+        if (f.isDirectory()) {
+            File[] F1 = f.listFiles();
+            for (File f2 : F1) {
+                if (f2.getName().equalsIgnoreCase(this.id + ".png")) {
+                    fileName = this.id + ".png";
+                    path = "Images/RestaurantCut/" + fileName;
+                }
+            }
+        }
+        this.photoPath = path;
     }
 
     public int getId() {
@@ -92,34 +113,66 @@ public class Restaurant {
     public ArrayList<Dash> getMenu() {
         return this.menu;
     }
-    
+
     public void addDashToMenu(Dash dash) {
         this.menu.add(dash);
     }
 
-    public ArrayList<OrderRequest> getOrders() {
-        return this.orders;
-    }
-
-    public ArrayList<ReviewRequest> getReviews() {
-        return this.reviews;
-    }
+//    public ArrayList<OrderRequest> getOrders() {
+//        return this.orders;
+//    }
+//
+//    public ArrayList<ReviewRequest> getReviews() {
+//        return this.reviews;
+//    }
 
     public double getRate() {
         return this.rate;
     }
 
-    public void updateRate() {
-        int sum = 0;
-        if (reviews.isEmpty()) {
-            this.rate = -1;
-        } else {
-            for (ReviewRequest review : reviews) {
-                sum = sum + review.getRate();
+//    public void updateRate() {
+//        int sum = 0;
+//        if (reviews.isEmpty()) {
+//            this.rate = -1;
+//        } else {
+//            for (ReviewRequest review : reviews) {
+//                sum = sum + review.getRate();
+//            }
+//            BigDecimal bd = new BigDecimal(sum / reviews.size());
+//            this.rate = bd.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+//        }
+//    }
+
+    public String getPath() {
+        return this.photoPath;
+    }
+
+    public void setPath(String path) {
+        String newPath = "";
+        try {
+            BufferedImage image = ImageIO.read(new File(path));
+
+            int radio = 0;
+            if (image.getWidth() / 250 < image.getHeight() / 180) {
+                radio = image.getWidth() / 250;
+            } else {
+                radio = image.getHeight() / 180;
             }
-            BigDecimal bd = new BigDecimal(sum / reviews.size());
-            this.rate = bd.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+            int x = 11, y = 20, cutW = 250 * radio, cutH = 180 * radio;
+
+            Rectangle rect = new Rectangle(x, y, cutW, cutH);
+            BufferedImage areaImage = image.getSubimage(rect.x, rect.y, rect.width, rect.height);
+
+            BufferedImage buffImg = new BufferedImage(cutW, cutH, BufferedImage.TYPE_INT_RGB);
+            buffImg.getGraphics().drawImage(areaImage.getScaledInstance(cutW, cutH, java.awt.Image.SCALE_SMOOTH), 0, 0, null);
+
+            String fileName = this.id + ".png";
+            newPath = "Images/RestaurantCut/" + fileName;
+            ImageIO.write(buffImg, "png", new File(newPath));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        this.photoPath = newPath;
     }
 
     @Override
