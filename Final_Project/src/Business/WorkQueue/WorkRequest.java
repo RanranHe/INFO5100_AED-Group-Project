@@ -23,6 +23,7 @@ public abstract class WorkRequest {
     public enum StatusEnum {
 
         Processing("Processing"),
+        PreparingFood("Preparing food"),
         WaitForPickup("Waiting for pickup"),
         OnTheWay("On the way"),
         Cancelled("Cancelled"),

@@ -72,10 +72,9 @@ public class RestaurantMainJPanel extends javax.swing.JPanel {
         cancelButton.setEnabled(false);
         setFieldsEditable(false);
 
-        nameLabel.setText(restaurant.getName());
         setInfo();
         populateMenuTable(restaurant.getMenu());
-        
+
         populateOrderTable(account.getWorkQueue().getWorkRequestList());
 
         orderDetailTable.setEnabled(false);
@@ -98,7 +97,7 @@ public class RestaurantMainJPanel extends javax.swing.JPanel {
 
     private void populateOrderTable(ArrayList<WorkRequest> list) {
         ArrayList<OrderRequest> orderList = new ArrayList<>();
-        for (WorkRequest wr : account.getWorkQueue().getWorkRequestList()) {
+        for (WorkRequest wr : list) {
             if (wr instanceof OrderRequest) {
                 OrderRequest order = (OrderRequest) wr;
                 orderList.add(order);
@@ -146,6 +145,7 @@ public class RestaurantMainJPanel extends javax.swing.JPanel {
     }
 
     private void setInfo() {
+        nameLabel.setText(restaurant.getName());
         phoneTextField.setText(restaurant.getPhone());
         addressTextArea.setText(restaurant.getAddress());
         descriptionTextArea.setText(restaurant.getDescription());
@@ -431,7 +431,7 @@ public class RestaurantMainJPanel extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabel6.setText("Total: ");
 
-        deliveryButton.setText("Ready for Delivery");
+        deliveryButton.setText("Confirm Order");
         deliveryButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deliveryButtonActionPerformed(evt);
@@ -752,8 +752,9 @@ public class RestaurantMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_cancelOrderButtonActionPerformed
 
     private void deliveryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deliveryButtonActionPerformed
-        selectedOrder.setStatus(StatusEnum.WaitForPickup);
+        selectedOrder.setStatus(StatusEnum.PreparingFood);
         DeliveryRequest dr = new DeliveryRequest(this.account, null, selectedOrder);
+        dr.setStatus(StatusEnum.PreparingFood);
         this.account.getWorkQueue().getWorkRequestList().add(dr);
         this.en.getWorkQueue().getWorkRequestList().add(dr);
         DB4OUtil.getInstance().storeSystem(system);

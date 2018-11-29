@@ -53,8 +53,6 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         saveButton.setEnabled(false);
         cancelButton.setEnabled(false);
         
-        nameLabel.setText(customer.getFirstName());
-        
         populateTable(this.account.getWorkQueue().getWorkRequestList());
     }
     
@@ -74,6 +72,7 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
     }
 
     private void setInfo() {
+        nameLabel.setText(customer.getFirstName());
         addressTextField.setText(customer.getAddress());
         emailTextField.setText(customer.getEmail());
         firstNameTextField.setText(customer.getFirstName());
@@ -207,8 +206,8 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(211, 211, 211)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(258, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -236,7 +235,7 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
                         .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(196, 196, 196))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -15,4 +15,8 @@ public class DeliveryManRole extends Role {
         super(Role.RoleType.DeliveryMan);
     }
     
+    @Override
+    public String toString() {
+        return Role.RoleType.DeliveryMan.getValue();
+    }
 }
