@@ -11,7 +11,7 @@ import Business.Network.Network;
 import Business.UserAccount.UserAccount;
 import UserInterface.Customer.CustomerMainJPanel;
 import UserInterface.DeliveryMan.DeliveryManMainJPanel;
-import UserInterface.Manager.ManagerInfoJPanel;
+import UserInterface.Manager.ManagerMainJPanel;
 import UserInterface.Restaurant.RestaurantMainJPanel;
 import UserInterface.SystemManager.SystemManagerInfoJPanel;
 import java.awt.CardLayout;
@@ -27,21 +27,22 @@ public class MainJFrame extends javax.swing.JFrame {
      */
     public MainJFrame(EcoSystem system, UserAccount userAccount, Network net, Enterprise en) {
         initComponents();
+        this.setSize(950, 600);
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Customer")) {
-            this.setSize(950, 600);
+//            this.setSize(950, 600);
             CustomerMainJPanel cp = new CustomerMainJPanel(system, this.container, userAccount, this);
             container.add(cp);
             CardLayout layout = (CardLayout)this.container.getLayout();
             layout.next(container);
         }
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Manager")) {
-            ManagerInfoJPanel cp = new ManagerInfoJPanel(system, userAccount);
+            ManagerMainJPanel cp = new ManagerMainJPanel(system, this.container, en, userAccount, this);
             container.add(cp);
             CardLayout layout = (CardLayout)this.container.getLayout();
             layout.next(container);
         }
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Delivery Man")) {
-            this.setSize(950, 600);
+//            this.setSize(950, 600);
             DeliveryManMainJPanel cp = new DeliveryManMainJPanel(system, this.container, en, userAccount, this);
             container.add(cp);
             CardLayout layout = (CardLayout)this.container.getLayout();
@@ -54,7 +55,7 @@ public class MainJFrame extends javax.swing.JFrame {
             layout.next(container);
         }
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Restaurant")) {
-            this.setSize(950, 600);
+//            this.setSize(950, 600);
             RestaurantMainJPanel cp = new RestaurantMainJPanel(system, container, en, userAccount, this);
             container.add(cp);
             CardLayout layout = (CardLayout)this.container.getLayout();
