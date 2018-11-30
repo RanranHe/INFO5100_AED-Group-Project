@@ -68,7 +68,7 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         for (WorkRequest wr : list1) {
             if (wr instanceof DeliveryRequest) {
                 DeliveryRequest order = (DeliveryRequest) wr;
-                if (order.getStatus().equals(StatusEnum.PreparingFood)) {
+                if (order.getStatus().equals(StatusEnum.FoodsReady)) {
                     orderList.add(order);
                 }
             }
@@ -80,11 +80,12 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         DefaultTableModel dtm = (DefaultTableModel) orderTable.getModel();
         dtm.setRowCount(0);
         for (DeliveryRequest dr : orderList) {
-            Object row[] = new Object[3];
-            row[0] = dr;
+            Object row[] = new Object[4];
+            row[0] = dr.getOrder().getId();
+            row[1] = dr;
             RestaurantAccount ra = (RestaurantAccount) dr.getSender();
-            row[1] = ra.getRestaurant();
-            row[2] = dr.getStatus();
+            row[2] = ra.getRestaurant();
+            row[3] = dr.getStatus();
             dtm.addRow(row);
         }
     }
@@ -329,17 +330,17 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
 
         orderTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Date", "Restaurant", "Status"
+                "ID", "Date", "Restaurant", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -620,8 +621,8 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         int index = orderTable.getSelectedRow();
 
         if (index >= 0) {
-            selectedOrder = (DeliveryRequest) orderTable.getValueAt(index, 0);
-            if (selectedOrder.getStatus().equals(StatusEnum.PreparingFood)) {
+            selectedOrder = (DeliveryRequest) orderTable.getValueAt(index, 1);
+            if (selectedOrder.getStatus().equals(StatusEnum.FoodsReady)) {
                 deliveryButton.setEnabled(true);
                 pickupButton.setEnabled(false);
                 deliveredButton.setEnabled(false);
@@ -653,7 +654,7 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         selectedOrder.getOrder().setStatus(StatusEnum.WaitForPickup);
         this.account.getWorkQueue().getWorkRequestList().add(selectedOrder);
         DB4OUtil.getInstance().storeSystem(system);
-        populateOrderTable(this.account.getWorkQueue().getWorkRequestList(),
+        populateOrderTable(this.en.getWorkQueue().getWorkRequestList(),
                 this.account.getWorkQueue().getWorkRequestList());
         populateDetails();
         deliveryButton.setEnabled(false);
@@ -749,7 +750,7 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         selectedOrder.setReceiver(this.account);
         selectedOrder.getOrder().setStatus(StatusEnum.OnTheWay);
         DB4OUtil.getInstance().storeSystem(system);
-        populateOrderTable(this.account.getWorkQueue().getWorkRequestList(),
+        populateOrderTable(this.en.getWorkQueue().getWorkRequestList(),
                 this.account.getWorkQueue().getWorkRequestList());
         populateDetails();
         deliveryButton.setEnabled(false);
@@ -762,7 +763,7 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         selectedOrder.setReceiver(this.account);
         selectedOrder.getOrder().setStatus(StatusEnum.Completed);
         DB4OUtil.getInstance().storeSystem(system);
-        populateOrderTable(this.account.getWorkQueue().getWorkRequestList(),
+        populateOrderTable(this.en.getWorkQueue().getWorkRequestList(),
                 this.account.getWorkQueue().getWorkRequestList());
         populateDetails();
         deliveryButton.setEnabled(false);

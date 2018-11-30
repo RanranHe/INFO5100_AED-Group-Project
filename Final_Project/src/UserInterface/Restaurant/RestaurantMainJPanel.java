@@ -777,9 +777,9 @@ public class RestaurantMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_cancelOrderButtonActionPerformed
 
     private void deliveryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deliveryButtonActionPerformed
-        selectedOrder.setStatus(StatusEnum.PreparingFood);
+        selectedOrder.setStatus(StatusEnum.FoodsReady);
         DeliveryRequest dr = new DeliveryRequest(this.account, null, selectedOrder);
-        dr.setStatus(StatusEnum.PreparingFood);
+        dr.setStatus(StatusEnum.FoodsReady);
         this.account.getWorkQueue().getWorkRequestList().add(dr);
         this.en.getWorkQueue().getWorkRequestList().add(dr);
         DB4OUtil.getInstance().storeSystem(system);

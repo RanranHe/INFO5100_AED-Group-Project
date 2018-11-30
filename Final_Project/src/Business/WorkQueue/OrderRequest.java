@@ -14,16 +14,26 @@ import java.util.ArrayList;
  * @author ranranhe
  */
 public class OrderRequest extends WorkRequest {
+    private int id;
     private StatusEnum status;
     private String deliveryName;
     private String deliveryAddress;
     private String deliveryPhone;
     private double amount;
     private ArrayList<DashOrder> dashes;
+    
+    private static int counter = 0;
 
     public OrderRequest(UserAccount sender, UserAccount receiver, ArrayList<DashOrder> dashes) {
         super(sender, receiver);
         this.dashes =dashes;
+        
+        this.id = counter;
+        counter++;
+    }
+    
+    public int getId() {
+        return this.id;
     }
     
     public String getDeliveryName() {

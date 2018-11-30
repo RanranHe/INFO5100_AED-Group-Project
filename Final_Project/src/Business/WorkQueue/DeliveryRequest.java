@@ -6,6 +6,7 @@
 package Business.WorkQueue;
 
 import Business.UserAccount.CustomerAccount;
+import Business.UserAccount.RestaurantAccount;
 import Business.UserAccount.UserAccount;
 
 /**
@@ -23,6 +24,14 @@ public class DeliveryRequest extends WorkRequest {
     
     public CustomerAccount getCustomerAccount() {
         return (CustomerAccount) this.order.getSender();
+    }
+    
+    public RestaurantAccount getRestaurantAccount() {
+        return (RestaurantAccount) this.order.getReceiver();
+    }
+    
+    public int getOrderId() {
+        return this.order.getId();
     }
     
     public OrderRequest getOrder() {

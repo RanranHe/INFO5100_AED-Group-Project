@@ -61,12 +61,13 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         dtm.setRowCount(0);
         for (WorkRequest wr : list) {
             OrderRequest or = (OrderRequest) wr;
-            Object row[] = new Object[4];
-            row[0] = or;
-            row[1] = or.getStatus();
+            Object row[] = new Object[5];
+            row[0] = or.getId();
+            row[1] = or;
+            row[2] = or.getStatus();
             RestaurantAccount restaurant = (RestaurantAccount)or.getReceiver();
-            row[2] = restaurant.getRestaurant();
-            row[3] = or.getAmount();
+            row[3] = restaurant.getRestaurant();
+            row[4] = or.getAmount();
             dtm.addRow(row);
         }
     }
@@ -352,17 +353,17 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
 
         orderTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Order Date", "Status", "Restaurant", "Amount"
+                "Order #", "Order Date", "Status", "Restaurant", "Amount"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -563,8 +564,8 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         TableModel model = orderTable.getModel();
 
         if (index >= 0) {
-            OrderRequest order = (OrderRequest)orderTable.getValueAt(index, 0);
-            Restaurant restaurant = (Restaurant)orderTable.getValueAt(index, 2);
+            OrderRequest order = (OrderRequest)orderTable.getValueAt(index, 1);
+            Restaurant restaurant = (Restaurant)orderTable.getValueAt(index, 3);
             OrderDetailJPanel panel = new OrderDetailJPanel(this.container, order, restaurant);
             detailPanel.add(panel);
             CardLayout layout = (CardLayout)this.detailPanel.getLayout();
