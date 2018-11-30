@@ -713,14 +713,15 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        if (emailTextField.getText() != null && firstNameTextField.getText() != null
-                && lastNameTextField.getText() != null && phoneTextField.getText() != null) {
+        if (!emailTextField.getText().equals("") && !firstNameTextField.getText().equals("")
+                && !lastNameTextField.getText().equals("") && !phoneTextField.getText().equals("")) {
             this.employee.setEmail(emailTextField.getText());
             this.employee.setFirstName(firstNameTextField.getText());
             this.employee.setLastName(lastNameTextField.getText());
             this.employee.setPhone(phoneTextField.getText());
         } else {
             JOptionPane.showMessageDialog(null, "Information can't be empty");
+            return;
         }
         setFieldsEditable(false);
         saveButton.setEnabled(false);

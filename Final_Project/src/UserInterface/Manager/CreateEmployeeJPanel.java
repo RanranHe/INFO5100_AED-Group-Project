@@ -236,8 +236,8 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
             String new1 = String.valueOf(passwordCharArray1);
             char[] passwordCharArray2 = passwordField1.getPassword();
             String new2 = String.valueOf(passwordCharArray2);
-            if (emailTextField.getText() != null && firstNameTextField.getText() != null && !new1.equals("") && !new2.equals("")
-                    && lastNameTextField.getText() != null && phoneTextField.getText() != null) {
+            if (!emailTextField.getText().equals("") && !firstNameTextField.getText().equals("") && !new1.equals("") && !new2.equals("")
+                    && !lastNameTextField.getText().equals("") && !phoneTextField.getText().equals("")) {
                 if (new1.equals(new2)) {
                     Employee em = dOrg.getEmployeeDirectory().createEmployee(firstNameTextField.getText(), lastNameTextField.getText(),
                             phoneTextField.getText(), emailTextField.getText());
