@@ -34,8 +34,8 @@ public class ConfigureASystem {
         UserAccount ua1 = system.getUserAccountDirectory().createEmployeeAccount("sysadmin", "sysadmin", new SystemManagerRole(), employee1);
 
         // Customer, belongs to SYSTEM
-        Customer c1 = system.getCustomers().createCustomer("Ran", "He", "he.ra@husky.neu.edu", "1231231234");
-        UserAccount ua2 = system.getUserAccountDirectory().createCustomerAccount("ran", "ran", c1);
+        Customer c1 = system.getCustomers().createCustomer("2", "2", "he.ra@husky.neu.edu", "1231231234");
+        UserAccount ua2 = system.getUserAccountDirectory().createCustomerAccount("2", "2", c1);
 
         Customer c2 = system.getCustomers().createCustomer("1", "1", "he.ra@husky.neu.edu", "1231231234");
         UserAccount ua3 = system.getUserAccountDirectory().createCustomerAccount("1", "1", c2);
@@ -46,16 +46,17 @@ public class ConfigureASystem {
         // BOSTON Enterprise with organiztions created
         Enterprise enter1 = network1.createEnterprise("Boston Delivery Company", "Boston");
         
-//        // BOSTON Employee Organization
+        // BOSTON Employee Organization
         Employee employee2 = enter1.getEmployeeDirectory().createEmployee("Manager", "Manager", "111", "manager@demo.com");
         ManagerOrganization mo1 = (ManagerOrganization) enter1.getOrganizationDirectory().getTypicalOrganization(Organization.Type.Manager);
         UserAccount ua4 = mo1.getUserAccountDirectory().createEmployeeAccount("manager", "manager", new ManagerRole(), employee2);
-//        system.getUserAccountDirectory().addAccount(ua4);
-//        
+       
         Employee employee3 = enter1.getEmployeeDirectory().createEmployee("Delivery", "Man", "1111", "deliveryman@demo.com");
-        UserAccount ua5 = mo1.getUserAccountDirectory().createEmployeeAccount("deliveryman", "deliveryman", new DeliveryManRole(), employee3);
-//        system.getUserAccountDirectory().addAccount(ua5);
-//        
+        UserAccount ua5 = mo1.getUserAccountDirectory().createEmployeeAccount("dn", "d", new DeliveryManRole(), employee3);
+        
+        Employee employee4 = enter1.getEmployeeDirectory().createEmployee("Delivery", "Man", "1111", "deliveryman1@demo.com");
+        UserAccount ua8 = mo1.getUserAccountDirectory().createEmployeeAccount("dd", "dd", new DeliveryManRole(), employee4);
+       
         // BOSTON Restaurant List
         Restaurant res1 = enter1.getRestaurantDirectory().createRestaurant("Row 34", "383 Congress St, Boston, MA 02210", "(617) 553-5900");
         res1.setCategory(Restaurant.Category.Seafood);
