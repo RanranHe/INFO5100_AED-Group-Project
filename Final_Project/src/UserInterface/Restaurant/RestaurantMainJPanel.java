@@ -662,8 +662,8 @@ public class RestaurantMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        if (phoneTextField.getText() != null && addressTextArea.getText() != null
-                && descriptionTextArea.getText() != null) {
+        if (!phoneTextField.getText().equals("") && !addressTextArea.getText().equals("")
+                && !descriptionTextArea.getText().equals("")) {
             restaurant.setAddress(addressTextArea.getText());
             restaurant.setDescription(descriptionTextArea.getText());
             restaurant.setCategory((Category) categoryComboBox.getSelectedItem());
@@ -673,6 +673,7 @@ public class RestaurantMainJPanel extends javax.swing.JPanel {
             }
         } else {
             JOptionPane.showMessageDialog(null, "Information can't be empty");
+            return;
         }
         setFieldsEditable(false);
         setInfo();

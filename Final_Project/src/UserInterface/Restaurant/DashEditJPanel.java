@@ -35,7 +35,7 @@ public class DashEditJPanel extends javax.swing.JPanel {
         this.detailPanel = detailPanel;
         this.restaurant = restaurant;
         this.dash = dash;
-        
+
         setInfo();
 
         setFieldsEditable(false);
@@ -48,10 +48,10 @@ public class DashEditJPanel extends javax.swing.JPanel {
         priceTextField.setEnabled(b);
         nameTextField.setEnabled(b);
     }
-    
+
     private void setInfo() {
         nameTextField.setText(dash.getName());
-        priceTextField.setText(dash.getPrice()+"");
+        priceTextField.setText(dash.getPrice() + "");
     }
 
     /**
@@ -144,14 +144,20 @@ public class DashEditJPanel extends javax.swing.JPanel {
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         try {
-            double price = Double.parseDouble(priceTextField.getText());
-            String name = nameTextField.getText();
-            
+            double price = 0;
+            String name = "";
+            if (!priceTextField.getText().equals("") && !nameTextField.getText().equals("")) {
+                price = Double.parseDouble(priceTextField.getText());
+                name = nameTextField.getText();
+            } else {
+                JOptionPane.showMessageDialog(null, "Information can't be empty!");
+                return;
+            }
             this.dash.setName(name);
             BigDecimal bd = new BigDecimal(price);
             this.dash.setPrice(bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
             DB4OUtil.getInstance().storeSystem(system);
-            
+
             JOptionPane.showMessageDialog(null, "Dash Information modified successfully");
 
             setFieldsEditable(false);
@@ -176,7 +182,7 @@ public class DashEditJPanel extends javax.swing.JPanel {
         cancelButton.setEnabled(false);
         editButton.setEnabled(true);
         submitButton.setEnabled(false);
-        
+
         setInfo();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
