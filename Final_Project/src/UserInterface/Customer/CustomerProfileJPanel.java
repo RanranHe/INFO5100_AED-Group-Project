@@ -360,7 +360,15 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
             new String [] {
                 "Order Date", "Status", "Restaurant", "Amount"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         orderTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 orderTableMouseClicked(evt);

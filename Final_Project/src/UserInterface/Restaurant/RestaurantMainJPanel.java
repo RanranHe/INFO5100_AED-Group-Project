@@ -77,7 +77,6 @@ public class RestaurantMainJPanel extends javax.swing.JPanel {
 
         populateOrderTable(account.getWorkQueue().getWorkRequestList());
 
-        orderDetailTable.setEnabled(false);
         totalTextField.setEnabled(false);
         commentTextArea.setEnabled(false);
         deliveryButton.setEnabled(false);
@@ -353,7 +352,15 @@ public class RestaurantMainJPanel extends javax.swing.JPanel {
             new String [] {
                 "Dash", "Price"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         menuTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 menuTableMouseClicked(evt);
@@ -399,7 +406,15 @@ public class RestaurantMainJPanel extends javax.swing.JPanel {
             new String [] {
                 "Order Date", "Name", "Phone", "Amount", "Status"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         orderTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 orderTableMouseClicked(evt);
@@ -417,7 +432,15 @@ public class RestaurantMainJPanel extends javax.swing.JPanel {
             new String [] {
                 "Dash", "Quantity"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(orderDetailTable);
 
         totalTextField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
@@ -682,6 +705,7 @@ public class RestaurantMainJPanel extends javax.swing.JPanel {
             setInfo();
         }
         setFieldsEditable(false);
+        resetPasswordField();
 
         uploadButton.setEnabled(false);
         saveButton.setEnabled(false);

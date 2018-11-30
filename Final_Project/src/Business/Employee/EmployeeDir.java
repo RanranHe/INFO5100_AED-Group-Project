@@ -22,8 +22,8 @@ public class EmployeeDir {
         return employeeList;
     }
     
-    public Employee createEmployee(String firstName, String lastName){
-        Employee employee = new Employee(firstName, lastName);
+    public Employee createEmployee(String firstName, String lastName, String phone, String email){
+        Employee employee = new Employee(firstName, lastName, phone, email);
         employeeList.add(employee);
         return employee;
     }

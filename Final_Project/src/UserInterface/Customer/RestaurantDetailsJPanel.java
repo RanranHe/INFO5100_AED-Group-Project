@@ -227,7 +227,15 @@ public class RestaurantDetailsJPanel extends javax.swing.JPanel {
             new String [] {
                 "Dash", "Price"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(menuTable);
 
         addButton.setText("Add to Cart");

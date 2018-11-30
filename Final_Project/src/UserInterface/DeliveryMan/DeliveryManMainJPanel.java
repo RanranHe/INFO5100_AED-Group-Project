@@ -50,10 +50,13 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         this.frame = frame;
         this.employee = this.account.getEmployee();
 
+        // Profile Tab
         setInfo();
         editButton.setEnabled(true);
         saveButton.setEnabled(false);
         cancelButton.setEnabled(false);
+        
+        // Task Tab
         deliveryButton.setEnabled(false);
         pickupButton.setEnabled(false);
         deliveredButton.setEnabled(false);
@@ -77,7 +80,7 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         DefaultTableModel dtm = (DefaultTableModel) orderTable.getModel();
         dtm.setRowCount(0);
         for (DeliveryRequest dr : orderList) {
-            Object row[] = new Object[4];
+            Object row[] = new Object[3];
             row[0] = dr;
             RestaurantAccount ra = (RestaurantAccount) dr.getSender();
             row[1] = ra.getRestaurant();
@@ -334,7 +337,15 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
             new String [] {
                 "Date", "Restaurant", "Status"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         orderTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
         orderTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -686,6 +697,7 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
             setInfo();
         }
         setFieldsEditable(false);
+        resetPasswordField();
 
         saveButton.setEnabled(false);
         cancelButton.setEnabled(false);

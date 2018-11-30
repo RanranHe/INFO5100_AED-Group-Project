@@ -21,10 +21,12 @@ public class Employee {
     private String email;
     private static int count = 0;
 
-    public Employee(String firstName, String lastName) {
+    public Employee(String firstName, String lastName, String phone, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.fullName = firstName + " " + lastName;
+        this.phone = phone;
+        this.email = email;
         id = count;
         count++;
     }

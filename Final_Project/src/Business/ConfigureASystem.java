@@ -30,7 +30,7 @@ public class ConfigureASystem {
         //create user account
         
         // System manager, belongs to SYSTEM
-        Employee employee1 = system.getEmployeeDirectory().createEmployee("Ranran", "He");
+        Employee employee1 = system.getEmployeeDirectory().createEmployee("Ranran", "He", "212212", "ranran@demo.com");
         UserAccount ua1 = system.getUserAccountDirectory().createEmployeeAccount("sysadmin", "sysadmin", new SystemManagerRole(), employee1);
 
         // Customer, belongs to SYSTEM
@@ -47,12 +47,12 @@ public class ConfigureASystem {
         Enterprise enter1 = network1.createEnterprise("Boston Delivery Company", "Boston");
         
 //        // BOSTON Employee Organization
-        Employee employee2 = enter1.getEmployeeDirectory().createEmployee("Manager", "Manager");
+        Employee employee2 = enter1.getEmployeeDirectory().createEmployee("Manager", "Manager", "111", "manager@demo.com");
         ManagerOrganization mo1 = (ManagerOrganization) enter1.getOrganizationDirectory().getTypicalOrganization(Organization.Type.Manager);
         UserAccount ua4 = mo1.getUserAccountDirectory().createEmployeeAccount("manager", "manager", new ManagerRole(), employee2);
 //        system.getUserAccountDirectory().addAccount(ua4);
 //        
-        Employee employee3 = enter1.getEmployeeDirectory().createEmployee("Delivery", "Man");
+        Employee employee3 = enter1.getEmployeeDirectory().createEmployee("Delivery", "Man", "1111", "deliveryman@demo.com");
         UserAccount ua5 = mo1.getUserAccountDirectory().createEmployeeAccount("deliveryman", "deliveryman", new DeliveryManRole(), employee3);
 //        system.getUserAccountDirectory().addAccount(ua5);
 //        
