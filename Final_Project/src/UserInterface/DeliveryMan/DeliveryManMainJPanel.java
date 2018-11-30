@@ -50,10 +50,13 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         this.frame = frame;
         this.employee = this.account.getEmployee();
 
+        // Profile Tab
         setInfo();
         editButton.setEnabled(true);
         saveButton.setEnabled(false);
         cancelButton.setEnabled(false);
+        
+        // Task Tab
         deliveryButton.setEnabled(false);
         pickupButton.setEnabled(false);
         deliveredButton.setEnabled(false);
@@ -77,7 +80,7 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         DefaultTableModel dtm = (DefaultTableModel) orderTable.getModel();
         dtm.setRowCount(0);
         for (DeliveryRequest dr : orderList) {
-            Object row[] = new Object[4];
+            Object row[] = new Object[3];
             row[0] = dr;
             RestaurantAccount ra = (RestaurantAccount) dr.getSender();
             row[1] = ra.getRestaurant();
@@ -686,6 +689,7 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
             setInfo();
         }
         setFieldsEditable(false);
+        resetPasswordField();
 
         saveButton.setEnabled(false);
         cancelButton.setEnabled(false);

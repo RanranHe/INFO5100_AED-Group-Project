@@ -682,6 +682,7 @@ public class RestaurantMainJPanel extends javax.swing.JPanel {
             setInfo();
         }
         setFieldsEditable(false);
+        resetPasswordField();
 
         uploadButton.setEnabled(false);
         saveButton.setEnabled(false);

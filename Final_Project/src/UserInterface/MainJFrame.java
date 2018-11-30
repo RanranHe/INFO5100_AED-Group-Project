@@ -10,7 +10,6 @@ import Business.Enterprise.Enterprise;
 import Business.Network.Network;
 import Business.UserAccount.UserAccount;
 import UserInterface.Customer.CustomerMainJPanel;
-import UserInterface.DeliveryMan.DeliveryManInfoJPanel;
 import UserInterface.DeliveryMan.DeliveryManMainJPanel;
 import UserInterface.Manager.ManagerInfoJPanel;
 import UserInterface.Restaurant.RestaurantMainJPanel;

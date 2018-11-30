@@ -65,4 +65,13 @@ public class UserAccountDir {
     public void addAccount(UserAccount account) {
         userAccountList.add(account);
     }
+    
+    public ArrayList<EmployeeAccount> toEmployeeAccounts(){
+        ArrayList<EmployeeAccount> result = new ArrayList<>();
+        for (UserAccount ua:this.userAccountList) {
+            EmployeeAccount ea = (EmployeeAccount) ua;
+            result.add(ea);
+        }
+        return result;
+    }
 }
