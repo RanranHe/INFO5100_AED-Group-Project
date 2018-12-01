@@ -8,14 +8,13 @@ package UserInterface.Customer;
 import Business.Customer.Customer;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
-import Business.Restaurant.Restaurant;
+import Business.Enterprise.Restaurant.Restaurant;
 import Business.Role.Role;
 import Business.UserAccount.CustomerAccount;
-import Business.UserAccount.RestaurantAccount;
 import Business.WorkQueue.OrderRequest;
 import Business.WorkQueue.WorkRequest;
 import UserInterface.LoginJFrame;
-import UserInterface.Manager.ManagerMainJPanel;
+import UserInterface.SystemManager.ManagerMainJPanel;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -77,8 +76,7 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
             row[0] = or.getId();
             row[1] = or;
             row[2] = or.getStatus();
-            RestaurantAccount restaurant = (RestaurantAccount) or.getReceiver();
-            row[3] = restaurant.getRestaurant();
+            row[3] = (Restaurant) or.getEnterprise();
             row[4] = or.getAmount();
             dtm.addRow(row);
         }

@@ -13,6 +13,7 @@ import Business.Organization.DeliveryManOrganization;
 import Business.Organization.Organization;
 import Business.Role.DeliveryManRole;
 import Business.Role.Role;
+import UserInterface.SystemManager.ManagerMainJPanel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -24,13 +25,13 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
     private Enterprise en;
-    private ManagerMainJPanel panel;
+    private RestaurantMainJPanel panel;
     private JPanel workPanel;
 
     /**
      * Creates new form createEmployeeJPanel
      */
-    public CreateEmployeeJPanel(EcoSystem system, ManagerMainJPanel panel, JPanel workPanel, Enterprise en) {
+    public CreateEmployeeJPanel(EcoSystem system, RestaurantMainJPanel panel, JPanel workPanel, Enterprise en) {
         initComponents();
         this.system = system;
         this.panel = panel;
@@ -67,7 +68,7 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
         jLabel14 = new javax.swing.JLabel();
         passwordField1 = new javax.swing.JPasswordField();
         jLabel15 = new javax.swing.JLabel();
-        passwordField = new javax.swing.JPasswordField();
+        passwordField2 = new javax.swing.JPasswordField();
 
         jLabel7.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel7.setText("Email:");
@@ -167,7 +168,7 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(phoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(passwordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(passwordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(9, 9, 9)
@@ -208,7 +209,7 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passwordField))
+                    .addComponent(passwordField2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -232,9 +233,9 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         DeliveryManOrganization dOrg = (DeliveryManOrganization) en.getOrganizationDirectory().getTypicalOrganization(Organization.Type.DeliveryMan);
         if (!this.usernameTextField.getText().equals("") && dOrg.getUserAccountDirectory().isUsernameValid(this.usernameTextField.getText())) {
-            char[] passwordCharArray1 = passwordField.getPassword();
+            char[] passwordCharArray1 = passwordField1.getPassword();
             String new1 = String.valueOf(passwordCharArray1);
-            char[] passwordCharArray2 = passwordField1.getPassword();
+            char[] passwordCharArray2 = passwordField2.getPassword();
             String new2 = String.valueOf(passwordCharArray2);
             if (!emailTextField.getText().equals("") && !firstNameTextField.getText().equals("") && !new1.equals("") && !new2.equals("")
                     && !lastNameTextField.getText().equals("") && !phoneTextField.getText().equals("")) {
@@ -269,7 +270,7 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField lastNameTextField;
     private javax.swing.JPasswordField passwordField1;
-    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JPasswordField passwordField2;
     private javax.swing.JTextField phoneTextField;
     private javax.swing.JTextField roleTextField;
     private javax.swing.JButton saveButton;

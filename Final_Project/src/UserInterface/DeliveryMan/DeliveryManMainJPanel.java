@@ -9,16 +9,16 @@ import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Employee.Employee;
 import Business.Enterprise.Enterprise;
+import Business.Enterprise.Restaurant.Restaurant;
 import Business.Role.Role;
 import Business.UserAccount.EmployeeAccount;
-import Business.UserAccount.RestaurantAccount;
 import Business.UserAccount.UserAccount;
 import Business.WorkQueue.DeliveryRequest;
 import Business.WorkQueue.OrderRequest;
 import Business.WorkQueue.WorkRequest;
 import Business.WorkQueue.WorkRequest.StatusEnum;
 import UserInterface.LoginJFrame;
-import UserInterface.Manager.ManagerMainJPanel;
+import UserInterface.SystemManager.ManagerMainJPanel;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -39,12 +39,13 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
     private Role role;
 
     private Employee employee;
-    private DeliveryRequest selectedOrder = null;
+    private DeliveryRequest selectedRequest = null;
 
     /**
      * Creates new form DeliveryManMainJPanel
      */
-    public DeliveryManMainJPanel(EcoSystem system, JPanel container, Enterprise en, UserAccount userAccount, JFrame frame, Role role) {
+    public DeliveryManMainJPanel(EcoSystem system, JPanel container, Enterprise en, UserAccount userAccount, 
+            JFrame frame, Role role) {
         initComponents();
         this.system = system;
         this.container = container;
@@ -54,7 +55,8 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         this.employee = this.account.getEmployee();
         this.role = role;
         
-        if (role.getRoleType().equals(Role.RoleType.Manager)) {
+        // view of system manager
+        if (role.getRoleType().equals(Role.RoleType.SystemManager)) {
             logoutButton.setVisible(false);
             jLabel5.setText("");
         }
@@ -77,7 +79,7 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         for (WorkRequest wr : list1) {
             if (wr instanceof DeliveryRequest) {
                 DeliveryRequest order = (DeliveryRequest) wr;
-                if (order.getStatus().equals(StatusEnum.FoodsReady)) {
+                if (order.getStatus().equals(StatusEnum.Ready)) {
                     orderList.add(order);
                 }
             }
@@ -92,19 +94,18 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
             Object row[] = new Object[4];
             row[0] = dr.getOrder().getId();
             row[1] = dr;
-            RestaurantAccount ra = (RestaurantAccount) dr.getSender();
-            row[2] = ra.getRestaurant();
+            row[2] = (Restaurant) dr.getEnterprise();
             row[3] = dr.getStatus();
             dtm.addRow(row);
         }
     }
 
     private void populateDetails() {
-        RestaurantAccount ra = (RestaurantAccount) selectedOrder.getSender();
-        pickupAddressTextArea.setText(ra.getRestaurant().getAddress());
-        pickupNameTextField2.setText(ra.getRestaurant().getName());
-        pickupPhoneTextField.setText(ra.getRestaurant().getPhone());
-        OrderRequest or = (OrderRequest) selectedOrder.getOrder();
+        Restaurant res = (Restaurant) selectedRequest.getEnterprise();
+        pickupAddressTextArea.setText(res.getAddress());
+        pickupNameTextField2.setText(res.getName());
+        pickupPhoneTextField.setText(res.getPhone());
+        OrderRequest or = (OrderRequest) selectedRequest.getOrder();
         deliveryAddressTextArea.setText(or.getDeliveryAddress());
         deliveryNameTextField.setText(or.getDeliveryName());
         deliveryPhoneTextField.setText(or.getDeliveryPhone());
@@ -134,7 +135,7 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
     }
     
     private void managerUpdate() {
-        if (this.role.getRoleType().equals(Role.RoleType.Manager)) {
+        if (this.role.getRoleType().equals(Role.RoleType.SystemManager)) {
             ManagerMainJPanel p = (ManagerMainJPanel) this.container;
             p.setAllTableInfo();
         }
@@ -643,23 +644,24 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         int index = orderTable.getSelectedRow();
 
         if (index >= 0) {
-            selectedOrder = (DeliveryRequest) orderTable.getValueAt(index, 1);
-            if (selectedOrder.getStatus().equals(StatusEnum.FoodsReady)) {
+            selectedRequest = (DeliveryRequest) orderTable.getValueAt(index, 1);
+            if (selectedRequest.getStatus().equals(StatusEnum.Ready)) {
                 deliveryButton.setEnabled(true);
                 pickupButton.setEnabled(false);
                 deliveredButton.setEnabled(false);
             }
-            if (selectedOrder.getStatus().equals(StatusEnum.WaitForPickup)) {
+            if (selectedRequest.getStatus().equals(StatusEnum.WaitForPickup)) {
                 deliveryButton.setEnabled(false);
                 pickupButton.setEnabled(true);
                 deliveredButton.setEnabled(false);
             }
-            if (selectedOrder.getStatus().equals(StatusEnum.OnTheWay)) {
+            if (selectedRequest.getStatus().equals(StatusEnum.OnTheWay)) {
                 deliveryButton.setEnabled(false);
                 pickupButton.setEnabled(false);
                 deliveredButton.setEnabled(true);
             }
-            if (selectedOrder.getStatus().equals(StatusEnum.Completed)) {
+            if (selectedRequest.getStatus().equals(StatusEnum.Completed) ||
+                    selectedRequest.getStatus().equals(StatusEnum.Cancelled)) {
                 deliveryButton.setEnabled(false);
                 pickupButton.setEnabled(false);
                 deliveredButton.setEnabled(false);
@@ -671,10 +673,10 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_orderTableMouseClicked
 
     private void deliveryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deliveryButtonActionPerformed
-        selectedOrder.setStatus(StatusEnum.WaitForPickup);
-        selectedOrder.setReceiver(this.account);
-        selectedOrder.getOrder().setStatus(StatusEnum.WaitForPickup);
-        this.account.getWorkQueue().getWorkRequestList().add(selectedOrder);
+        selectedRequest.setStatus(StatusEnum.WaitForPickup);
+        selectedRequest.setAccount(this.account);
+        selectedRequest.getOrder().setStatus(StatusEnum.WaitForPickup);
+        this.account.getWorkQueue().getWorkRequestList().add(selectedRequest);
         DB4OUtil.getInstance().storeSystem(system);
         managerUpdate();
         populateOrderTable(this.en.getWorkQueue().getWorkRequestList(),
@@ -771,9 +773,8 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_usernameTextFieldActionPerformed
 
     private void pickupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pickupButtonActionPerformed
-        selectedOrder.setStatus(StatusEnum.OnTheWay);
-        selectedOrder.setReceiver(this.account);
-        selectedOrder.getOrder().setStatus(StatusEnum.OnTheWay);
+        selectedRequest.setStatus(StatusEnum.OnTheWay);
+        selectedRequest.getOrder().setStatus(StatusEnum.OnTheWay);
         DB4OUtil.getInstance().storeSystem(system);
         managerUpdate();
         populateOrderTable(this.en.getWorkQueue().getWorkRequestList(),
@@ -785,9 +786,8 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_pickupButtonActionPerformed
 
     private void deliveredButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deliveredButtonActionPerformed
-        selectedOrder.setStatus(StatusEnum.Completed);
-        selectedOrder.setReceiver(this.account);
-        selectedOrder.getOrder().setStatus(StatusEnum.Completed);
+        selectedRequest.setStatus(StatusEnum.Completed);
+        selectedRequest.getOrder().setStatus(StatusEnum.Completed);
         DB4OUtil.getInstance().storeSystem(system);
         managerUpdate();
         populateOrderTable(this.en.getWorkQueue().getWorkRequestList(),

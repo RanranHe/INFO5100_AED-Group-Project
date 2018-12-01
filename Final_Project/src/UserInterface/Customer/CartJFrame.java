@@ -7,6 +7,7 @@ package UserInterface.Customer;
 
 import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
+import Business.Network.Network;
 import Business.UserAccount.CustomerAccount;
 import java.awt.CardLayout;
 
@@ -18,20 +19,20 @@ public class CartJFrame extends javax.swing.JFrame {
 
     private EcoSystem system;
     private CustomerAccount account;
-    private Enterprise en;
+    private Network net;
 
     /**
      * Creates new form CartJFrame
      */
-    public CartJFrame(EcoSystem system, CustomerAccount account, Enterprise en) {
+    public CartJFrame(EcoSystem system, CustomerAccount account, Network net) {
         initComponents();
         this.system = system;
         this.account = account;
-        this.en = en;
+        this.net = net;
         
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
-        CartJPanel panel = new CartJPanel(this.system, this.container, this.account, this.en);
+        CartJPanel panel = new CartJPanel(this.system, this.container, this.account, net);
         this.container.add(panel);
         CardLayout layout = (CardLayout) this.container.getLayout();
         layout.next(container);

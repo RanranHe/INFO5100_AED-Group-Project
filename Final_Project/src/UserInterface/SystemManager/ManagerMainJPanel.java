@@ -3,24 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UserInterface.Manager;
+package UserInterface.SystemManager;
 
+import UserInterface.Manager.CreateEmployeeJPanel;
+import UserInterface.Manager.EditEmployeeJPanel;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Employee.Employee;
 import Business.Enterprise.Enterprise;
+import Business.Network.Network;
 import Business.Organization.Organization;
-import Business.Role.ManagerRole;
 import Business.UserAccount.CustomerAccount;
 import Business.UserAccount.EmployeeAccount;
-import Business.UserAccount.RestaurantAccount;
 import Business.UserAccount.UserAccount;
 import Business.WorkQueue.DeliveryRequest;
 import Business.WorkQueue.OrderRequest;
 import Business.WorkQueue.WorkRequest;
 import Business.WorkQueue.WorkRequest.StatusEnum;
 import UserInterface.LoginJFrame;
-import UserInterface.Restaurant.RestaurantMainJPanel;
 import java.awt.CardLayout;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -36,6 +36,7 @@ public class ManagerMainJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
     private JPanel container;
+    private Network net;
     private Enterprise en;
     private EmployeeAccount account;
     private JFrame frame;
@@ -47,10 +48,11 @@ public class ManagerMainJPanel extends javax.swing.JPanel {
     /**
      * Creates new form ManagerMainJPanel
      */
-    public ManagerMainJPanel(EcoSystem system, JPanel container, Enterprise en, UserAccount userAccount, JFrame frame) {
+    public ManagerMainJPanel(EcoSystem system, JPanel container, Network net, Enterprise en, UserAccount userAccount, JFrame frame) {
         initComponents();
         this.system = system;
         this.container = container;
+        this.net = net;
         this.en = en;
         this.account = (EmployeeAccount) userAccount;
         this.frame = frame;

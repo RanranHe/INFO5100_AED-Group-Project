@@ -7,7 +7,6 @@ package Business.UserAccount;
 
 import Business.Customer.Customer;
 import Business.Employee.Employee;
-import Business.Restaurant.Restaurant;
 import Business.Role.Role;
 import java.util.ArrayList;
 
@@ -26,28 +25,24 @@ public class UserAccountDir {
     public ArrayList<UserAccount> getUserAccountList() {
         return this.userAccountList;
     }
-    
-    public UserAccount authenticateUser(String username, String password){
-        for (UserAccount ua : userAccountList)
-            if (ua.getUsername().equalsIgnoreCase(username) && ua.getPassword().equals(password)){
-                return ua;
-            }
-        return null;
-    }
-    
-    public boolean isUsernameValid(String username) {
+
+    public UserAccount authenticateUser(String username, String password) {
+        UserAccount account = null;
         for (UserAccount ua : userAccountList) {
-            if (ua.getUsername().equalsIgnoreCase(username)){
-                return false;
-            } 
+            if (ua.getUsername().equalsIgnoreCase(username) && ua.getPassword().equals(password)) {
+                account = ua;
+            }
         }
-        return true;    
+        return account;
     }
 
-    public RestaurantAccount createRestaurantAccount(String username, String password, Restaurant rest) {
-        RestaurantAccount ra = new RestaurantAccount(username, password, rest);
-        userAccountList.add(ra);
-        return ra;
+    public boolean isUsernameValid(String username) {
+        for (UserAccount ua : userAccountList) {
+            if (ua.getUsername().equalsIgnoreCase(username)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public EmployeeAccount createEmployeeAccount(String username, String password, Role role, Employee em) {
@@ -55,20 +50,20 @@ public class UserAccountDir {
         userAccountList.add(ua);
         return ua;
     }
-    
+
     public CustomerAccount createCustomerAccount(String username, String password, Customer customer) {
         CustomerAccount ua = new CustomerAccount(username, password, customer);
         userAccountList.add(ua);
         return ua;
     }
-    
+
     public void addAccount(UserAccount account) {
         userAccountList.add(account);
     }
-    
-    public ArrayList<EmployeeAccount> toEmployeeAccounts(){
+
+    public ArrayList<EmployeeAccount> toEmployeeAccounts() {
         ArrayList<EmployeeAccount> result = new ArrayList<>();
-        for (UserAccount ua:this.userAccountList) {
+        for (UserAccount ua : this.userAccountList) {
             EmployeeAccount ea = (EmployeeAccount) ua;
             result.add(ea);
         }

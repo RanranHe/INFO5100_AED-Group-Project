@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Business.Restaurant;
+package Business.Enterprise.Restaurant;
 
-import Business.WorkQueue.OrderRequest;
-import Business.WorkQueue.ReviewRequest;
+import Business.Enterprise.Enterprise;
+import Business.Organization.ManagerOrganization;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
@@ -19,7 +18,7 @@ import javax.imageio.ImageIO;
  *
  * @author ranranhe
  */
-public class Restaurant {
+public class Restaurant extends Enterprise {
 
     private int id;
     private String name;
@@ -28,8 +27,6 @@ public class Restaurant {
     private Category category;
     private String description;
     private ArrayList<Dash> menu;
-//    private ArrayList<OrderRequest> orders;
-//    private ArrayList<ReviewRequest> reviews;
     private double rate;
     private static int counter = 0;
     private String photoPath;
@@ -40,14 +37,13 @@ public class Restaurant {
     }
 
     public Restaurant(String name, String address, String phone) {
+        super(name);
         this.id = counter;
         counter++;
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.menu = new ArrayList<>();
-//        this.orders = new ArrayList<>();
-//        this.reviews = new ArrayList<>();
         this.rate = -1;
 
         String path = "Images/RestaurantCut/default.png";
@@ -64,6 +60,11 @@ public class Restaurant {
             }
         }
         this.photoPath = path;
+    }
+    
+    @Override
+    public void createOrganizations() {
+       this.getOrganizationDirectory().getOrganizationList().add(new ManagerOrganization());
     }
 
     public int getId() {

@@ -10,6 +10,7 @@ import Business.Customer.ShoppingCart;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
+import Business.Network.Network;
 import Business.UserAccount.CustomerAccount;
 import java.awt.CardLayout;
 import java.math.BigDecimal;
@@ -26,19 +27,19 @@ public class CartJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
     private CustomerAccount account;
-    private Enterprise en;
+    private Network net;
     private JPanel container;
 
     /**
      * Creates new form CartJPanel
      */
-    public CartJPanel(EcoSystem system, JPanel container, CustomerAccount account, Enterprise en) {
+    public CartJPanel(EcoSystem system, JPanel container, CustomerAccount account, Network net) {
         initComponents();
 
         this.system = system;
         this.container = container;
         this.account = account;
-        this.en = en;
+        this.net = net;
 
         deleteButton.setEnabled(false);
         modifyButton.setEnabled(false);
@@ -215,7 +216,7 @@ public class CartJPanel extends javax.swing.JPanel {
 
     private void checkoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkoutButtonActionPerformed
         PlaceOrderJPanel panel = new PlaceOrderJPanel(this.system, this.container, this.account, 
-            account.getCart().getItemList().get(0).getRestaurant(), this.en);
+            account.getCart().getItemList().get(0).getRestaurant(), net);
         this.container.add(panel);
         CardLayout layout = (CardLayout) this.container.getLayout();
         layout.next(this.container);

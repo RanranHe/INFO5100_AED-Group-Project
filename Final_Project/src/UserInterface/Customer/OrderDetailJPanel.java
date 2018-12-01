@@ -6,7 +6,7 @@
 package UserInterface.Customer;
 
 import Business.Customer.DashOrder;
-import Business.Restaurant.Restaurant;
+import Business.Enterprise.Restaurant.Restaurant;
 import Business.WorkQueue.OrderRequest;
 import java.math.BigDecimal;
 import java.util.ArrayList;

@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UserInterface.Restaurant;
+package UserInterface.Manager;
 
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
-import Business.Restaurant.Dash;
-import Business.Restaurant.Restaurant;
+import Business.Enterprise.Restaurant.Dash;
+import Business.Enterprise.Restaurant.Restaurant;
 import java.math.BigDecimal;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;

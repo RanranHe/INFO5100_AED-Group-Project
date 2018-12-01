@@ -9,6 +9,8 @@ import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
 import Business.UserAccount.UserAccount;
+import UserInterface.Manager.RestaurantMainJPanel;
+import java.awt.CardLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -16,15 +18,18 @@ import javax.swing.JPanel;
  *
  * @author ranranhe
  */
-public class SystemManagerRole extends Role{
-    
-    public SystemManagerRole() {
-        super(Role.RoleType.SystemManager);
+public class BossRole extends Role {
+
+    public BossRole(RoleType type) {
+        super(type);
     }
 
     @Override
     public void createWorkArea(EcoSystem system, JPanel container, UserAccount userAccount, Network net, Enterprise en, JFrame frame) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        RestaurantMainJPanel cp = new RestaurantMainJPanel(system, container, net, en, userAccount, frame, this);
+        container.add(cp);
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.next(container);
     }
     
 }

@@ -5,6 +5,14 @@
  */
 package Business.Role;
 
+import Business.EcoSystem;
+import Business.Enterprise.Enterprise;
+import Business.Enterprise.Restaurant.Restaurant;
+import Business.Network.Network;
+import Business.UserAccount.UserAccount;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 /**
  *
  * @author ranranhe
@@ -13,6 +21,7 @@ public abstract class Role {
     private RoleType type;
     
     public enum RoleType{
+        Boss("Boss"),
         Manager("Manager"),
         Customer("Customer"),
         DeliveryMan("Delivery Man"),
@@ -41,4 +50,6 @@ public abstract class Role {
     public RoleType getRoleType() {
         return this.type;
     }
+    
+    public abstract void createWorkArea(EcoSystem system, JPanel container, UserAccount userAccount, Network net, Enterprise en, JFrame frame);
 }

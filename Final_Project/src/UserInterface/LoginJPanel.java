@@ -164,8 +164,8 @@ public class LoginJPanel extends javax.swing.JPanel {
         if (account == null) {
             for (Network net : system.getNetworkList()) {
                 for (Enterprise en : net.getEnterpriseDirectory().getEnterpriseList()) {
-                    account = en.getUserAccountDirectory().authenticateUser(userName, password);
                     if (account == null) {
+                        account = en.getUserAccountDirectory().authenticateUser(userName, password);
                         for (Organization or : en.getOrganizationDirectory().getOrganizationList()) {
                             account = or.getUserAccountDirectory().authenticateUser(userName, password);
                             if (account != null) {

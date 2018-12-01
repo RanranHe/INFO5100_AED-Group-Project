@@ -9,7 +9,6 @@ import Business.Organization.DeliveryManOrganization;
 import Business.Organization.ManagerOrganization;
 import Business.Organization.Organization;
 import Business.Organization.OrganizationDir;
-import Business.Restaurant.RestaurantDir;
 import Business.Role.Role;
 import java.util.ArrayList;
 
@@ -17,15 +16,15 @@ import java.util.ArrayList;
  *
  * @author ranranhe
  */
-public class Enterprise extends Organization {
+public abstract class Enterprise extends Organization {
     private OrganizationDir organizations;
-    private RestaurantDir restaurants;
-    private String city;
+//    private RestaurantDir restaurants;
+//    private String city;
     
-    public Enterprise(String name, String city) {
+    public Enterprise(String name) {
         super(name);
-        this.city = city;
-        this.restaurants = new RestaurantDir();
+//        this.city = city;
+//        this.restaurants = new RestaurantDir();
         this.organizations = new OrganizationDir();
     }
     
@@ -33,21 +32,23 @@ public class Enterprise extends Organization {
         return organizations;
     }
     
-    public void createOrganizations() {
-        this.organizations.getOrganizationList().add(new DeliveryManOrganization());
-        this.organizations.getOrganizationList().add(new ManagerOrganization());
-    }
+    public abstract void createOrganizations();
     
-    public RestaurantDir getRestaurantDirectory() {
-        return restaurants;
-    }
+//    public RestaurantDir getRestaurantDirectory() {
+//        return restaurants;
+//    }
     
-    public String getCity() {
-        return this.city;
-    }
+//    public String getCity() {
+//        return this.city;
+//    }
 
     @Override
     public ArrayList<Role> getSupportedRole() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public String toString() {
+        return this.getName();
     }
 }

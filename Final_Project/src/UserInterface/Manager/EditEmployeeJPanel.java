@@ -5,6 +5,7 @@
  */
 package UserInterface.Manager;
 
+import UserInterface.Manager.ResetPasswordJFrame;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Employee.Employee;
@@ -12,6 +13,7 @@ import Business.Enterprise.Enterprise;
 import Business.Role.Role;
 import Business.Role.Role.RoleType;
 import Business.UserAccount.EmployeeAccount;
+import UserInterface.SystemManager.ManagerMainJPanel;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,7 +24,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
     private EmployeeAccount account;
-    private ManagerMainJPanel panel;
+    private RestaurantMainJPanel panel;
     private Enterprise en;
 
     private Employee employee;
@@ -30,13 +32,13 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
     /**
      * Creates new form EditEmployeeJPanel
      */
-    public EditEmployeeJPanel(EcoSystem system, ManagerMainJPanel panel, Enterprise en, EmployeeAccount account) {
+    public EditEmployeeJPanel(EcoSystem system, RestaurantMainJPanel panel, Enterprise en, EmployeeAccount account) {
         initComponents();
         this.system = system;
         this.panel = panel;
         this.account = account;
         this.en = en;
-
+        
         this.employee = account.getEmployee();
        
         if (account.getRole().getRoleType().equals(RoleType.Manager)) {
