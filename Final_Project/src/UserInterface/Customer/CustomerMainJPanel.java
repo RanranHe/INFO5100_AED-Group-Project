@@ -8,6 +8,7 @@ package UserInterface.Customer;
 import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
+import Business.Role.CustomerRole;
 import Business.UserAccount.CustomerAccount;
 import Business.UserAccount.UserAccount;
 import UserInterface.LoginJFrame;
@@ -212,7 +213,7 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jList1ValueChanged
 
     private void profileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileButtonActionPerformed
-        CustomerProfileJPanel panel = new CustomerProfileJPanel(this.system, this.container, this.customerAccount, this.frame);
+        CustomerProfileJPanel panel = new CustomerProfileJPanel(this.system, this.container, this.customerAccount, this.frame, new CustomerRole());
         this.container.add(panel);
         CardLayout layout = (CardLayout) this.container.getLayout();
         layout.next(this.container);

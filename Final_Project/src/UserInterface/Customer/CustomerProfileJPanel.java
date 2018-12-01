@@ -9,11 +9,13 @@ import Business.Customer.Customer;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Restaurant.Restaurant;
+import Business.Role.Role;
 import Business.UserAccount.CustomerAccount;
 import Business.UserAccount.RestaurantAccount;
 import Business.WorkQueue.OrderRequest;
 import Business.WorkQueue.WorkRequest;
 import UserInterface.LoginJFrame;
+import UserInterface.Manager.ManagerMainJPanel;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -34,17 +36,27 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
     private CustomerAccount account;
     private Customer customer;
     private JFrame frame;
+    private Role role;
 
     /**
      * Creates new form CustomerProfileJPanel
      */
-    public CustomerProfileJPanel(EcoSystem system, JPanel container, CustomerAccount account, JFrame frame) {
+    public CustomerProfileJPanel(EcoSystem system, JPanel container, CustomerAccount account, JFrame frame, Role role) {
         initComponents();
         this.system = system;
         this.container = container;
         this.account = account;
         this.customer = account.getCustomer();
         this.frame = frame;
+        this.role = role;
+
+        if (role.getRoleType().equals(Role.RoleType.Manager)) {
+            logoutButton.setVisible(false);
+            backButton.setVisible(false);
+            jLabel1.setText("");
+            jLabel13.setVisible(false);
+            passwordField2.setVisible(false);
+        }
 
         setInfo();
         setFieldsEditable(false);
@@ -52,10 +64,10 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         editButton.setEnabled(true);
         saveButton.setEnabled(false);
         cancelButton.setEnabled(false);
-        
+
         populateTable(this.account.getWorkQueue().getWorkRequestList());
     }
-    
+
     private void populateTable(ArrayList<WorkRequest> list) {
         DefaultTableModel dtm = (DefaultTableModel) orderTable.getModel();
         dtm.setRowCount(0);
@@ -65,7 +77,7 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
             row[0] = or.getId();
             row[1] = or;
             row[2] = or.getStatus();
-            RestaurantAccount restaurant = (RestaurantAccount)or.getReceiver();
+            RestaurantAccount restaurant = (RestaurantAccount) or.getReceiver();
             row[3] = restaurant.getRestaurant();
             row[4] = or.getAmount();
             dtm.addRow(row);
@@ -94,6 +106,13 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         firstNameTextField.setEnabled(b);
         lastNameTextField.setEnabled(b);
         phoneTextField.setEnabled(b);
+    }
+
+    private void managerUpdate() {
+        if (this.role.getRoleType().equals(Role.RoleType.Manager)) {
+            ManagerMainJPanel p = (ManagerMainJPanel) this.container;
+            p.setAllTableInfo();
+        }
     }
 
     /**
@@ -273,7 +292,7 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
                 .addContainerGap(133, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("My Profile", jPanel1);
+        jTabbedPane1.addTab("Profile", jPanel1);
 
         jLabel13.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel13.setText("Old Password:");
@@ -480,6 +499,7 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         editButton.setEnabled(true);
 
         DB4OUtil.getInstance().storeSystem(system);
+        managerUpdate();
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -495,7 +515,7 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         this.frame.setVisible(false);
         this.container.remove(this);
         CardLayout layout = (CardLayout) this.container.getLayout();
-        for (Component com:this.container.getComponents()) {
+        for (Component com : this.container.getComponents()) {
             if (com instanceof RestaurantListJPanel) {
                 this.frame.setSize(950, 600);
                 this.frame.setLocationRelativeTo(null);
@@ -516,13 +536,25 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         String new1 = String.valueOf(passwordCharArray1);
         char[] passwordCharArray2 = passwordField1.getPassword();
         String new2 = String.valueOf(passwordCharArray2);
-        
+
+        if (this.role.getRoleType().equals(Role.RoleType.Manager)) {
+            if (new1.equals(new2)) {
+                account.setPassword(new1);
+                JOptionPane.showMessageDialog(null, "Password reset successfully!");
+                DB4OUtil.getInstance().storeSystem(system);
+                managerUpdate();
+                resetPasswordField();
+            } else {
+                JOptionPane.showMessageDialog(null, "Passwords don't match!");
+            }
+        }
         if (password.equals(account.getPassword())) {
             if (!new1.equals("")) {
                 if (new1.equals(new2)) {
                     account.setPassword(new1);
                     JOptionPane.showMessageDialog(null, "Password updated successfully!");
                     DB4OUtil.getInstance().storeSystem(system);
+                    managerUpdate();
                     resetPasswordField();
                 } else {
                     JOptionPane.showMessageDialog(null, "Passwords don't match!");
@@ -564,11 +596,11 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         TableModel model = orderTable.getModel();
 
         if (index >= 0) {
-            OrderRequest order = (OrderRequest)orderTable.getValueAt(index, 1);
-            Restaurant restaurant = (Restaurant)orderTable.getValueAt(index, 3);
-            OrderDetailJPanel panel = new OrderDetailJPanel(this.container, order, restaurant);
+            OrderRequest order = (OrderRequest) orderTable.getValueAt(index, 1);
+            Restaurant restaurant = (Restaurant) orderTable.getValueAt(index, 3);
+            OrderDetailJPanel panel = new OrderDetailJPanel(order, restaurant);
             detailPanel.add(panel);
-            CardLayout layout = (CardLayout)this.detailPanel.getLayout();
+            CardLayout layout = (CardLayout) this.detailPanel.getLayout();
             layout.next(detailPanel);
         }
     }//GEN-LAST:event_orderTableMouseClicked

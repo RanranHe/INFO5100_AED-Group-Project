@@ -21,14 +21,12 @@ public class OrderDetailJPanel extends javax.swing.JPanel {
 
     private OrderRequest order;
     private Restaurant restaurant;
-    private JPanel container;
 
     /**
      * Creates new form OrderDetailJPanel
      */
-    public OrderDetailJPanel(JPanel container, OrderRequest order, Restaurant restaurant) {
+    public OrderDetailJPanel(OrderRequest order, Restaurant restaurant) {
         initComponents();
-        this.container = container;
         this.order = order;
         this.restaurant = restaurant;
 

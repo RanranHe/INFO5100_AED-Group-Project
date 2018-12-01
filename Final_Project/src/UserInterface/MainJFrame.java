@@ -8,6 +8,8 @@ package UserInterface;
 import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
+import Business.Role.DeliveryManRole;
+import Business.Role.RestaurantRole;
 import Business.UserAccount.UserAccount;
 import UserInterface.Customer.CustomerMainJPanel;
 import UserInterface.DeliveryMan.DeliveryManMainJPanel;
@@ -36,6 +38,7 @@ public class MainJFrame extends javax.swing.JFrame {
             layout.next(container);
         }
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Manager")) {
+            this.setSize(950, 650);
             ManagerMainJPanel cp = new ManagerMainJPanel(system, this.container, en, userAccount, this);
             container.add(cp);
             CardLayout layout = (CardLayout)this.container.getLayout();
@@ -43,7 +46,7 @@ public class MainJFrame extends javax.swing.JFrame {
         }
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Delivery Man")) {
 //            this.setSize(950, 600);
-            DeliveryManMainJPanel cp = new DeliveryManMainJPanel(system, this.container, en, userAccount, this);
+            DeliveryManMainJPanel cp = new DeliveryManMainJPanel(system, this.container, en, userAccount, this, new DeliveryManRole());
             container.add(cp);
             CardLayout layout = (CardLayout)this.container.getLayout();
             layout.next(container);
@@ -56,7 +59,7 @@ public class MainJFrame extends javax.swing.JFrame {
         }
         if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Restaurant")) {
 //            this.setSize(950, 600);
-            RestaurantMainJPanel cp = new RestaurantMainJPanel(system, container, en, userAccount, this);
+            RestaurantMainJPanel cp = new RestaurantMainJPanel(system, container, en, userAccount, this, new RestaurantRole());
             container.add(cp);
             CardLayout layout = (CardLayout)this.container.getLayout();
             layout.next(container);

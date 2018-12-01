@@ -158,7 +158,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
 
         jLabel16.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel16.setText("Account Details");
+        jLabel16.setText("Employee Details");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

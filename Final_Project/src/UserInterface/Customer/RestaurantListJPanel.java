@@ -8,6 +8,7 @@ package UserInterface.Customer;
 import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
 import Business.Restaurant.Restaurant;
+import Business.Role.CustomerRole;
 import Business.UserAccount.CustomerAccount;
 import UserInterface.LoginJFrame;
 import java.awt.CardLayout;
@@ -251,7 +252,7 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_cartButtonActionPerformed
 
     private void profileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileButtonActionPerformed
-        CustomerProfileJPanel panel = new CustomerProfileJPanel(this.system, this.container, this.account, this.frame);
+        CustomerProfileJPanel panel = new CustomerProfileJPanel(this.system, this.container, this.account, this.frame, new CustomerRole());
         this.container.add(panel);
         CardLayout layout = (CardLayout) this.container.getLayout();
         layout.next(this.container);
