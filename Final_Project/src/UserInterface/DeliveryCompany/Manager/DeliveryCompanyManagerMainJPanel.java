@@ -145,7 +145,6 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
             row[2] = (Restaurant) or.getEnterprise();
             row[3] = or.getStatus();
             dtm.addRow(row);
-            
         }
     }
 
