@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UserInterface.Manager;
+package UserInterface.Restaurant.Manager;
 
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 public class DashEditJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
-    private RestaurantMainJPanel rp;
+    private RestaurantManagerMainJPanel rp;
     private JPanel detailPanel;
     private Dash dash;
     private Restaurant restaurant;
@@ -28,7 +28,7 @@ public class DashEditJPanel extends javax.swing.JPanel {
     /**
      * Creates new form DashEditJPanel
      */
-    public DashEditJPanel(EcoSystem system, RestaurantMainJPanel rp, JPanel detailPanel, Restaurant restaurant, Dash dash) {
+    public DashEditJPanel(EcoSystem system, RestaurantManagerMainJPanel rp, JPanel detailPanel, Restaurant restaurant, Dash dash) {
         initComponents();
         this.system = system;
         this.rp = rp;

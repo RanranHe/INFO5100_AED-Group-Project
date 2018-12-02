@@ -10,7 +10,7 @@ import Business.Enterprise.Enterprise;
 import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
-import UserInterface.Manager.RestaurantMainJPanel;
+import UserInterface.Restaurant.Manager.RestaurantManagerMainJPanel;
 import java.awt.CardLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -32,7 +32,7 @@ public class ManagerRole extends Role {
 
     @Override
     public void createWorkArea(EcoSystem system, JPanel container, UserAccount userAccount, Network net, Enterprise en, JFrame frame) {
-        RestaurantMainJPanel cp = new RestaurantMainJPanel(system, container, net, en, userAccount, frame, this);
+        RestaurantManagerMainJPanel cp = new RestaurantManagerMainJPanel(system, container, net, en, userAccount, frame, this);
         container.add(cp);
         CardLayout layout = (CardLayout) container.getLayout();
         layout.next(container);

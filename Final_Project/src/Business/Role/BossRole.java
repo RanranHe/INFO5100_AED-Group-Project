@@ -7,10 +7,11 @@ package Business.Role;
 
 import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
+import Business.Enterprise.Restaurant.Restaurant;
 import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
-import UserInterface.Manager.RestaurantMainJPanel;
+import UserInterface.Restaurant.Manager.RestaurantManagerMainJPanel;
 import java.awt.CardLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -27,8 +28,10 @@ public class BossRole extends Role {
 
     @Override
     public void createWorkArea(EcoSystem system, JPanel container, UserAccount userAccount, Network net, Enterprise en, JFrame frame) {
-        RestaurantMainJPanel cp = new RestaurantMainJPanel(system, container, net, en, userAccount, frame, this);
-        container.add(cp);
+        if (en instanceof Restaurant) {
+            RestaurantManagerMainJPanel cp = new RestaurantManagerMainJPanel(system, container, net, en, userAccount, frame, this);
+            container.add(cp);
+        }
         CardLayout layout = (CardLayout) container.getLayout();
         layout.next(container);
     }
@@ -36,5 +39,5 @@ public class BossRole extends Role {
     @Override
     public String toString() {
         return RoleType.Boss.getValue();
-    } 
+    }
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UserInterface.Manager;
+package UserInterface.Restaurant.Manager;
 
 import Business.Customer.DashOrder;
 import Business.DB4OUtil.DB4OUtil;
@@ -40,7 +40,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ranranhe
  */
-public class RestaurantMainJPanel extends javax.swing.JPanel {
+public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
     private JPanel container;
@@ -58,7 +58,7 @@ public class RestaurantMainJPanel extends javax.swing.JPanel {
     /**
      * Creates new form RestaurantMainJPanel
      */
-    public RestaurantMainJPanel(EcoSystem system, JPanel container, Network net, Enterprise en,
+    public RestaurantManagerMainJPanel(EcoSystem system, JPanel container, Network net, Enterprise en,
             UserAccount userAccount, JFrame frame, Role role) {
         initComponents();
         this.system = system;

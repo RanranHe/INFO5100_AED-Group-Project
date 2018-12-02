@@ -6,7 +6,7 @@
 package Business.WorkQueue;
 
 import Business.Customer.DashOrder;
-import Business.Enterprise.DeliveryCompany;
+import Business.Enterprise.DeliveryCompany.DeliveryCompany;
 import Business.Enterprise.Enterprise;
 import Business.UserAccount.UserAccount;
 import java.util.ArrayList;

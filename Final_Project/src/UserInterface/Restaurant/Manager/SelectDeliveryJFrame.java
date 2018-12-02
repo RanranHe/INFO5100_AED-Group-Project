@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UserInterface.Manager;
+package UserInterface.Restaurant.Manager;
 
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
-import Business.Enterprise.DeliveryCompany;
+import Business.Enterprise.DeliveryCompany.DeliveryCompany;
 import Business.Enterprise.Restaurant.Restaurant;
 import Business.Network.Network;
 import Business.WorkQueue.DeliveryRequest;
@@ -25,7 +25,7 @@ import javax.swing.SwingConstants;
 public class SelectDeliveryJFrame extends javax.swing.JFrame {
 
     private EcoSystem system;
-    private RestaurantMainJPanel panel;
+    private RestaurantManagerMainJPanel panel;
     private Network net;
     private OrderRequest request;
     private Restaurant restaurant;
@@ -33,8 +33,8 @@ public class SelectDeliveryJFrame extends javax.swing.JFrame {
     /**
      * Creates new form SelectDeliveryJFrame
      */
-    public SelectDeliveryJFrame(EcoSystem system, RestaurantMainJPanel panel, Network net,
-            Restaurant restaurant, OrderRequest request) {
+    public SelectDeliveryJFrame(EcoSystem system, RestaurantManagerMainJPanel panel, Network net,
+        Restaurant restaurant, OrderRequest request) {
         initComponents();
         this.system = system;
         this.net = net;

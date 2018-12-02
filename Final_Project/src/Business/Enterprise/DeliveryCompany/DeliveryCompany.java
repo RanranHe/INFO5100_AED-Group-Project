@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Business.Enterprise;
+package Business.Enterprise.DeliveryCompany;
 
+import Business.Enterprise.Enterprise;
+import Business.Enterprise.Restaurant.Restaurant;
 import Business.Organization.DeliveryManOrganization;
 import Business.Organization.ManagerOrganization;
 
@@ -12,10 +14,10 @@ import Business.Organization.ManagerOrganization;
  *
  * @author ranranhe
  */
-public class DeliveryCompany extends Enterprise {
+public class DeliveryCompany extends Restaurant {
 
-    public DeliveryCompany(String name) {
-        super(name);
+    public DeliveryCompany(String name, String address, String phone) {
+        super(name, address, phone);
     }
     
     @Override

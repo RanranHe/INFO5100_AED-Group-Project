@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UserInterface.Manager;
+package UserInterface.Restaurant.Manager;
 
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
@@ -23,7 +23,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
     private EmployeeAccount account;
-    private RestaurantMainJPanel panel;
+    private RestaurantManagerMainJPanel panel;
     private Enterprise en;
     private Role role;
 
@@ -32,7 +32,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
     /**
      * Creates new form EditEmployeeJPanel
      */
-    public EditEmployeeJPanel(EcoSystem system, RestaurantMainJPanel panel, Enterprise en, EmployeeAccount account, Role role) {
+    public EditEmployeeJPanel(EcoSystem system, RestaurantManagerMainJPanel panel, Enterprise en, EmployeeAccount account, Role role) {
         initComponents();
         this.system = system;
         this.panel = panel;
