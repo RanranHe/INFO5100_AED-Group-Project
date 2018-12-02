@@ -5,7 +5,7 @@
  */
 package Business.Network;
 
-import Business.Enterprise.DeliveryCompany;
+import Business.Enterprise.DeliveryCompany.DeliveryCompany;
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.EnterpriseDir;
 import Business.Enterprise.Restaurant.Restaurant;
@@ -47,8 +47,8 @@ public class Network {
         return this.city;
     }
     
-    public DeliveryCompany createDeliveryCompany(String name) {
-        DeliveryCompany enter = new DeliveryCompany(name);
+    public DeliveryCompany createDeliveryCompany(String name, String address, String phone) {
+        DeliveryCompany enter = new DeliveryCompany(name, address, phone);
         enter.createOrganizations();
         this.enterpriseDir.getEnterpriseList().add(enter);
         return enter;

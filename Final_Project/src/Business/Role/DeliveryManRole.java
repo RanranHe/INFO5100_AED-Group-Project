@@ -10,7 +10,7 @@ import Business.Enterprise.Enterprise;
 import Business.Network.Network;
 import Business.Organization.Organization.Type;
 import Business.UserAccount.UserAccount;
-import UserInterface.DeliveryMan.DeliveryManMainJPanel;
+import UserInterface.DeliveryCompany.DeliveryMan.DeliveryManMainJPanel;
 import java.awt.CardLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;

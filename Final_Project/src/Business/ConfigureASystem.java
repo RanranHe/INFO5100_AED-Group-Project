@@ -2,7 +2,7 @@ package Business;
 
 import Business.Customer.Customer;
 import Business.Employee.Employee;
-import Business.Enterprise.DeliveryCompany;
+import Business.Enterprise.DeliveryCompany.DeliveryCompany;
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
 import Business.Organization.ManagerOrganization;
@@ -46,7 +46,7 @@ public class ConfigureASystem {
         Network network1 = system.createNetwork("Boston");
 
         // BOSTON Enterprise with organiztions created
-        DeliveryCompany enter1 = network1.createDeliveryCompany("Boston Delivery Company");
+        DeliveryCompany enter1 = network1.createDeliveryCompany("Boston Delivery Company", "1 Pleasant Street, Boston, MA 02125", "(617) 553-5900");
 
         // BOSTON Delivery Company Organization
         ManagerOrganization mo1 = (ManagerOrganization) enter1.getOrganizationDirectory().getTypicalOrganization(Organization.Type.Manager);

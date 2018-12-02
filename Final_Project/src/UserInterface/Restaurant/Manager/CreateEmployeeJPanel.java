@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UserInterface.Manager;
+package UserInterface.Restaurant.Manager;
 
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
@@ -29,14 +29,14 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
     private Enterprise en;
-    private RestaurantMainJPanel panel;
+    private RestaurantManagerMainJPanel panel;
     private JPanel workPanel;
     private Role role;
 
     /**
      * Creates new form createEmployeeJPanel
      */
-    public CreateEmployeeJPanel(EcoSystem system, RestaurantMainJPanel panel, JPanel workPanel, Enterprise en, Role role) {
+    public CreateEmployeeJPanel(EcoSystem system, RestaurantManagerMainJPanel panel, JPanel workPanel, Enterprise en, Role role) {
         initComponents();
         this.system = system;
         this.panel = panel;

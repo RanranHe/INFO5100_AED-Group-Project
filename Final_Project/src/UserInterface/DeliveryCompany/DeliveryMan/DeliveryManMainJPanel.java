@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UserInterface.DeliveryMan;
+package UserInterface.DeliveryCompany.DeliveryMan;
 
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
@@ -71,26 +71,22 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         deliveryButton.setEnabled(false);
         pickupButton.setEnabled(false);
         deliveredButton.setEnabled(false);
-        populateOrderTable(this.en.getWorkQueue().getWorkRequestList(), this.account.getWorkQueue().getWorkRequestList());
+        
+        populateOrderTable(getAllDeliveryRequest());
+    }
+    
+    private ArrayList<WorkRequest> getAllDeliveryRequest() {
+        ArrayList<WorkRequest> list = new ArrayList<>();
+        list.addAll(this.en.getWorkQueue().getWorkRequestList());
+        list.addAll(this.account.getWorkQueue().getWorkRequestList());
+        return list;
     }
 
-    private void populateOrderTable(ArrayList<WorkRequest> list1, ArrayList<WorkRequest> list2) {
-        ArrayList<DeliveryRequest> orderList = new ArrayList<>();
-        for (WorkRequest wr : list1) {
-            if (wr instanceof DeliveryRequest) {
-                DeliveryRequest order = (DeliveryRequest) wr;
-                if (order.getStatus().equals(StatusEnum.Ready)) {
-                    orderList.add(order);
-                }
-            }
-        }
-        for (WorkRequest wr : list2) {
-            DeliveryRequest order = (DeliveryRequest) wr;
-            orderList.add(order);
-        }
+    private void populateOrderTable(ArrayList<WorkRequest> list) {
         DefaultTableModel dtm = (DefaultTableModel) orderTable.getModel();
         dtm.setRowCount(0);
-        for (DeliveryRequest dr : orderList) {
+        for (WorkRequest wr : list) {
+            DeliveryRequest dr = (DeliveryRequest) wr;
             Object row[] = new Object[4];
             row[0] = dr.getOrder().getId();
             row[1] = dr;
@@ -669,10 +665,10 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         selectedRequest.setStatus(StatusEnum.WaitForPickup);
         selectedRequest.setAccount(this.account);
         selectedRequest.getOrder().setStatus(StatusEnum.WaitForPickup);
+        en.getWorkQueue().getWorkRequestList().remove(selectedRequest);
         this.account.getWorkQueue().getWorkRequestList().add(selectedRequest);
         DB4OUtil.getInstance().storeSystem(system);
-        populateOrderTable(this.en.getWorkQueue().getWorkRequestList(),
-                this.account.getWorkQueue().getWorkRequestList());
+        populateOrderTable(getAllDeliveryRequest());
         populateDetails();
         deliveryButton.setEnabled(false);
         pickupButton.setEnabled(true);
@@ -766,8 +762,7 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         selectedRequest.setStatus(StatusEnum.OnTheWay);
         selectedRequest.getOrder().setStatus(StatusEnum.OnTheWay);
         DB4OUtil.getInstance().storeSystem(system);
-        populateOrderTable(this.en.getWorkQueue().getWorkRequestList(),
-                this.account.getWorkQueue().getWorkRequestList());
+        populateOrderTable(getAllDeliveryRequest());
         populateDetails();
         deliveryButton.setEnabled(false);
         pickupButton.setEnabled(false);
@@ -778,8 +773,7 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         selectedRequest.setStatus(StatusEnum.Completed);
         selectedRequest.getOrder().setStatus(StatusEnum.Completed);
         DB4OUtil.getInstance().storeSystem(system);
-        populateOrderTable(this.en.getWorkQueue().getWorkRequestList(),
-                this.account.getWorkQueue().getWorkRequestList());
+        populateOrderTable(getAllDeliveryRequest());
         populateDetails();
         deliveryButton.setEnabled(false);
         pickupButton.setEnabled(false);
