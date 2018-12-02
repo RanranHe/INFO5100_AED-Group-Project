@@ -35,11 +35,11 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace pref="19" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="0" groupAlignment="0" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="jLabel10" min="-2" pref="81" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="roleTextField" min="-2" pref="168" max="-2" attributes="0"/>
+                          <Component id="roleComboBox" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel8" min="-2" pref="81" max="-2" attributes="0"/>
@@ -90,9 +90,9 @@
                   <Component id="usernameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="roleTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                  <Component id="roleComboBox" min="-2" pref="27" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -188,11 +188,6 @@
         <Property name="text" type="java.lang.String" value="Role:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="roleTextField">
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="roleTextField.setEnabled(false);"/>
-      </AuxValues>
-    </Component>
     <Component class="javax.swing.JTextField" name="firstNameTextField">
     </Component>
     <Component class="javax.swing.JTextField" name="emailTextField">
@@ -254,6 +249,8 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JPasswordField" name="passwordField2">
+    </Component>
+    <Component class="javax.swing.JComboBox" name="roleComboBox">
     </Component>
   </SubComponents>
 </Form>

@@ -18,7 +18,6 @@ import Business.WorkQueue.OrderRequest;
 import Business.WorkQueue.WorkRequest;
 import Business.WorkQueue.WorkRequest.StatusEnum;
 import UserInterface.LoginJFrame;
-import UserInterface.SystemManager.ManagerMainJPanel;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -66,6 +65,7 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         editButton.setEnabled(true);
         saveButton.setEnabled(false);
         cancelButton.setEnabled(false);
+        setFieldsEditable(false);
         
         // Task Tab
         deliveryButton.setEnabled(false);
@@ -132,13 +132,6 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         firstNameTextField.setEnabled(b);
         lastNameTextField.setEnabled(b);
         phoneTextField.setEnabled(b);
-    }
-    
-    private void managerUpdate() {
-        if (this.role.getRoleType().equals(Role.RoleType.SystemManager)) {
-            ManagerMainJPanel p = (ManagerMainJPanel) this.container;
-            p.setAllTableInfo();
-        }
     }
 
     /**
@@ -678,7 +671,6 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         selectedRequest.getOrder().setStatus(StatusEnum.WaitForPickup);
         this.account.getWorkQueue().getWorkRequestList().add(selectedRequest);
         DB4OUtil.getInstance().storeSystem(system);
-        managerUpdate();
         populateOrderTable(this.en.getWorkQueue().getWorkRequestList(),
                 this.account.getWorkQueue().getWorkRequestList());
         populateDetails();
@@ -705,7 +697,6 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
                     account.setPassword(new1);
                     JOptionPane.showMessageDialog(null, "Password updated successfully!");
                     DB4OUtil.getInstance().storeSystem(system);
-                    managerUpdate();
                     resetPasswordField();
                 } else {
                     JOptionPane.showMessageDialog(null, "Passwords don't match!");
@@ -756,7 +747,6 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         editButton.setEnabled(true);
 
         DB4OUtil.getInstance().storeSystem(system);
-        managerUpdate();
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -776,7 +766,6 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         selectedRequest.setStatus(StatusEnum.OnTheWay);
         selectedRequest.getOrder().setStatus(StatusEnum.OnTheWay);
         DB4OUtil.getInstance().storeSystem(system);
-        managerUpdate();
         populateOrderTable(this.en.getWorkQueue().getWorkRequestList(),
                 this.account.getWorkQueue().getWorkRequestList());
         populateDetails();
@@ -789,7 +778,6 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         selectedRequest.setStatus(StatusEnum.Completed);
         selectedRequest.getOrder().setStatus(StatusEnum.Completed);
         DB4OUtil.getInstance().storeSystem(system);
-        managerUpdate();
         populateOrderTable(this.en.getWorkQueue().getWorkRequestList(),
                 this.account.getWorkQueue().getWorkRequestList());
         populateDetails();

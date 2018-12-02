@@ -14,7 +14,6 @@ import Business.UserAccount.CustomerAccount;
 import Business.WorkQueue.OrderRequest;
 import Business.WorkQueue.WorkRequest;
 import UserInterface.LoginJFrame;
-import UserInterface.SystemManager.ManagerMainJPanel;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -104,13 +103,6 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         firstNameTextField.setEnabled(b);
         lastNameTextField.setEnabled(b);
         phoneTextField.setEnabled(b);
-    }
-
-    private void managerUpdate() {
-        if (this.role.getRoleType().equals(Role.RoleType.Manager)) {
-            ManagerMainJPanel p = (ManagerMainJPanel) this.container;
-            p.setAllTableInfo();
-        }
     }
 
     /**
@@ -497,7 +489,6 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         editButton.setEnabled(true);
 
         DB4OUtil.getInstance().storeSystem(system);
-        managerUpdate();
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -540,7 +531,6 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
                 account.setPassword(new1);
                 JOptionPane.showMessageDialog(null, "Password reset successfully!");
                 DB4OUtil.getInstance().storeSystem(system);
-                managerUpdate();
                 resetPasswordField();
             } else {
                 JOptionPane.showMessageDialog(null, "Passwords don't match!");
@@ -552,7 +542,6 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
                     account.setPassword(new1);
                     JOptionPane.showMessageDialog(null, "Password updated successfully!");
                     DB4OUtil.getInstance().storeSystem(system);
-                    managerUpdate();
                     resetPasswordField();
                 } else {
                     JOptionPane.showMessageDialog(null, "Passwords don't match!");

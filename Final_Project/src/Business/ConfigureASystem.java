@@ -10,6 +10,7 @@ import Business.Organization.Organization;
 import Business.Enterprise.Restaurant.Dash;
 import Business.Enterprise.Restaurant.Restaurant;
 import Business.Organization.DeliveryManOrganization;
+import Business.Role.BossRole;
 import Business.Role.DeliveryManRole;
 import Business.Role.ManagerRole;
 import Business.Role.SystemManagerRole;
@@ -70,9 +71,12 @@ public class ConfigureASystem {
         res1.addDashToMenu(dash2);
         res1.addDashToMenu(dash3);
         
+        Employee b1 = res1.getEmployeeDirectory().createEmployee("Row34", "Boss", "12344", "boss@row34.com");
+        UserAccount ba1 = res1.getUserAccountDirectory().createEmployeeAccount("row34", "row34", new BossRole(), b1);
+        
         ManagerOrganization mo2 = (ManagerOrganization) res1.getOrganizationDirectory().getTypicalOrganization(Organization.Type.Manager);
         Employee em1 = mo2.getEmployeeDirectory().createEmployee("Manager", "Manager", "111", "manager@demo.com");
-        UserAccount ua6 = mo2.getUserAccountDirectory().createEmployeeAccount("row34", "row34", new ManagerRole(), em1);
+        UserAccount ua6 = mo2.getUserAccountDirectory().createEmployeeAccount("rm", "rm", new ManagerRole(), em1);
 
 //        system.getUserAccountDirectory().addAccount(ua6);
         Restaurant res2 = network1.createRestaurant("Legal Harborside", "270 Northern Ave, Boston, MA 02210", "(617) 477-2900");

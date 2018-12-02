@@ -8,6 +8,7 @@ package Business.Role;
 import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
+import Business.Organization.Organization.Type;
 import Business.UserAccount.UserAccount;
 import UserInterface.DeliveryMan.DeliveryManMainJPanel;
 import java.awt.CardLayout;
@@ -23,7 +24,7 @@ public class DeliveryManRole extends Role {
     public DeliveryManRole() {
         super(Role.RoleType.DeliveryMan);
     }
-
+    
     @Override
     public String toString() {
         return Role.RoleType.DeliveryMan.getValue();

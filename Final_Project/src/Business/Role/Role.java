@@ -9,6 +9,8 @@ import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.Restaurant.Restaurant;
 import Business.Network.Network;
+import Business.Organization.Organization;
+import Business.Organization.Organization.Type;
 import Business.UserAccount.UserAccount;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -36,6 +38,18 @@ public abstract class Role {
         public String getValue() {
             return value;
         }
+        
+        public Type getOrganizationType() {
+            if (this.value.equals(Manager.getValue())) {
+                return Type.Manager;
+            }
+            if (this.value.equals(DeliveryMan.getValue())) {
+                return Type.DeliveryMan;
+            }
+            else {
+                return null;
+            }
+        }
 
         @Override
         public String toString() {
@@ -50,6 +64,9 @@ public abstract class Role {
     public RoleType getRoleType() {
         return this.type;
     }
+    
+    @Override
+    public abstract String toString();
     
     public abstract void createWorkArea(EcoSystem system, JPanel container, UserAccount userAccount, Network net, Enterprise en, JFrame frame);
 }

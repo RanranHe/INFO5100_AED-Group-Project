@@ -138,7 +138,6 @@ public class SelectDeliveryJFrame extends javax.swing.JFrame {
             dr.setStatus(WorkRequest.StatusEnum.Ready);
             de.getWorkQueue().getWorkRequestList().add(dr);
             DB4OUtil.getInstance().storeSystem(system);
-            this.panel.managerUpdate();
             this.panel.populateOrderTable(restaurant.getWorkQueue().getWorkRequestList());
             this.panel.populateDetailTable(request);
             this.dispose();

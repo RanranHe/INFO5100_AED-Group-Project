@@ -8,6 +8,7 @@ package Business.Role;
 import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
+import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import UserInterface.Customer.CustomerMainJPanel;
 import java.awt.CardLayout;
@@ -32,4 +33,8 @@ public class CustomerRole extends Role {
         layout.next(container);
     }
 
+    @Override
+    public String toString() {
+        return Role.RoleType.Customer.getValue();
+    }
 }

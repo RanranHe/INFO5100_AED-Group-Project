@@ -8,6 +8,7 @@ package Business.Role;
 import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
+import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import UserInterface.Manager.RestaurantMainJPanel;
 import java.awt.CardLayout;
@@ -20,8 +21,8 @@ import javax.swing.JPanel;
  */
 public class BossRole extends Role {
 
-    public BossRole(RoleType type) {
-        super(type);
+    public BossRole() {
+        super(RoleType.Boss);
     }
 
     @Override
@@ -31,5 +32,9 @@ public class BossRole extends Role {
         CardLayout layout = (CardLayout) container.getLayout();
         layout.next(container);
     }
-    
+
+    @Override
+    public String toString() {
+        return RoleType.Boss.getValue();
+    } 
 }

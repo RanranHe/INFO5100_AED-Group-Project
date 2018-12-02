@@ -37,6 +37,9 @@ public class UserAccountDir {
     }
 
     public boolean isUsernameValid(String username) {
+        if (userAccountList.isEmpty()) {
+            return true;
+        }
         for (UserAccount ua : userAccountList) {
             if (ua.getUsername().equalsIgnoreCase(username)) {
                 return false;

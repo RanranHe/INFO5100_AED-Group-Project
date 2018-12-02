@@ -5,15 +5,14 @@
  */
 package UserInterface.Manager;
 
-import UserInterface.Manager.ResetPasswordJFrame;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Employee.Employee;
 import Business.Enterprise.Enterprise;
+import Business.Enterprise.Restaurant.Restaurant;
 import Business.Role.Role;
 import Business.Role.Role.RoleType;
 import Business.UserAccount.EmployeeAccount;
-import UserInterface.SystemManager.ManagerMainJPanel;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,32 +25,48 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
     private EmployeeAccount account;
     private RestaurantMainJPanel panel;
     private Enterprise en;
+    private Role role;
 
     private Employee employee;
 
     /**
      * Creates new form EditEmployeeJPanel
      */
-    public EditEmployeeJPanel(EcoSystem system, RestaurantMainJPanel panel, Enterprise en, EmployeeAccount account) {
+    public EditEmployeeJPanel(EcoSystem system, RestaurantMainJPanel panel, Enterprise en, EmployeeAccount account, Role role) {
         initComponents();
         this.system = system;
         this.panel = panel;
         this.account = account;
         this.en = en;
-        
+        this.role = role;
+
         this.employee = account.getEmployee();
-       
-        if (account.getRole().getRoleType().equals(RoleType.Manager)) {
-            editButton.setEnabled(false);
-            resetButton.setEnabled(false);
+        if (en instanceof Restaurant) {
+            roleComboBox.addItem(RoleType.Manager);
+            if (role.getRoleType().equals(RoleType.Boss)) {
+                // TODO can add more roles
+                if (account.getRole().getRoleType().equals(RoleType.Boss)) {
+                    editButton.setEnabled(false);
+                    resetButton.setEnabled(false);
+                }
+            }
+            if (role.getRoleType().equals(RoleType.Manager)) {
+                if (account.getRole().getRoleType().equals(RoleType.Manager)
+                        || account.getRole().getRoleType().equals(RoleType.Boss)) {
+                    editButton.setEnabled(false);
+                    resetButton.setEnabled(false);
+                }
+            }
         }
+        
         setInfo();
         setFieldsEditable(false);
         saveButton.setEnabled(false);
         cancelButton.setEnabled(false);
     }
-    
+
     private void setFieldsEditable(boolean b) {
+        roleComboBox.setEnabled(b);
         emailTextField.setEnabled(b);
         firstNameTextField.setEnabled(b);
         lastNameTextField.setEnabled(b);
@@ -59,7 +74,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
     }
 
     private void setInfo() {
-        roleTextField.setText(this.account.getRole().getRoleType().getValue());
+        roleComboBox.setSelectedItem(account.getRole().getRoleType());
         emailTextField.setText(employee.getEmail());
         firstNameTextField.setText(employee.getFirstName());
         lastNameTextField.setText(employee.getLastName());
@@ -79,7 +94,6 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
         usernameTextField = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         firstNameTextField = new javax.swing.JTextField();
-        roleTextField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         cancelButton = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
@@ -93,6 +107,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
         resetButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
+        roleComboBox = new javax.swing.JComboBox();
 
         setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -105,8 +120,6 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
 
         jLabel9.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel9.setText("Last Name: ");
-
-        roleTextField.setEnabled(false);
 
         jLabel10.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
@@ -185,7 +198,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(roleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -208,7 +221,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addComponent(jLabel16)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -217,7 +230,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(roleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -287,6 +300,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
         saveButton.setEnabled(true);
         cancelButton.setEnabled(true);
         editButton.setEnabled(false);
+        roleComboBox.setEnabled(true);
 
         setFieldsEditable(true);
     }//GEN-LAST:event_editButtonActionPerformed
@@ -307,7 +321,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField lastNameTextField;
     private javax.swing.JTextField phoneTextField;
     private javax.swing.JButton resetButton;
-    private javax.swing.JTextField roleTextField;
+    private javax.swing.JComboBox roleComboBox;
     private javax.swing.JButton saveButton;
     private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
