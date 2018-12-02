@@ -6,7 +6,7 @@
 package UserInterface.Customer;
 
 import Business.Customer.DashOrder;
-import Business.Restaurant.Restaurant;
+import Business.Enterprise.Restaurant.Restaurant;
 import Business.WorkQueue.OrderRequest;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -21,14 +21,12 @@ public class OrderDetailJPanel extends javax.swing.JPanel {
 
     private OrderRequest order;
     private Restaurant restaurant;
-    private JPanel container;
 
     /**
      * Creates new form OrderDetailJPanel
      */
-    public OrderDetailJPanel(JPanel container, OrderRequest order, Restaurant restaurant) {
+    public OrderDetailJPanel(OrderRequest order, Restaurant restaurant) {
         initComponents();
-        this.container = container;
         this.order = order;
         this.restaurant = restaurant;
 

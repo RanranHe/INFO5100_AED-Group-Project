@@ -5,7 +5,7 @@
  */
 package Business.Customer;
 
-import Business.Restaurant.Restaurant;
+import Business.Enterprise.Restaurant.Restaurant;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 

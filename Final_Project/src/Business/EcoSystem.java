@@ -58,9 +58,9 @@ public class EcoSystem extends Organization {
         return network;
     }
     
-    public Network getNetworkByState(String state) {
+    public Network getNetworkByCity(String city) {
         for (Network net:this.networkList) {
-            if (net.getState().equals(state)) {
+            if (net.getCity().equals(city)) {
                 return net;
             }
         }

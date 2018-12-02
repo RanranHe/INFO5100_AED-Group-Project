@@ -3,10 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/UserInterface/Manager/ManagerMainJPanel.java</file>
-            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/UserInterface/Manager/CreateEmployeeJPanel.java</file>
-            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/UserInterface/Manager/ResetPasswordJFrame.java</file>
-            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/Business/Employee/EmployeeDir.java</file>
+            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/UserInterface/Manager/RestaurantMainJPanel.java</file>
+            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/Business/Role/BossRole.java</file>
+            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/Business/Organization/ManagerOrganization.java</file>
+            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/Business/Role/ManagerRole.java</file>
+            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/UserInterface/SystemManager/ManagerMainJPanel.java</file>
+            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/UserInterface/LoginJPanel.java</file>
+            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/UserInterface/SystemManager/DetailsJFrame.java</file>
+            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/UserInterface/Manager/DashEditJPanel.java</file>
+            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/UserInterface/Manager/SelectDeliveryJFrame.java</file>
+            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/Business/Enterprise/Restaurant/Restaurant.java</file>
+            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/Business/Role/DeliveryManRole.java</file>
+            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/Business/Role/Role.java</file>
+            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/UserInterface/MainJFrame.java</file>
+            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/Business/Role/CustomerRole.java</file>
+            <file>file:/Users/ranranhe/INFO5100/group_assignment_gogogo_team/Final_Project/src/Business/Role/SystemManagerRole.java</file>
         </group>
     </open-files>
 </project-private>

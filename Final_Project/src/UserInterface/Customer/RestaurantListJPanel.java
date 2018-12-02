@@ -7,7 +7,9 @@ package UserInterface.Customer;
 
 import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
-import Business.Restaurant.Restaurant;
+import Business.Enterprise.Restaurant.Restaurant;
+import Business.Network.Network;
+import Business.Role.CustomerRole;
 import Business.UserAccount.CustomerAccount;
 import UserInterface.LoginJFrame;
 import java.awt.CardLayout;
@@ -26,22 +28,22 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
     private EcoSystem system;
     private JPanel container;
     private CustomerAccount account;
-    private Enterprise en;
+    private Network net;
     private JFrame frame;
 
     /**
      * Creates new form RestaurantListJPanel
      */
-    public RestaurantListJPanel(EcoSystem system, JPanel container, CustomerAccount account, Enterprise en, JFrame frame) {
+    public RestaurantListJPanel(EcoSystem system, JPanel container, CustomerAccount account, Network net, JFrame frame) {
         initComponents();
         this.system = system;
         this.container = container;
         this.account = account;
-        this.en = en;
+        this.net = net;
         this.frame = frame;
 
-        populateTable(en.getRestaurantDirectory().getRestaurantList());
-        areaLabel.setText(en.getCity());
+        populateTable(net.getRestaurantList());
+        areaLabel.setText(net.getCity());
         nameLabel.setText(account.getCustomer().getFirstName());
     }
 
@@ -235,7 +237,7 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
         if (index >= 0) {
             Restaurant restaurant = (Restaurant) model.getValueAt(index, 0);
             restaurantNameLabel.setText(restaurant.getName());
-            RestaurantDetailsJPanel panel = new RestaurantDetailsJPanel(this.system, restaurant, this.account, en);
+            RestaurantDetailsJPanel panel = new RestaurantDetailsJPanel(this.system, restaurant, this.account, net);
             detailPanel.remove(this);
             detailPanel.add(panel);
             CardLayout layout = (CardLayout) this.detailPanel.getLayout();
@@ -244,14 +246,14 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_RestaurantTableMouseClicked
 
     private void cartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartButtonActionPerformed
-        CartJFrame frame = new CartJFrame(this.system, this.account, this.en);
+        CartJFrame frame = new CartJFrame(this.system, this.account, net);
         frame.setSize(500, 620);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }//GEN-LAST:event_cartButtonActionPerformed
 
     private void profileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileButtonActionPerformed
-        CustomerProfileJPanel panel = new CustomerProfileJPanel(this.system, this.container, this.account, this.frame);
+        CustomerProfileJPanel panel = new CustomerProfileJPanel(this.system, this.container, this.account, this.frame, new CustomerRole());
         this.container.add(panel);
         CardLayout layout = (CardLayout) this.container.getLayout();
         layout.next(this.container);

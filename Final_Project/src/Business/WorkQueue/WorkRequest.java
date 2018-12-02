@@ -4,6 +4,7 @@
  */
 package Business.WorkQueue;
 
+import Business.Enterprise.Enterprise;
 import Business.UserAccount.UserAccount;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,15 +16,15 @@ import java.util.Date;
 public abstract class WorkRequest {
 
     private String message;
-    private UserAccount sender;
-    private UserAccount receiver;
+    private Enterprise enterprise;
+    private UserAccount account;
     private Date requestDate;
     private Date resolveDate;
 
     public enum StatusEnum {
 
         Processing("Processing"),
-        PreparingFood("Preparing food"),
+        Ready("Ready for pickup"),
         WaitForPickup("Waiting for pickup"),
         OnTheWay("On the way"),
         Cancelled("Cancelled"),
@@ -45,9 +46,9 @@ public abstract class WorkRequest {
         }
     }
 
-    public WorkRequest(UserAccount sender, UserAccount receiver) {
-        this.sender = sender;
-        this.receiver = receiver;
+    public WorkRequest(Enterprise enterprise, UserAccount account) {
+        this.account = account;
+        this.enterprise = enterprise;
         this.requestDate = new Date();
     }
 
@@ -59,20 +60,20 @@ public abstract class WorkRequest {
         this.message = mess;
     }
 
-    public UserAccount getSender() {
-        return sender;
+    public Enterprise getEnterprise() {
+        return this.enterprise;
     }
 
-    public void setSender(UserAccount sender) {
-        this.sender = sender;
+    public void setEnterprise(Enterprise en) {
+        this.enterprise = en;
     }
 
-    public UserAccount getReceiver() {
-        return receiver;
+    public UserAccount getAccount() {
+        return account;
     }
 
-    public void setReceiver(UserAccount receiver) {
-        this.receiver = receiver;
+    public void setAccount(UserAccount account) {
+        this.account = account;
     }
 
     public String getRequestDate() {

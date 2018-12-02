@@ -9,8 +9,9 @@ import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Employee.Employee;
 import Business.Enterprise.Enterprise;
+import Business.Enterprise.Restaurant.Restaurant;
+import Business.Role.Role;
 import Business.UserAccount.EmployeeAccount;
-import Business.UserAccount.RestaurantAccount;
 import Business.UserAccount.UserAccount;
 import Business.WorkQueue.DeliveryRequest;
 import Business.WorkQueue.OrderRequest;
@@ -34,14 +35,16 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
     private Enterprise en;
     private EmployeeAccount account;
     private JFrame frame;
+    private Role role;
 
     private Employee employee;
-    private DeliveryRequest selectedOrder = null;
+    private DeliveryRequest selectedRequest = null;
 
     /**
      * Creates new form DeliveryManMainJPanel
      */
-    public DeliveryManMainJPanel(EcoSystem system, JPanel container, Enterprise en, UserAccount userAccount, JFrame frame) {
+    public DeliveryManMainJPanel(EcoSystem system, JPanel container, Enterprise en, UserAccount userAccount, 
+            JFrame frame, Role role) {
         initComponents();
         this.system = system;
         this.container = container;
@@ -49,12 +52,20 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         this.account = (EmployeeAccount) userAccount;
         this.frame = frame;
         this.employee = this.account.getEmployee();
+        this.role = role;
+        
+        // view of system manager
+        if (role.getRoleType().equals(Role.RoleType.SystemManager)) {
+            logoutButton.setVisible(false);
+            jLabel5.setText("");
+        }
 
         // Profile Tab
         setInfo();
         editButton.setEnabled(true);
         saveButton.setEnabled(false);
         cancelButton.setEnabled(false);
+        setFieldsEditable(false);
         
         // Task Tab
         deliveryButton.setEnabled(false);
@@ -68,7 +79,7 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         for (WorkRequest wr : list1) {
             if (wr instanceof DeliveryRequest) {
                 DeliveryRequest order = (DeliveryRequest) wr;
-                if (order.getStatus().equals(StatusEnum.PreparingFood)) {
+                if (order.getStatus().equals(StatusEnum.Ready)) {
                     orderList.add(order);
                 }
             }
@@ -80,21 +91,21 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         DefaultTableModel dtm = (DefaultTableModel) orderTable.getModel();
         dtm.setRowCount(0);
         for (DeliveryRequest dr : orderList) {
-            Object row[] = new Object[3];
-            row[0] = dr;
-            RestaurantAccount ra = (RestaurantAccount) dr.getSender();
-            row[1] = ra.getRestaurant();
-            row[2] = dr.getStatus();
+            Object row[] = new Object[4];
+            row[0] = dr.getOrder().getId();
+            row[1] = dr;
+            row[2] = (Restaurant) dr.getEnterprise();
+            row[3] = dr.getStatus();
             dtm.addRow(row);
         }
     }
 
     private void populateDetails() {
-        RestaurantAccount ra = (RestaurantAccount) selectedOrder.getSender();
-        pickupAddressTextArea.setText(ra.getRestaurant().getAddress());
-        pickupNameTextField2.setText(ra.getRestaurant().getName());
-        pickupPhoneTextField.setText(ra.getRestaurant().getPhone());
-        OrderRequest or = (OrderRequest) selectedOrder.getOrder();
+        Restaurant res = (Restaurant) selectedRequest.getEnterprise();
+        pickupAddressTextArea.setText(res.getAddress());
+        pickupNameTextField2.setText(res.getName());
+        pickupPhoneTextField.setText(res.getPhone());
+        OrderRequest or = (OrderRequest) selectedRequest.getOrder();
         deliveryAddressTextArea.setText(or.getDeliveryAddress());
         deliveryNameTextField.setText(or.getDeliveryName());
         deliveryPhoneTextField.setText(or.getDeliveryPhone());
@@ -260,35 +271,41 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap(300, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel9)
-                                .addComponent(jLabel12)
-                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel7))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(roleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(phoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(285, 285, 285))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel12)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(roleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(phoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(354, 354, 354))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(285, 285, 285))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,7 +330,7 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(phoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
@@ -322,24 +339,24 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
                     .addComponent(editButton)
                     .addComponent(saveButton)
                     .addComponent(cancelButton))
-                .addContainerGap(172, Short.MAX_VALUE))
+                .addContainerGap(166, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Profile", jPanel2);
 
         orderTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Date", "Restaurant", "Status"
+                "ID", "Date", "Restaurant", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -620,23 +637,24 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         int index = orderTable.getSelectedRow();
 
         if (index >= 0) {
-            selectedOrder = (DeliveryRequest) orderTable.getValueAt(index, 0);
-            if (selectedOrder.getStatus().equals(StatusEnum.PreparingFood)) {
+            selectedRequest = (DeliveryRequest) orderTable.getValueAt(index, 1);
+            if (selectedRequest.getStatus().equals(StatusEnum.Ready)) {
                 deliveryButton.setEnabled(true);
                 pickupButton.setEnabled(false);
                 deliveredButton.setEnabled(false);
             }
-            if (selectedOrder.getStatus().equals(StatusEnum.WaitForPickup)) {
+            if (selectedRequest.getStatus().equals(StatusEnum.WaitForPickup)) {
                 deliveryButton.setEnabled(false);
                 pickupButton.setEnabled(true);
                 deliveredButton.setEnabled(false);
             }
-            if (selectedOrder.getStatus().equals(StatusEnum.OnTheWay)) {
+            if (selectedRequest.getStatus().equals(StatusEnum.OnTheWay)) {
                 deliveryButton.setEnabled(false);
                 pickupButton.setEnabled(false);
                 deliveredButton.setEnabled(true);
             }
-            if (selectedOrder.getStatus().equals(StatusEnum.Completed)) {
+            if (selectedRequest.getStatus().equals(StatusEnum.Completed) ||
+                    selectedRequest.getStatus().equals(StatusEnum.Cancelled)) {
                 deliveryButton.setEnabled(false);
                 pickupButton.setEnabled(false);
                 deliveredButton.setEnabled(false);
@@ -648,12 +666,12 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_orderTableMouseClicked
 
     private void deliveryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deliveryButtonActionPerformed
-        selectedOrder.setStatus(StatusEnum.WaitForPickup);
-        selectedOrder.setReceiver(this.account);
-        selectedOrder.getOrder().setStatus(StatusEnum.WaitForPickup);
-        this.account.getWorkQueue().getWorkRequestList().add(selectedOrder);
+        selectedRequest.setStatus(StatusEnum.WaitForPickup);
+        selectedRequest.setAccount(this.account);
+        selectedRequest.getOrder().setStatus(StatusEnum.WaitForPickup);
+        this.account.getWorkQueue().getWorkRequestList().add(selectedRequest);
         DB4OUtil.getInstance().storeSystem(system);
-        populateOrderTable(this.account.getWorkQueue().getWorkRequestList(),
+        populateOrderTable(this.en.getWorkQueue().getWorkRequestList(),
                 this.account.getWorkQueue().getWorkRequestList());
         populateDetails();
         deliveryButton.setEnabled(false);
@@ -745,11 +763,10 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_usernameTextFieldActionPerformed
 
     private void pickupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pickupButtonActionPerformed
-        selectedOrder.setStatus(StatusEnum.OnTheWay);
-        selectedOrder.setReceiver(this.account);
-        selectedOrder.getOrder().setStatus(StatusEnum.OnTheWay);
+        selectedRequest.setStatus(StatusEnum.OnTheWay);
+        selectedRequest.getOrder().setStatus(StatusEnum.OnTheWay);
         DB4OUtil.getInstance().storeSystem(system);
-        populateOrderTable(this.account.getWorkQueue().getWorkRequestList(),
+        populateOrderTable(this.en.getWorkQueue().getWorkRequestList(),
                 this.account.getWorkQueue().getWorkRequestList());
         populateDetails();
         deliveryButton.setEnabled(false);
@@ -758,11 +775,10 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_pickupButtonActionPerformed
 
     private void deliveredButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deliveredButtonActionPerformed
-        selectedOrder.setStatus(StatusEnum.Completed);
-        selectedOrder.setReceiver(this.account);
-        selectedOrder.getOrder().setStatus(StatusEnum.Completed);
+        selectedRequest.setStatus(StatusEnum.Completed);
+        selectedRequest.getOrder().setStatus(StatusEnum.Completed);
         DB4OUtil.getInstance().storeSystem(system);
-        populateOrderTable(this.account.getWorkQueue().getWorkRequestList(),
+        populateOrderTable(this.en.getWorkQueue().getWorkRequestList(),
                 this.account.getWorkQueue().getWorkRequestList());
         populateDetails();
         deliveryButton.setEnabled(false);

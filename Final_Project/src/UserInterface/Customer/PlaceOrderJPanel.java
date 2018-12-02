@@ -8,12 +8,9 @@ package UserInterface.Customer;
 import Business.Customer.DashOrder;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
-import Business.Enterprise.Enterprise;
-import Business.Restaurant.Restaurant;
-import Business.Role.Role.RoleType;
+import Business.Enterprise.Restaurant.Restaurant;
+import Business.Network.Network;
 import Business.UserAccount.CustomerAccount;
-import Business.UserAccount.RestaurantAccount;
-import Business.UserAccount.UserAccount;
 import Business.WorkQueue.OrderRequest;
 import Business.WorkQueue.WorkRequest;
 import java.awt.CardLayout;
@@ -34,35 +31,35 @@ public class PlaceOrderJPanel extends javax.swing.JPanel {
     private CustomerAccount customerAccount;
     private JPanel container;
     private Restaurant restaurant;
-    private Enterprise en;
+    private Network net;
 
     /**
      * Creates new form PlaceOrderJPanel
      */
     public PlaceOrderJPanel(EcoSystem system, JPanel container, CustomerAccount customerAccount,
-            Restaurant restaurant, Enterprise en) {
+            Restaurant restaurant, Network net) {
         initComponents();
         this.system = system;
         this.container = container;
         this.customerAccount = customerAccount;
         this.restaurant = restaurant;
-        this.en = en;
+        this.net = net;
 
         populateTable(customerAccount.getCart().getItemList());
         this.restaurantLabel.setText(this.restaurant.getName());
     }
 
-    private RestaurantAccount getAccountByRestaurant(Restaurant restaurant) {
-        for (UserAccount ua : en.getUserAccountDirectory().getUserAccountList()) {
-            if (ua.getRole().getRoleType().equals(RoleType.Restaurant)) {
-                RestaurantAccount ra = (RestaurantAccount) ua;
-                if (ra.getRestaurant().getId() == restaurant.getId()) {
-                    return ra;
-                }
-            }
-        }
-        return null;
-    }
+//    private RestaurantAccount getAccountByRestaurant(Restaurant restaurant) {
+//        for (UserAccount ua : en.getUserAccountDirectory().getUserAccountList()) {
+//            if (ua.getRole().getRoleType().equals(RoleType.Restaurant)) {
+//                RestaurantAccount ra = (RestaurantAccount) ua;
+//                if (ra.getRestaurant().getId() == restaurant.getId()) {
+//                    return ra;
+//                }
+//            }
+//        }
+//        return null;
+//    }
 
     private void populateTable(ArrayList<DashOrder> list) {
         DefaultTableModel dtm = (DefaultTableModel) cartTable.getModel();
@@ -277,8 +274,7 @@ public class PlaceOrderJPanel extends javax.swing.JPanel {
             return;
         }
         
-        RestaurantAccount ra = getAccountByRestaurant(restaurant);
-        OrderRequest or = new OrderRequest(customerAccount, ra,
+        OrderRequest or = new OrderRequest(restaurant, customerAccount,
                 customerAccount.getCart().getItemList());
         or.setDeliveryAddress(this.addressTextField.getText());
         or.setDeliveryName(this.nameTextField.getText());
@@ -288,10 +284,10 @@ public class PlaceOrderJPanel extends javax.swing.JPanel {
         BigDecimal bd = new BigDecimal(this.customerAccount.getCart().getTotalPrice());
         or.setAmount(bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
         
+        
         customerAccount.getCart().clearCart();
         customerAccount.getWorkQueue().getWorkRequestList().add(or);
-        ra.getWorkQueue().getWorkRequestList().add(or);
-        this.en.getWorkQueue().getWorkRequestList().add(or);
+        restaurant.getWorkQueue().getWorkRequestList().add(or);
         DB4OUtil.getInstance().storeSystem(system);
         
         this.container.remove(this);

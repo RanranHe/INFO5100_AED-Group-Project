@@ -5,8 +5,10 @@
  */
 package Business.Network;
 
+import Business.Enterprise.DeliveryCompany;
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.EnterpriseDir;
+import Business.Enterprise.Restaurant.Restaurant;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -18,11 +20,11 @@ public class Network {
 
     private String name;
     private EnterpriseDir enterpriseDir;
-    private String state;
+    private String city;
     
-    public Network(String state) {
+    public Network(String city) {
         enterpriseDir = new EnterpriseDir();
-        this.state = state;
+        this.city = city;
     }
 
     public String getName() {
@@ -37,27 +39,67 @@ public class Network {
         return enterpriseDir;
     }
      
-    public void setState(String state) {
-        this.state = state;
+    public void setCity(String city) {
+        this.city = city;
     }
     
-    public String getState() {
-        return this.state;
+    public String getCity() {
+        return this.city;
     }
     
-    public Enterprise createEnterprise(String name, String city) {
-        Enterprise enter = new Enterprise(name, city);
+    public DeliveryCompany createDeliveryCompany(String name) {
+        DeliveryCompany enter = new DeliveryCompany(name);
         enter.createOrganizations();
         this.enterpriseDir.getEnterpriseList().add(enter);
         return enter;
     }
     
-    public Enterprise getEnterpriseByCity(String city) {
+    public Restaurant createRestaurant(String name, String address, String phone) {
+        Restaurant res = new Restaurant(name, address, phone);
+        res.createOrganizations();
+        this.enterpriseDir.getEnterpriseList().add(res);
+        return res;
+    }
+    
+    public ArrayList<Restaurant> getRestaurantList() {
+        ArrayList<Restaurant> result = new ArrayList<>();
         for (Enterprise en:this.enterpriseDir.getEnterpriseList()) {
-            if (en.getCity().equals(city)) {
-                return en;
+            if (en instanceof Restaurant) {
+                Restaurant res = (Restaurant) en;
+                result.add(res);
             }
         }
-        return null;
+        return result;
     }
+    
+    public ArrayList<DeliveryCompany> getDeliveryCompanyList() {
+        ArrayList<DeliveryCompany> result = new ArrayList<>();
+        for (Enterprise en:this.enterpriseDir.getEnterpriseList()) {
+            if (en instanceof DeliveryCompany) {
+                DeliveryCompany del = (DeliveryCompany) en;
+                result.add(del);
+            }
+        }
+        return result;
+    }
+    
+//    public ArrayList<DeliveryCompany> getDeliveryCompanyListByCity(String city) {
+//        ArrayList<DeliveryCompany> result = new ArrayList<>();
+//        for (DeliveryCompany del : this.getDeliveryCompanyList()) {
+//            if (del.getCity().equalsIgnoreCase(city)) {
+//                result.add(del);
+//            }
+//        }
+//        return result;
+//    }
+//    
+//    public ArrayList<Restaurant> getRestaurantListByCity(String city) {
+//        ArrayList<Restaurant> result = new ArrayList<>();
+//        for (Restaurant res : this.getRestaurantList()) {
+//            if (res.getCity().equalsIgnoreCase(city)) {
+//                result.add(res);
+//            }
+//        }
+//        return result;
+//    }
 }

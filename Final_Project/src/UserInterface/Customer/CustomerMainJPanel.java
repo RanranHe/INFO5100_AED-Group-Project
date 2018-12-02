@@ -7,7 +7,9 @@ package UserInterface.Customer;
 
 import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
+import Business.Enterprise.Restaurant.Restaurant;
 import Business.Network.Network;
+import Business.Role.CustomerRole;
 import Business.UserAccount.CustomerAccount;
 import Business.UserAccount.UserAccount;
 import UserInterface.LoginJFrame;
@@ -36,8 +38,8 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
         this.customerAccount = (CustomerAccount) userAccount;
         for (Network net:system.getNetworkList()) {
             DefaultListModel model = new DefaultListModel();
-            model.addElement(net.getState());
-            jList2.setModel(model);
+            model.addElement(net.getCity());
+            jList1.setModel(model);
         }
         nameLabel.setText(customerAccount.getCustomer().getFirstName());
         goButton.setEnabled(false);
@@ -55,11 +57,8 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         nameLabel = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         goButton = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
@@ -74,14 +73,6 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
         jLabel3.setText("Please select your location: ");
 
-        jList2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jList2.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jList2ValueChanged(evt);
-            }
-        });
-        jScrollPane2.setViewportView(jList2);
-
         jList1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jList1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -94,9 +85,6 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(jList1);
-
-        jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jLabel4.setText("State");
 
         jLabel5.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel5.setText("City");
@@ -131,32 +119,30 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(274, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(208, 208, 208))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nameLabel)))
+                .addGap(18, 18, 18)
+                .addComponent(logoutButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(profileButton)
+                .addGap(24, 24, 24))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(323, 323, 323)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(62, 62, 62)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
                         .addComponent(goButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel4)
-                        .addGap(131, 131, 131)
-                        .addComponent(jLabel5))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(208, 208, 208))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nameLabel)))
-                        .addGap(18, 18, 18)
-                        .addComponent(logoutButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(profileButton)))
-                .addGap(24, 24, 24))
+                        .addGap(40, 40, 40)
+                        .addComponent(jLabel5)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,38 +155,27 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
                     .addComponent(profileButton))
                 .addGap(111, 111, 111)
                 .addComponent(jLabel3)
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                .addGap(35, 35, 35)
+                .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(goButton)
-                        .addGap(78, 78, 78)))
-                .addContainerGap(185, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(183, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jList2ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList2ValueChanged
-        goButton.setEnabled(false);
-        for (Enterprise en:system.getNetworkByState((String)jList2.getSelectedValue()).getEnterpriseDirectory().getEnterpriseList()){
-            DefaultListModel model = new DefaultListModel();
-            model.addElement(en.getCity());
-            jList1.setModel(model);
-        }
-    }//GEN-LAST:event_jList2ValueChanged
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
      
     }//GEN-LAST:event_jList1MouseClicked
 
     private void goButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goButtonActionPerformed
-        if (jList1.getSelectedValue() != null && jList2.getSelectedValue() != null) {
-            Enterprise en = system.getNetworkByState((String)jList2.getSelectedValue()).getEnterpriseByCity((String)jList1.getSelectedValue());
-            RestaurantListJPanel panel = new RestaurantListJPanel(system, this.container, this.customerAccount, en, this.frame);
+        if (jList1.getSelectedValue() != null) {
+            Network net = system.getNetworkByCity((String)jList1.getSelectedValue());
+            String city = (String)jList1.getSelectedValue();
+            RestaurantListJPanel panel = new RestaurantListJPanel(system, this.container, this.customerAccount, net, this.frame);
             container.add(panel);
             CardLayout layout = (CardLayout)this.container.getLayout();
             layout.next(container);
@@ -212,7 +187,7 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jList1ValueChanged
 
     private void profileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileButtonActionPerformed
-        CustomerProfileJPanel panel = new CustomerProfileJPanel(this.system, this.container, this.customerAccount, this.frame);
+        CustomerProfileJPanel panel = new CustomerProfileJPanel(this.system, this.container, this.customerAccount, this.frame, new CustomerRole());
         this.container.add(panel);
         CardLayout layout = (CardLayout) this.container.getLayout();
         layout.next(this.container);
@@ -230,12 +205,9 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
     private javax.swing.JButton goButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JList jList1;
-    private javax.swing.JList jList2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton logoutButton;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JButton profileButton;

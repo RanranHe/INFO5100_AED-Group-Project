@@ -158,9 +158,9 @@ public class LoginJPanel extends javax.swing.JPanel {
         UserAccount account = system.getUserAccountDirectory().authenticateUser(userName, password);
 
         Network inNetwork = null;
-        Organization inOrganization = null;
         Enterprise inEnterprise = null;
 
+        labelA:
         if (account == null) {
             for (Network net : system.getNetworkList()) {
                 for (Enterprise en : net.getEnterpriseDirectory().getEnterpriseList()) {
@@ -171,14 +171,13 @@ public class LoginJPanel extends javax.swing.JPanel {
                             if (account != null) {
                                 inNetwork = net;
                                 inEnterprise = en;
-                                inOrganization = or;
-                                break;
+                                break labelA;
                             }
                         }
                     } else {
                         inNetwork = net;
                         inEnterprise = en;
-                        break;
+                        break labelA;
                     }
                 }
             }

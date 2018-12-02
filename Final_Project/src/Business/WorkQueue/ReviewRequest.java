@@ -5,6 +5,7 @@
  */
 package Business.WorkQueue;
 
+import Business.Enterprise.Enterprise;
 import Business.UserAccount.UserAccount;
 
 /**
@@ -15,8 +16,9 @@ public class ReviewRequest extends WorkRequest {
     private int rate;
     private OrderRequest order;
 
-    public ReviewRequest(UserAccount sender, UserAccount receiver) {
-        super(sender, receiver);
+    public ReviewRequest(Enterprise enterprise, UserAccount account, OrderRequest order) {
+        super(enterprise, account);
+        this.order = order;
     }
     
     public int getRate() {

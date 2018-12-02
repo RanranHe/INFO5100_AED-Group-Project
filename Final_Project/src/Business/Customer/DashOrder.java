@@ -5,8 +5,8 @@
  */
 package Business.Customer;
 
-import Business.Restaurant.Dash;
-import Business.Restaurant.Restaurant;
+import Business.Enterprise.Restaurant.Dash;
+import Business.Enterprise.Restaurant.Restaurant;
 import java.math.BigDecimal;
 
 /**

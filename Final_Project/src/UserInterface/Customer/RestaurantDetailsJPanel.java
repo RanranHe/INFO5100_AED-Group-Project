@@ -9,8 +9,9 @@ import Business.Customer.DashOrder;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
-import Business.Restaurant.Dash;
-import Business.Restaurant.Restaurant;
+import Business.Enterprise.Restaurant.Dash;
+import Business.Enterprise.Restaurant.Restaurant;
+import Business.Network.Network;
 import Business.UserAccount.CustomerAccount;
 import java.awt.Image;
 import java.util.ArrayList;
@@ -27,17 +28,17 @@ public class RestaurantDetailsJPanel extends javax.swing.JPanel {
     private EcoSystem system;
     private Restaurant restaurant;
     private CustomerAccount account;
-    private Enterprise en;
+    private Network net;
 
     /**
      * Creates new form RestaurantDetailsJPanel
      */
-    public RestaurantDetailsJPanel(EcoSystem system, Restaurant restaurant, CustomerAccount account, Enterprise en) {
+    public RestaurantDetailsJPanel(EcoSystem system, Restaurant restaurant, CustomerAccount account, Network net) {
         initComponents();
         this.system = system;
         this.restaurant = restaurant;
         this.account = account;
-        this.en = en;
+        this.net = net;
 
         showImage();
         populateTable(restaurant.getMenu());

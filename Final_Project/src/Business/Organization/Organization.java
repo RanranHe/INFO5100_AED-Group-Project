@@ -6,7 +6,6 @@
 package Business.Organization;
 
 import Business.Employee.EmployeeDir;
-import Business.Restaurant.RestaurantDir;
 import Business.Role.Role;
 import Business.UserAccount.UserAccountDir;
 import Business.WorkQueue.WorkQueue;
@@ -63,18 +62,6 @@ public abstract class Organization {
     public void setName(String name) {
         this.name = name;
     }
-
-//    public String getCityName() {
-//        return this.city.name();
-//    }
-//    
-//    public City getCity() {
-//        return this.city;
-//    }
-//
-//    public void setCity(City city) {
-//        this.city = city;
-//    }
 
     public EmployeeDir getEmployeeDirectory() {
         return employees;

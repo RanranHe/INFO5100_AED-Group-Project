@@ -6,8 +6,8 @@
 package UserInterface.Customer;
 
 import Business.Customer.DashOrder;
+import Business.Enterprise.Restaurant.Restaurant;
 import Business.UserAccount.CustomerAccount;
-import Business.UserAccount.RestaurantAccount;
 import Business.WorkQueue.OrderRequest;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -29,11 +29,11 @@ public class OrderConfirmationJPanel extends javax.swing.JPanel {
         initComponents();
         this.order = order;
 
-        this.customerAccount = (CustomerAccount) order.getSender();
-        RestaurantAccount restaurantAccount = (RestaurantAccount) order.getReceiver();
+        this.customerAccount = (CustomerAccount) order.getAccount();
+        Restaurant restaurant = (Restaurant) order.getEnterprise();
         populateTable(customerAccount.getCart().getItemList());
 
-        this.restaurantLabel.setText(restaurantAccount.getRestaurant().getName());
+        this.restaurantLabel.setText(restaurant.getName());
         this.nameLabel.setText(order.getDeliveryName());
         this.addressLabel.setText(order.getDeliveryAddress());
         this.phoneLabel.setText(order.getDeliveryPhone());
