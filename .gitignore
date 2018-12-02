@@ -7,4 +7,4 @@
 /Final_Project/build/
 /Final_Project/nbproject/private/
 Databank.db4o
-.DS_Store
+*.DS_Store
