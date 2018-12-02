@@ -501,7 +501,6 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        this.frame.setVisible(false);
         this.container.remove(this);
         CardLayout layout = (CardLayout) this.container.getLayout();
         for (Component com : this.container.getComponents()) {
@@ -511,7 +510,6 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
             }
         }
         layout.previous(this.container);
-        this.frame.setVisible(true);
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void jTabbedPane1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1PropertyChange
