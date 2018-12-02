@@ -48,6 +48,8 @@ public class ConfigureASystem {
         // BOSTON Enterprise with organiztions created
         DeliveryCompany enter1 = network1.createDeliveryCompany("Boston Delivery Company", "1 Pleasant Street, Boston, MA 02125", "(617) 553-5900");
 
+        Employee boss = enter1.getEmployeeDirectory().createEmployee("boss", "boss", "23323", "boss@com");
+        UserAccount bossA = enter1.getUserAccountDirectory().createEmployeeAccount("delivery", "delivery", new BossRole(), boss);
         // BOSTON Delivery Company Organization
         ManagerOrganization mo1 = (ManagerOrganization) enter1.getOrganizationDirectory().getTypicalOrganization(Organization.Type.Manager);
         DeliveryManOrganization do1 = (DeliveryManOrganization) enter1.getOrganizationDirectory().getTypicalOrganization(Organization.Type.DeliveryMan);

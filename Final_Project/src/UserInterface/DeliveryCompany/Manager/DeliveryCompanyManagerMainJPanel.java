@@ -54,7 +54,7 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
     private Role role;
     private String path;
     private String originPath;
-    private OrderRequest selectedOrder = null;
+    private DeliveryRequest selectedRequest = null;
     private Employee employee;
 
     /**
@@ -79,8 +79,8 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
             logoutButton.setVisible(false);
             jLabel5.setText("");
         }
-        
-        populateOrderTable(company.getWorkQueue().getWorkRequestList());
+
+        populateOrderTable(getAllDeliveryRequest());
         populateEmployeeTable(company.getOrganizationDirectory().getOrganizationList());
 
         if (role.getRoleType().equals(RoleType.Manager)) {
@@ -88,11 +88,6 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
             saveButton.setVisible(false);
             uploadButton.setVisible(false);
             cancelButton.setVisible(false);
-        }
-
-        List<Category> list = Arrays.asList(Restaurant.Category.values());
-        for (Category c : list) {
-            categoryComboBox.addItem(c);
         }
 
         // Overview Panel
@@ -111,6 +106,17 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
         setProfileFieldsEditable(false);
 
         // Order Panel
+        cancelOrderButton.setEnabled(false);
+    }
+
+    private ArrayList<WorkRequest> getAllDeliveryRequest() {
+        ArrayList<WorkRequest> list = new ArrayList<>();
+        list.addAll(this.en.getWorkQueue().getWorkRequestList());
+        for (UserAccount ac : en.getOrganizationDirectory().getTypicalOrganization(Organization.Type.DeliveryMan).
+                getUserAccountDirectory().getUserAccountList()) {
+            list.addAll(ac.getWorkQueue().getWorkRequestList());
+        }
+        return list;
     }
 
     public void populateEmployeeTable(ArrayList<Organization> list) {
@@ -148,6 +154,17 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
         }
     }
 
+    private void populateDetails() {
+        DeliveryCompany res = (DeliveryCompany) selectedRequest.getEnterprise();
+        pickupAddressTextArea.setText(res.getAddress());
+        pickupNameTextField2.setText(res.getName());
+        pickupPhoneTextField.setText(res.getPhone());
+        OrderRequest or = (OrderRequest) selectedRequest.getOrder();
+        deliveryAddressTextArea.setText(or.getDeliveryAddress());
+        deliveryNameTextField.setText(or.getDeliveryName());
+        deliveryPhoneTextField.setText(or.getDeliveryPhone());
+    }
+
     private void setProfileFieldsEditable(boolean b) {
         emailTextField.setEnabled(b);
         firstNameTextField.setEnabled(b);
@@ -160,16 +177,14 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
         phoneTextField.setEnabled(b);
         addressTextArea.setEnabled(b);
         descriptionTextArea.setEnabled(b);
-        categoryComboBox.setEnabled(b);
     }
 
     private void setOverviewInfo() {
-        nameLabel.setText(restaurant.getName());
-        nameTextField.setText(restaurant.getName());
-        phoneTextField.setText(restaurant.getPhone());
-        addressTextArea.setText(restaurant.getAddress());
-        descriptionTextArea.setText(restaurant.getDescription());
-        categoryComboBox.setSelectedItem(restaurant.getCategory());
+        nameLabel.setText(company.getName());
+        nameTextField.setText(company.getName());
+        phoneTextField.setText(company.getPhone());
+        addressTextArea.setText(company.getAddress());
+        descriptionTextArea.setText(company.getDescription());
         ImageIcon image = new ImageIcon(originPath);
         image.setImage(image.getImage().getScaledInstance(250, 180, Image.SCALE_DEFAULT));
         imageLabel.setIcon(image);
@@ -203,7 +218,6 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         overviewPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         imageLabel = new javax.swing.JLabel();
@@ -216,7 +230,6 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
         addressTextArea = new javax.swing.JTextArea();
         jScrollPane5 = new javax.swing.JScrollPane();
         descriptionTextArea = new javax.swing.JTextArea();
-        categoryComboBox = new javax.swing.JComboBox();
         jLabel7 = new javax.swing.JLabel();
         nameTextField = new javax.swing.JTextField();
         employeePanel = new javax.swing.JPanel();
@@ -241,6 +254,7 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         pickupNameTextField2 = new javax.swing.JTextField();
+        cancelOrderButton = new javax.swing.JButton();
         profilePanel = new javax.swing.JPanel();
         roleTextField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
@@ -278,9 +292,6 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel2.setText("Phone:");
-
-        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jLabel3.setText("Category: ");
 
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel4.setText("Description: ");
@@ -350,12 +361,8 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
                                         .addGap(58, 58, 58)
                                         .addComponent(uploadButton)))
                                 .addGap(18, 18, 18)
-                                .addGroup(overviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(overviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
-                                    .addGroup(overviewPanelLayout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(categoryComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(overviewPanelLayout.createSequentialGroup()
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -395,10 +402,7 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
                         .addGroup(overviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(phoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(overviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(categoryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(38, 38, 38)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -544,6 +548,13 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
         usernameTextField.setEnabled(false);
         pickupNameTextField2.setEditable(false);
 
+        cancelOrderButton.setText("Cancel Order");
+        cancelOrderButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelOrderButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout ordersPanelLayout = new javax.swing.GroupLayout(ordersPanel);
         ordersPanel.setLayout(ordersPanelLayout);
         ordersPanelLayout.setHorizontalGroup(
@@ -584,7 +595,9 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
                                     .addGroup(ordersPanelLayout.createSequentialGroup()
                                         .addComponent(jLabel22)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(deliveryPhoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(ordersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(cancelOrderButton, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(deliveryPhoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(57, 57, 57))))))
         );
         ordersPanelLayout.setVerticalGroup(
@@ -617,7 +630,8 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
                         .addGroup(ordersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(deliveryPhoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel22))
-                        .addGap(61, 61, 61)))
+                        .addGap(32, 32, 32)
+                        .addComponent(cancelOrderButton)))
                 .addContainerGap(80, Short.MAX_VALUE))
         );
 
@@ -901,13 +915,12 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         if (!phoneTextField.getText().equals("") && !addressTextArea.getText().equals("")
                 && !descriptionTextArea.getText().equals("") && !nameTextField.getText().equals("")) {
-            restaurant.setName(nameTextField.getText());
-            restaurant.setAddress(addressTextArea.getText());
-            restaurant.setDescription(descriptionTextArea.getText());
-            restaurant.setCategory((Category) categoryComboBox.getSelectedItem());
-            restaurant.setPhone(phoneTextField.getText());
+            company.setName(nameTextField.getText());
+            company.setAddress(addressTextArea.getText());
+            company.setDescription(descriptionTextArea.getText());
+            company.setPhone(phoneTextField.getText());
             if (!path.equalsIgnoreCase(originPath)) {
-                restaurant.setPath(path);
+                company.setPath(path);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Information can't be empty");
@@ -929,7 +942,7 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
         int i = chooser.showOpenDialog(null);
         if (i == chooser.APPROVE_OPTION) {
             path = chooser.getSelectedFile().getAbsolutePath();
-            restaurant.setPath(path);
+            company.setPath(path);
         } else {
             JOptionPane.showMessageDialog(null, "No file was selected");
         }
@@ -1050,33 +1063,23 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
         int index = orderTable.getSelectedRow();
 
         if (index >= 0) {
+            cancelOrderButton.setEnabled(true);
             selectedRequest = (DeliveryRequest) orderTable.getValueAt(index, 1);
-            if (selectedRequest.getStatus().equals(StatusEnum.Ready)) {
-                deliveryButton.setEnabled(true);
-                pickupButton.setEnabled(false);
-                deliveredButton.setEnabled(false);
-            }
-            if (selectedRequest.getStatus().equals(StatusEnum.WaitForPickup)) {
-                deliveryButton.setEnabled(false);
-                pickupButton.setEnabled(true);
-                deliveredButton.setEnabled(false);
-            }
-            if (selectedRequest.getStatus().equals(StatusEnum.OnTheWay)) {
-                deliveryButton.setEnabled(false);
-                pickupButton.setEnabled(false);
-                deliveredButton.setEnabled(true);
-            }
-            if (selectedRequest.getStatus().equals(StatusEnum.Completed)
-                    || selectedRequest.getStatus().equals(StatusEnum.Cancelled)) {
-                deliveryButton.setEnabled(false);
-                pickupButton.setEnabled(false);
-                deliveredButton.setEnabled(false);
-            }
             populateDetails();
         } else {
-            deliveryButton.setEnabled(false);
+            cancelOrderButton.setEnabled(false);
         }
     }//GEN-LAST:event_orderTableMouseClicked
+
+    private void cancelOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelOrderButtonActionPerformed
+        int input = JOptionPane.showConfirmDialog(null, "Are you sure to cancel this order?");
+        if (input == 0) {
+            selectedRequest.setStatus(StatusEnum.Cancelled);
+            selectedRequest.getOrder().setStatus(StatusEnum.Cancelled);
+            DB4OUtil.getInstance().storeSystem(system);
+            populateOrderTable(getAllDeliveryRequest());
+        }
+    }//GEN-LAST:event_cancelOrderButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1084,7 +1087,7 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton cancelButton1;
     private javax.swing.JButton cancelButton2;
-    private javax.swing.JComboBox categoryComboBox;
+    private javax.swing.JButton cancelOrderButton;
     private javax.swing.JButton createButton1;
     private javax.swing.JTextArea deliveryAddressTextArea;
     private javax.swing.JTextField deliveryNameTextField;
@@ -1112,7 +1115,6 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;

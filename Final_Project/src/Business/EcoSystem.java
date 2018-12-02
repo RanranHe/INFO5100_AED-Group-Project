@@ -57,9 +57,9 @@ public class EcoSystem extends Organization {
         this.networkList.add(network);
         return network;
     }
-    
+
     public Network getNetworkByCity(String city) {
-        for (Network net:this.networkList) {
+        for (Network net : this.networkList) {
             if (net.getCity().equals(city)) {
                 return net;
             }
@@ -69,5 +69,26 @@ public class EcoSystem extends Organization {
 
     public CustomerDir getCustomers() {
         return this.customers;
+    }
+
+    public boolean isUserNameAvaliable(String username) {
+        if (this.getUserAccountDirectory().isUsernameValid(username)) {
+            for (Network net : this.networkList) {
+                for (Enterprise en : net.getEnterpriseDirectory().getEnterpriseList()) {
+                    if (en.getUserAccountDirectory().isUsernameValid(username)) {
+                        for (Organization or : en.getOrganizationDirectory().getOrganizationList()) {
+                            if (!or.getUserAccountDirectory().isUsernameValid(username)) {
+                                return false;
+                            }
+                        }
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        } else {
+            return false;
+        }
+        return true;
     }
 }

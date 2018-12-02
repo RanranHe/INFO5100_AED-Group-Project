@@ -10,6 +10,7 @@ import Business.Organization.ManagerOrganization;
 import Business.Organization.Organization;
 import Business.Organization.OrganizationDir;
 import Business.Role.Role;
+import Business.UserAccount.UserAccount;
 import java.util.ArrayList;
 
 /**
@@ -18,13 +19,9 @@ import java.util.ArrayList;
  */
 public abstract class Enterprise extends Organization {
     private OrganizationDir organizations;
-//    private RestaurantDir restaurants;
-//    private String city;
     
     public Enterprise(String name) {
         super(name);
-//        this.city = city;
-//        this.restaurants = new RestaurantDir();
         this.organizations = new OrganizationDir();
     }
     
@@ -33,14 +30,6 @@ public abstract class Enterprise extends Organization {
     }
     
     public abstract void createOrganizations();
-    
-//    public RestaurantDir getRestaurantDirectory() {
-//        return restaurants;
-//    }
-    
-//    public String getCity() {
-//        return this.city;
-//    }
 
     @Override
     public ArrayList<Role> getSupportedRole() {

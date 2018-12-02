@@ -8,16 +8,16 @@ package UserInterface.Restaurant.Manager;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Employee.Employee;
+import Business.Enterprise.DeliveryCompany.DeliveryCompany;
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.Restaurant.Restaurant;
-import Business.Organization.DeliveryManOrganization;
 import Business.Organization.Organization;
 import Business.Role.DeliveryManRole;
 import Business.Role.ManagerRole;
 import Business.Role.Role;
 import Business.Role.Role.RoleType;
+import UserInterface.DeliveryCompany.Manager.DeliveryCompanyManagerMainJPanel;
 import java.awt.CardLayout;
-import java.awt.Component;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -29,14 +29,14 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
     private Enterprise en;
-    private RestaurantManagerMainJPanel panel;
+    private JPanel panel;
     private JPanel workPanel;
     private Role role;
 
     /**
      * Creates new form createEmployeeJPanel
      */
-    public CreateEmployeeJPanel(EcoSystem system, RestaurantManagerMainJPanel panel, JPanel workPanel, Enterprise en, Role role) {
+    public CreateEmployeeJPanel(EcoSystem system, JPanel panel, JPanel workPanel, Enterprise en, Role role) {
         initComponents();
         this.system = system;
         this.panel = panel;
@@ -45,9 +45,15 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
         this.role = role;
 
         if (en instanceof Restaurant) {
-            if (role.getRoleType().getValue().equals(Role.RoleType.Boss.getValue())) {
+            if (role.getRoleType().equals(Role.RoleType.Boss)) {
                 roleComboBox.addItem(Role.RoleType.Manager);
             }
+        }
+        if (en instanceof DeliveryCompany) {
+            if (role.getRoleType().equals(Role.RoleType.Boss)) {
+                roleComboBox.addItem(Role.RoleType.Manager);
+            }
+            roleComboBox.addItem(Role.RoleType.DeliveryMan);
         }
     }
 
@@ -240,9 +246,9 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         if (roleComboBox.getSelectedItem() != null) {
-            Organization dOrg = en.getOrganizationDirectory().getTypicalOrganization(((RoleType)roleComboBox.getSelectedItem()).getOrganizationType());
+            Organization dOrg = en.getOrganizationDirectory().getTypicalOrganization(((RoleType) roleComboBox.getSelectedItem()).getOrganizationType());
             if (!this.usernameTextField.getText().equals("")
-                    && dOrg.getUserAccountDirectory().isUsernameValid(this.usernameTextField.getText())) {
+                    && system.isUserNameAvaliable(this.usernameTextField.getText())) {
                 char[] passwordCharArray1 = passwordField1.getPassword();
                 String new1 = String.valueOf(passwordCharArray1);
                 char[] passwordCharArray2 = passwordField2.getPassword();
@@ -267,9 +273,17 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
                         DB4OUtil.getInstance().storeSystem(system);
 
                         this.workPanel.remove(this);
-                        CardLayout layout = (CardLayout)this.workPanel.getLayout();
+                        CardLayout layout = (CardLayout) this.workPanel.getLayout();
                         layout.previous(this.workPanel);
-                        this.panel.populateEmployeeTable(en.getOrganizationDirectory().getOrganizationList());
+                        
+                        if (en instanceof Restaurant) {
+                            RestaurantManagerMainJPanel p = (RestaurantManagerMainJPanel) panel;
+                            p.populateEmployeeTable(this.en.getOrganizationDirectory().getOrganizationList());
+                        }
+                        if (en instanceof DeliveryCompany) {
+                            DeliveryCompanyManagerMainJPanel p = (DeliveryCompanyManagerMainJPanel) panel;
+                            p.populateEmployeeTable(this.en.getOrganizationDirectory().getOrganizationList());
+                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "Passwords don't match!");
                     }
