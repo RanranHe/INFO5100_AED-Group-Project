@@ -133,6 +133,7 @@ public class SelectDeliveryJFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (deliveryList.getSelectedValue() != null) {
             DeliveryCompany de = (DeliveryCompany) deliveryList.getSelectedValue();
+            request.setCompany(de);
             request.setStatus(WorkRequest.StatusEnum.Ready);
             DeliveryRequest dr = new DeliveryRequest(restaurant, null, request);
             dr.setStatus(WorkRequest.StatusEnum.Ready);

@@ -6,6 +6,7 @@
 package Business.WorkQueue;
 
 import Business.Customer.DashOrder;
+import Business.Enterprise.DeliveryCompany;
 import Business.Enterprise.Enterprise;
 import Business.UserAccount.UserAccount;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class OrderRequest extends WorkRequest {
     private String deliveryAddress;
     private String deliveryPhone;
     private double amount;
+    private DeliveryCompany company;
     private ArrayList<DashOrder> dashes;
 
     // generate order number
@@ -85,5 +87,13 @@ public class OrderRequest extends WorkRequest {
 
     public double getAmount() {
         return this.amount;
+    }
+    
+    public DeliveryCompany getCompany(){
+        return this.company;
+    }
+    
+    public void setCompany(DeliveryCompany company) {
+        this.company = company;
     }
 }
