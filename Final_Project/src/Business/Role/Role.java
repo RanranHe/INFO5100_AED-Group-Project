@@ -27,7 +27,6 @@ public abstract class Role {
         Manager("Manager"),
         Customer("Customer"),
         DeliveryMan("Delivery Man"),
-        Restaurant("Restaurant"),
         SystemManager("System Manager");
         
         private String value;

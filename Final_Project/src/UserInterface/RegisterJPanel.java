@@ -179,7 +179,7 @@ public class RegisterJPanel extends javax.swing.JPanel {
         char[] passwordCharArray2 = passwordField1.getPassword();
         String password2 = String.valueOf(passwordCharArray2);
 
-        if (system.getUserAccountDirectory().isUsernameValid(username)) {
+        if (system.isUserNameAvaliable(username)) {
             if (password1.equals(password2)) {
                 this.frame.setSize(500, 430);
                 CustomerRegistrationInfoJPanel cp = new CustomerRegistrationInfoJPanel(this.system, this.leftPanel, this.frame, username, password1);

@@ -71,14 +71,6 @@ public class Restaurant extends Enterprise {
         return this.id;
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getAddress() {
         return this.address;
     }

@@ -8,12 +8,17 @@ package UserInterface.Restaurant.Manager;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Employee.Employee;
+import Business.Enterprise.DeliveryCompany.DeliveryCompany;
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.Restaurant.Restaurant;
+import Business.Organization.Organization;
 import Business.Role.Role;
 import Business.Role.Role.RoleType;
+import Business.Role.RoleFactory;
 import Business.UserAccount.EmployeeAccount;
+import UserInterface.DeliveryCompany.Manager.DeliveryCompanyManagerMainJPanel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -23,7 +28,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
     private EmployeeAccount account;
-    private RestaurantManagerMainJPanel panel;
+    private JPanel panel;
     private Enterprise en;
     private Role role;
 
@@ -32,7 +37,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
     /**
      * Creates new form EditEmployeeJPanel
      */
-    public EditEmployeeJPanel(EcoSystem system, RestaurantManagerMainJPanel panel, Enterprise en, EmployeeAccount account, Role role) {
+    public EditEmployeeJPanel(EcoSystem system, JPanel panel, Enterprise en, EmployeeAccount account, Role role) {
         initComponents();
         this.system = system;
         this.panel = panel;
@@ -43,12 +48,9 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
         this.employee = account.getEmployee();
         if (en instanceof Restaurant) {
             roleComboBox.addItem(RoleType.Manager);
-            if (role.getRoleType().equals(RoleType.Boss)) {
-                // TODO can add more roles
-                if (account.getRole().getRoleType().equals(RoleType.Boss)) {
-                    editButton.setEnabled(false);
-                    resetButton.setEnabled(false);
-                }
+            if (account.getRole().getRoleType().equals(RoleType.Boss)) {
+                editButton.setEnabled(false);
+                resetButton.setEnabled(false);
             }
             if (role.getRoleType().equals(RoleType.Manager)) {
                 if (account.getRole().getRoleType().equals(RoleType.Manager)
@@ -58,7 +60,23 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
                 }
             }
         }
-        
+
+        if (en instanceof DeliveryCompany) {
+            roleComboBox.addItem(RoleType.Manager);
+            roleComboBox.addItem(RoleType.DeliveryMan);
+            if (account.getRole().getRoleType().equals(RoleType.Boss)) {
+                editButton.setEnabled(false);
+                resetButton.setEnabled(false);
+            }
+            if (role.getRoleType().equals(RoleType.Manager)) {
+                if (account.getRole().getRoleType().equals(RoleType.Manager)
+                        || account.getRole().getRoleType().equals(RoleType.Boss)) {
+                    editButton.setEnabled(false);
+                    resetButton.setEnabled(false);
+                }
+            }
+        }
+
         setInfo();
         setFieldsEditable(false);
         saveButton.setEnabled(false);
@@ -278,6 +296,18 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
             this.employee.setFirstName(firstNameTextField.getText());
             this.employee.setLastName(lastNameTextField.getText());
             this.employee.setPhone(phoneTextField.getText());
+            RoleType selectedType = (RoleType) roleComboBox.getSelectedItem();
+            RoleType originType = this.account.getRole().getRoleType();
+            if (!selectedType.equals(originType)) {
+                this.account.setRole(RoleFactory.createRole(selectedType));
+                Organization to = en.getOrganizationDirectory().getTypicalOrganization(selectedType.
+                        getOrganizationType());
+                to.getEmployeeDirectory().getEmployeeList().add(employee);
+                to.getUserAccountDirectory().getUserAccountList().add(this.account);
+                Organization from = en.getOrganizationDirectory().getTypicalOrganization(originType.getOrganizationType());
+                from.getUserAccountDirectory().getUserAccountList().remove(this.account);
+                from.getEmployeeDirectory().getEmployeeList().remove(this.employee);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Information can't be empty");
             return;
@@ -287,7 +317,14 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
         cancelButton.setEnabled(false);
         editButton.setEnabled(true);
         DB4OUtil.getInstance().storeSystem(system);
-        this.panel.populateEmployeeTable(this.en.getOrganizationDirectory().getOrganizationList());
+        if (en instanceof Restaurant) {
+            RestaurantManagerMainJPanel p = (RestaurantManagerMainJPanel) panel;
+            p.populateEmployeeTable(this.en.getOrganizationDirectory().getOrganizationList());
+        }
+        if (en instanceof DeliveryCompany) {
+            DeliveryCompanyManagerMainJPanel p = (DeliveryCompanyManagerMainJPanel) panel;
+            p.populateEmployeeTable(this.en.getOrganizationDirectory().getOrganizationList());
+        }
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
