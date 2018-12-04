@@ -5,44 +5,45 @@
  */
 package Business.Enterprise.Restaurant;
 
+import Business.Enterprise.Item;
+
 /**
  *
  * @author ranranhe
  */
-public class Dash {
+public class Dash extends Item {
 
     private Restaurant restaurant;
-    private String name;
-    private double price;
+//    private String name;
+//    private double price;
 
     public Dash(Restaurant restaurant, String name, double price) {
+        super(name, price);
         this.restaurant = restaurant;
-        this.name = name;
-        this.price = price;
     }
 
     public Restaurant getRestaurant() {
         return this.restaurant;
     }
 
-    public String getName() {
-        return this.name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
-        return this.price;
-    }
-    
-    public void setPrice(double price) {
-        this.price = price;
-    }
-    
-    @Override
-    public String toString() {
-        return this.name;
-    }
+//    public String getName() {
+//        return this.name;
+//    }
+//    
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public double getPrice() {
+//        return this.price;
+//    }
+//    
+//    public void setPrice(double price) {
+//        this.price = price;
+//    }
+//    
+//    @Override
+//    public String toString() {
+//        return this.name;
+//    }
 }

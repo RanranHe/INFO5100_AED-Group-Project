@@ -6,15 +6,17 @@
 package UserInterface.Customer;
 
 import Business.Customer.DashOrder;
+import Business.Customer.ItemOrder;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
-import Business.Enterprise.Enterprise;
+import Business.Enterprise.Item;
 import Business.Enterprise.Restaurant.Dash;
 import Business.Enterprise.Restaurant.Restaurant;
+import Business.Enterprise.ShopModel;
+import Business.Enterprise.ShopModel.ShopType;
 import Business.Network.Network;
 import Business.UserAccount.CustomerAccount;
 import java.awt.Image;
-import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -23,82 +25,61 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ranranhe
  */
-public class RestaurantDetailsJPanel extends javax.swing.JPanel {
+public class ShopDetailsJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
-    private Restaurant restaurant;
+    private ShopModel shop;
     private CustomerAccount account;
     private Network net;
+    private ShopType type;
 
     /**
      * Creates new form RestaurantDetailsJPanel
      */
-    public RestaurantDetailsJPanel(EcoSystem system, Restaurant restaurant, CustomerAccount account, Network net) {
+    public ShopDetailsJPanel(EcoSystem system, ShopModel shop, CustomerAccount account, Network net, ShopType type) {
         initComponents();
         this.system = system;
-        this.restaurant = restaurant;
+        this.shop = shop;
         this.account = account;
         this.net = net;
+        this.type = type;
+
+        if (!type.equals(ShopType.Restaurant)) {
+            this.jTabbedPane1.setTitleAt(1, "Product");
+        }
 
         showImage();
-        populateTable(restaurant.getMenu());
+        populateTable();
 
-        addressTextArea.setText(restaurant.getAddress());
+        addressTextArea.setText(shop.getAddress());
         addressTextArea.setEnabled(false);
-        categoryLabel.setText(restaurant.getCategory().name());
-        descriptionTextArea.setText(restaurant.getDescription());
+        descriptionTextArea.setText(shop.getDescription());
         descriptionTextArea.setEnabled(false);
-        phoneLabel.setText(restaurant.getPhone());
+        phoneLabel.setText(shop.getPhone());
     }
 
-    private void populateTable(ArrayList<Dash> list) {
+    private void populateTable() {
         DefaultTableModel dtm = (DefaultTableModel) menuTable.getModel();
         dtm.setRowCount(0);
-        for (Dash dash : list) {
-            Object row[] = new Object[2];
-            row[0] = dash;
-            row[1] = dash.getPrice();
-            dtm.addRow(row);
+        if (type.equals(ShopType.Restaurant)) {
+            Restaurant res = (Restaurant) shop;
+            categoryLabel.setText(res.getCategory().name());
+            for (Dash dash : res.getMenu()) {
+                Object row[] = new Object[2];
+                row[0] = dash;
+                row[1] = dash.getPrice();
+                dtm.addRow(row);
+            }
         }
+
     }
 
     private void showImage() {
-//        String path = "Images/Restaurant/default.png";
-//        String fileName = "default.PNG";
-//        try {
-//            File f = new File("Images/Restaurant");
-//            if (f.isDirectory()) {
-//                File[] F1 = f.listFiles();
-//                for (File f2 : F1) {
-//                    if (f2.getName().equalsIgnoreCase(restaurant.getId() + ".png")) {
-//                        fileName = restaurant.getId() + ".png";
-//                        path = "Images/Restaurant/" + fileName;
-//                    }
-//                }
-//            }
-//            BufferedImage image = ImageIO.read(new File(path));
-//
-//            int radio = 0;
-//            if (image.getWidth() / 250 < image.getHeight() / 180) {
-//                radio = image.getWidth() / 250;
-//            } else {
-//                radio = image.getHeight() / 180;
-//            }
-//            int x = 11, y = 20, cutW = 250 * radio, cutH = 180 * radio;
-//
-//            Rectangle rect = new Rectangle(x, y, cutW, cutH);
-//            BufferedImage areaImage = image.getSubimage(rect.x, rect.y, rect.width, rect.height);
-//
-//            BufferedImage buffImg = new BufferedImage(cutW, cutH, BufferedImage.TYPE_INT_RGB);
-//            buffImg.getGraphics().drawImage(areaImage.getScaledInstance(cutW, cutH, java.awt.Image.SCALE_SMOOTH), 0, 0, null);
-//
-//            String newPath = "Images/RestaurantCut/" + fileName;
-//            ImageIO.write(buffImg, "png", new File(newPath));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        ImageIcon image = new ImageIcon(restaurant.getPath());
-
+        ImageIcon image = null;
+        if (type.equals(ShopType.Restaurant)) {
+            Restaurant res = (Restaurant) shop;
+            image = new ImageIcon(res.getPath());
+        }
         image.setImage(image.getImage().getScaledInstance(250, 180, Image.SCALE_DEFAULT));
         imageLabel.setIcon(image);
     }
@@ -296,15 +277,19 @@ public class RestaurantDetailsJPanel extends javax.swing.JPanel {
         int selectedRow = menuTable.getSelectedRow();
 
         if (selectedRow >= 0) {
-            Dash dash = (Dash) menuTable.getValueAt(selectedRow, 0);
+            Item item = (Item) menuTable.getValueAt(selectedRow, 0);
             int quantity = (int) quantitySpinner.getValue();
-            DashOrder order = new DashOrder(this.restaurant, dash, quantity);
-
+            
+            ItemOrder line = null;
+            if (this.type.equals(ShopType.Restaurant)) {
+                line = new DashOrder(this.shop, item, quantity);
+            }
+            
             if (!this.account.getCart().isCartEmpty()) {
-                for (DashOrder or : this.account.getCart().getItemList()) {
-                    if (!or.getRestaurant().equals(this.restaurant)) {
+                for (ItemOrder or : this.account.getCart().getItemList()) {
+                    if (!or.getShopModel().equals(this.shop)) {
                         int choice = JOptionPane.showConfirmDialog(null, "You alreay have dashes from other restaurant in shopping cart. \n"
-                                + "Adding this dash will remove all previous dashes in shopping cart.\n"+ "Do you want to continue?",
+                                + "Adding this dash will remove all previous dashes in shopping cart.\n" + "Do you want to continue?",
                                 "Restaurant Conflicts", JOptionPane.YES_NO_OPTION);
                         if (choice == JOptionPane.YES_OPTION) {
                             this.account.getCart().clearCart();
@@ -313,14 +298,15 @@ public class RestaurantDetailsJPanel extends javax.swing.JPanel {
                             return;
                         }
                     }
-                    if (or.getRestaurant().equals(this.restaurant) && or.getDash().equals(dash)) {
-                        order.setQuantity(or.getQuantity() + quantity);
+
+                    if (or.getShopModel().equals(this.shop) && or.getItem().equals(item)) {
+                        line.setQuantity(or.getQuantity() + quantity);
                         this.account.getCart().getItemList().remove(or);
                         break;
                     }
                 }
             }
-            this.account.getCart().addToCart(order);
+            this.account.getCart().addToCart(line);
 
             JOptionPane.showMessageDialog(null, "Dash has been successfully added to Shopping Cart");
             DB4OUtil.getInstance().storeSystem(system);

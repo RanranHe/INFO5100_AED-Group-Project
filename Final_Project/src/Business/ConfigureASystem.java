@@ -64,7 +64,7 @@ public class ConfigureASystem {
 
         // BOSTON Restaurant List
         Restaurant res1 = network1.createRestaurant("Row 34", "383 Congress St, Boston, MA 02210", "(617) 553-5900");
-        res1.setCategory(Restaurant.Category.Seafood);
+        res1.setCategory(Restaurant.RestaurantCategory.Seafood);
         res1.setDescription("This stylish brick-&-wood eatery serves an extensive oyster menu plus fish entrees & craft beers.");
         Dash dash1 = new Dash(res1, "Dash1", 20);
         Dash dash2 = new Dash(res1, "Dash2", 30);
@@ -82,7 +82,7 @@ public class ConfigureASystem {
 
 //        system.getUserAccountDirectory().addAccount(ua6);
         Restaurant res2 = network1.createRestaurant("Legal Harborside", "270 Northern Ave, Boston, MA 02210", "(617) 477-2900");
-        res2.setCategory(Restaurant.Category.Seafood);
+        res2.setCategory(Restaurant.RestaurantCategory.Seafood);
         res2.setDescription("Specializing in upmarket seafood, this contemporary chain also serves steaks & cocktails.");
         Dash d1 = new Dash(res1, "D1", 10);
         Dash d2 = new Dash(res1, "D2", 14);

@@ -5,7 +5,8 @@
  */
 package Business.Enterprise.Restaurant;
 
-import Business.Enterprise.Enterprise;
+import Business.Enterprise.Item;
+import Business.Enterprise.ShopModel;
 import Business.Organization.ManagerOrganization;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -18,33 +19,34 @@ import javax.imageio.ImageIO;
  *
  * @author ranranhe
  */
-public class Restaurant extends Enterprise {
+public class Restaurant extends ShopModel {
 
     private int id;
-    private String name;
-    private String address;
-    private String phone;
-    private Category category;
-    private String description;
-    private ArrayList<Dash> menu;
+//    private String name;
+//    private String address;
+//    private String phone;
+    private RestaurantCategory category;
+//    private String description;
+//    private ArrayList<Dash> menu;
     private double rate;
     private static int counter = 0;
     private String photoPath;
 
-    public enum Category {
+    public enum RestaurantCategory {
 
         Seafood, Chinese, Japanese, Korean, American, Mexicon
     }
 
     public Restaurant(String name, String address, String phone) {
-        super(name);
+        super(name, address, phone);
         this.id = counter;
         counter++;
-        this.name = name;
-        this.address = address;
-        this.phone = phone;
-        this.menu = new ArrayList<>();
+//        this.name = name;
+//        this.address = address;
+//        this.phone = phone;
+//        this.menu = new ArrayList<>();
         this.rate = -1;
+        this.setType(ShopType.Restaurant);
 
         String path = "Images/RestaurantCut/default.png";
         String fileName = "default.png";
@@ -71,44 +73,49 @@ public class Restaurant extends Enterprise {
         return this.id;
     }
 
-    public String getAddress() {
-        return this.address;
-    }
+//    public String getAddress() {
+//        return this.address;
+//    }
+//
+//    public void setAddress(String addr) {
+//        this.address = addr;
+//    }
+//
+//    public String getPhone() {
+//        return this.phone;
+//    }
+//
+//    public void setPhone(String phone) {
+//        this.phone = phone;
+//    }
+//
+//    public String getDescription() {
+//        return this.description;
+//    }
+//
+//    public void setDescription(String des) {
+//        this.description = des;
+//    }
 
-    public void setAddress(String addr) {
-        this.address = addr;
-    }
-
-    public String getPhone() {
-        return this.phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public void setDescription(String des) {
-        this.description = des;
-    }
-
-    public Category getCategory() {
+    public RestaurantCategory getCategory() {
         return this.category;
     }
 
-    public void setCategory(Category cat) {
+    public void setCategory(RestaurantCategory cat) {
         this.category = cat;
     }
 
     public ArrayList<Dash> getMenu() {
-        return this.menu;
+        ArrayList<Dash> result = new ArrayList<>();
+        for (Item item:this.getItems()) {
+            Dash dash = (Dash)item;
+            result.add(dash);
+        }
+        return result;
     }
 
     public void addDashToMenu(Dash dash) {
-        this.menu.add(dash);
+        this.getItems().add(dash);
     }
 
 //    public ArrayList<OrderRequest> getOrders() {
@@ -167,9 +174,9 @@ public class Restaurant extends Enterprise {
         }
         this.photoPath = newPath;
     }
-
-    @Override
-    public String toString() {
-        return this.name;
-    }
+//
+//    @Override
+//    public String toString() {
+//        return this.name;
+//    }
 }

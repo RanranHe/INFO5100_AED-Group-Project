@@ -8,7 +8,7 @@ package UserInterface.Customer;
 import Business.Customer.Customer;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
-import Business.Enterprise.Restaurant.Restaurant;
+import Business.Enterprise.ShopModel;
 import Business.Role.Role;
 import Business.UserAccount.CustomerAccount;
 import Business.WorkQueue.OrderRequest;
@@ -21,7 +21,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -75,7 +74,7 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
             row[0] = or.getId();
             row[1] = or;
             row[2] = or.getStatus();
-            row[3] = (Restaurant) or.getEnterprise();
+            row[3] = (ShopModel) or.getEnterprise();
             row[4] = or.getAmount();
             dtm.addRow(row);
         }
@@ -368,7 +367,7 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Order #", "Order Date", "Status", "Restaurant", "Amount"
+                "Order #", "Order Date", "Status", "Merchant", "Amount"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -504,7 +503,7 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         this.container.remove(this);
         CardLayout layout = (CardLayout) this.container.getLayout();
         for (Component com : this.container.getComponents()) {
-            if (com instanceof RestaurantListJPanel) {
+            if (com instanceof ShopListJPanel) {
                 this.frame.setSize(950, 600);
                 this.frame.setLocationRelativeTo(null);
             }
@@ -578,12 +577,11 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
 
     private void orderTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orderTableMouseClicked
         int index = orderTable.getSelectedRow();
-        TableModel model = orderTable.getModel();
 
         if (index >= 0) {
             OrderRequest order = (OrderRequest) orderTable.getValueAt(index, 1);
-            Restaurant restaurant = (Restaurant) orderTable.getValueAt(index, 3);
-            OrderDetailJPanel panel = new OrderDetailJPanel(order, restaurant);
+            ShopModel shop = (ShopModel) orderTable.getValueAt(index, 3);
+            OrderDetailJPanel panel = new OrderDetailJPanel(order, shop);
             detailPanel.add(panel);
             CardLayout layout = (CardLayout) this.detailPanel.getLayout();
             layout.next(detailPanel);

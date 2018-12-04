@@ -9,6 +9,7 @@ import Business.Enterprise.DeliveryCompany.DeliveryCompany;
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.EnterpriseDir;
 import Business.Enterprise.Restaurant.Restaurant;
+import Business.Enterprise.ShopModel;
 import java.util.ArrayList;
 import java.util.Map;
 

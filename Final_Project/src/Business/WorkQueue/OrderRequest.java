@@ -5,7 +5,7 @@
  */
 package Business.WorkQueue;
 
-import Business.Customer.DashOrder;
+import Business.Customer.ItemOrder;
 import Business.Enterprise.DeliveryCompany.DeliveryCompany;
 import Business.Enterprise.Enterprise;
 import Business.UserAccount.UserAccount;
@@ -24,23 +24,22 @@ public class OrderRequest extends WorkRequest {
     private String deliveryPhone;
     private double amount;
     private DeliveryCompany company;
-    private ArrayList<DashOrder> dashes;
+    private ArrayList<ItemOrder> dashes;
 
     // generate order number
     public static String genId() {
         String orderId
                 = (System.currentTimeMillis() + "").substring(1)
                 + (System.nanoTime() + "").substring(7, 10);
-        System.out.println(orderId);
         return orderId;
     }
 
-    public OrderRequest(Enterprise enterprise, UserAccount account, ArrayList<DashOrder> dashes) {
+    public OrderRequest(Enterprise enterprise, UserAccount account, ArrayList<ItemOrder> dashes) {
         super(enterprise, account);
         this.dashes = dashes;
         this.id = genId();
     }
-    
+
     public String getId() {
         return this.id;
     }
@@ -69,7 +68,7 @@ public class OrderRequest extends WorkRequest {
         this.deliveryPhone = phone;
     }
 
-    public ArrayList<DashOrder> getDashes() {
+    public ArrayList<ItemOrder> getItems() {
         return this.dashes;
     }
 
@@ -88,11 +87,11 @@ public class OrderRequest extends WorkRequest {
     public double getAmount() {
         return this.amount;
     }
-    
-    public DeliveryCompany getCompany(){
+
+    public DeliveryCompany getCompany() {
         return this.company;
     }
-    
+
     public void setCompany(DeliveryCompany company) {
         this.company = company;
     }
