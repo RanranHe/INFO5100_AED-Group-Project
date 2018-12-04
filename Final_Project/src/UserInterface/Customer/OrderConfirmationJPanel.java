@@ -6,6 +6,7 @@
 package UserInterface.Customer;
 
 import Business.Customer.DashOrder;
+import Business.Customer.ItemOrder;
 import Business.Enterprise.Restaurant.Restaurant;
 import Business.UserAccount.CustomerAccount;
 import Business.WorkQueue.OrderRequest;
@@ -31,7 +32,6 @@ public class OrderConfirmationJPanel extends javax.swing.JPanel {
 
         this.customerAccount = (CustomerAccount) order.getAccount();
         Restaurant restaurant = (Restaurant) order.getEnterprise();
-        populateTable(customerAccount.getCart().getItemList());
 
         this.restaurantLabel.setText(restaurant.getName());
         this.nameLabel.setText(order.getDeliveryName());
@@ -39,13 +39,13 @@ public class OrderConfirmationJPanel extends javax.swing.JPanel {
         this.phoneLabel.setText(order.getDeliveryPhone());
         
         cartTable.setEnabled(false);
-        populateTable(order.getDashes());
+        populateTable();
     }
 
-    private void populateTable(ArrayList<DashOrder> list) {
+    private void populateTable() {
         DefaultTableModel dtm = (DefaultTableModel) cartTable.getModel();
         dtm.setRowCount(0);
-        for (DashOrder or : list) {
+        for (ItemOrder or : order.getItems()) {
             Object row[] = new Object[3];
             row[0] = or;
             row[1] = or.getQuantity();

@@ -5,7 +5,7 @@
  */
 package UserInterface.Restaurant.Manager;
 
-import Business.Customer.DashOrder;
+import Business.Customer.ItemOrder;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Employee.Employee;
@@ -24,12 +24,12 @@ import Business.WorkQueue.WorkRequest;
 import Business.WorkQueue.WorkRequest.StatusEnum;
 import UserInterface.LoginJFrame;
 import java.awt.CardLayout;
-import java.awt.Component;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -91,10 +91,10 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
             }
         }
 
-        List<RestaurantCategory> list = Arrays.asList(Restaurant.RestaurantCategory.values());
-        for (RestaurantCategory c : list) {
-            categoryComboBox.addItem(c);
-        }
+//        categoryComboBox = new JComboBox<RestaurantCategory>();
+//        for (RestaurantCategory c : Restaurant.RestaurantCategory.values()) {
+//            categoryComboBox.addItem(c);
+//        }
 
         // Overview Panel
         editButton.setEnabled(true);
@@ -169,8 +169,8 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
     public void populateDetailTable(OrderRequest order) {
         DefaultTableModel dtm = (DefaultTableModel) orderDetailTable.getModel();
         dtm.setRowCount(0);
-        ArrayList<DashOrder> list = order.getDashes();
-        for (DashOrder d : list) {
+        ArrayList<ItemOrder> list = order.getItems();
+        for (ItemOrder d : list) {
             Object row[] = new Object[5];
             row[0] = d;
             row[1] = d.getQuantity();
@@ -261,7 +261,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         addressTextArea = new javax.swing.JTextArea();
         jScrollPane5 = new javax.swing.JScrollPane();
         descriptionTextArea = new javax.swing.JTextArea();
-        categoryComboBox = new javax.swing.JComboBox();
+        categoryComboBox = new javax.swing.JComboBox<RestaurantCategory>();
         jLabel7 = new javax.swing.JLabel();
         nameTextField = new javax.swing.JTextField();
         menuPanel = new javax.swing.JPanel();
@@ -1178,7 +1178,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
     private javax.swing.JButton cancelButton1;
     private javax.swing.JButton cancelButton2;
     private javax.swing.JButton cancelOrderButton;
-    private javax.swing.JComboBox categoryComboBox;
+    private javax.swing.JComboBox<RestaurantCategory> categoryComboBox;
     private javax.swing.JTextArea commentTextArea;
     private javax.swing.JTextField compayTextField;
     private javax.swing.JButton createButton1;

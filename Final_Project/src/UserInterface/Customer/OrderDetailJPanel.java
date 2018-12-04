@@ -6,6 +6,7 @@
 package UserInterface.Customer;
 
 import Business.Customer.DashOrder;
+import Business.Customer.ItemOrder;
 import Business.Enterprise.Restaurant.Restaurant;
 import Business.WorkQueue.OrderRequest;
 import java.math.BigDecimal;
@@ -36,13 +37,13 @@ public class OrderDetailJPanel extends javax.swing.JPanel {
         this.nameLabel.setText(order.getDeliveryName());
         this.addressLabel.setText(order.getDeliveryAddress());
         this.phoneLabel.setText(order.getDeliveryPhone());
-        populateTable(order.getDashes());
+        populateTable();
     }
 
-    private void populateTable(ArrayList<DashOrder> list) {
+    private void populateTable() {
         DefaultTableModel dtm = (DefaultTableModel) cartTable.getModel();
         dtm.setRowCount(0);
-        for (DashOrder or : list) {
+        for (ItemOrder or : order.getItems()) {
             Object row[] = new Object[3];
             row[0] = or;
             row[1] = or.getQuantity();

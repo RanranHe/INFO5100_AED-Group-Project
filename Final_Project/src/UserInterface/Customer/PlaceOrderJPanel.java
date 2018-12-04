@@ -5,10 +5,10 @@
  */
 package UserInterface.Customer;
 
-import Business.Customer.DashOrder;
+import Business.Customer.ItemOrder;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
-import Business.Enterprise.Restaurant.Restaurant;
+import Business.Enterprise.ShopModel;
 import Business.Network.Network;
 import Business.UserAccount.CustomerAccount;
 import Business.WorkQueue.OrderRequest;
@@ -16,7 +16,6 @@ import Business.WorkQueue.WorkRequest;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -30,23 +29,23 @@ public class PlaceOrderJPanel extends javax.swing.JPanel {
     private EcoSystem system;
     private CustomerAccount customerAccount;
     private JPanel container;
-    private Restaurant restaurant;
+    private ShopModel shop;
     private Network net;
 
     /**
      * Creates new form PlaceOrderJPanel
      */
     public PlaceOrderJPanel(EcoSystem system, JPanel container, CustomerAccount customerAccount,
-            Restaurant restaurant, Network net) {
+            ShopModel shop, Network net) {
         initComponents();
         this.system = system;
         this.container = container;
         this.customerAccount = customerAccount;
-        this.restaurant = restaurant;
+        this.shop = shop;
         this.net = net;
 
-        populateTable(customerAccount.getCart().getItemList());
-        this.restaurantLabel.setText(this.restaurant.getName());
+        populateTable();
+        this.restaurantLabel.setText(this.shop.getName());
     }
 
 //    private RestaurantAccount getAccountByRestaurant(Restaurant restaurant) {
@@ -61,10 +60,10 @@ public class PlaceOrderJPanel extends javax.swing.JPanel {
 //        return null;
 //    }
 
-    private void populateTable(ArrayList<DashOrder> list) {
+    private void populateTable() {
         DefaultTableModel dtm = (DefaultTableModel) cartTable.getModel();
         dtm.setRowCount(0);
-        for (DashOrder order : list) {
+        for (ItemOrder order : customerAccount.getCart().getItemList()) {
             Object row[] = new Object[3];
             row[0] = order;
             row[1] = order.getQuantity();
@@ -274,7 +273,7 @@ public class PlaceOrderJPanel extends javax.swing.JPanel {
             return;
         }
         
-        OrderRequest or = new OrderRequest(restaurant, customerAccount,
+        OrderRequest or = new OrderRequest(shop, customerAccount,
                 customerAccount.getCart().getItemList());
         or.setDeliveryAddress(this.addressTextField.getText());
         or.setDeliveryName(this.nameTextField.getText());
@@ -287,7 +286,7 @@ public class PlaceOrderJPanel extends javax.swing.JPanel {
         
         customerAccount.getCart().clearCart();
         customerAccount.getWorkQueue().getWorkRequestList().add(or);
-        restaurant.getWorkQueue().getWorkRequestList().add(or);
+        shop.getWorkQueue().getWorkRequestList().add(or);
         DB4OUtil.getInstance().storeSystem(system);
         
         this.container.remove(this);
@@ -304,7 +303,7 @@ public class PlaceOrderJPanel extends javax.swing.JPanel {
         for (Component com : this.container.getComponents()) {
             if (com instanceof CartJPanel) {
                 CartJPanel panel = (CartJPanel) com;
-                panel.populateTable(customerAccount.getCart().getItemList());
+                panel.populateTable();
             }
         }
         layout.previous(this.container);

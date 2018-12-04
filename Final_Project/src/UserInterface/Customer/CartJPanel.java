@@ -6,6 +6,7 @@
 package UserInterface.Customer;
 
 import Business.Customer.DashOrder;
+import Business.Customer.ItemOrder;
 import Business.Customer.ShoppingCart;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
@@ -45,18 +46,18 @@ public class CartJPanel extends javax.swing.JPanel {
         modifyButton.setEnabled(false);
 
         if (!account.getCart().getItemList().isEmpty()) {
-            restaurantLabel.setText(account.getCart().getItemList().get(0).getRestaurant().getName());
+            restaurantLabel.setText(account.getCart().getItemList().get(0).getShopModel().getName());
         } else {
             checkoutButton.setEnabled(false);
         }
         
-        populateTable(account.getCart().getItemList());
+        populateTable();
     }
 
-    public void populateTable(ArrayList<DashOrder> list) {
+    public void populateTable() {
         DefaultTableModel dtm = (DefaultTableModel) cartTable.getModel();
         dtm.setRowCount(0);
-        for (DashOrder order : list) {
+        for (ItemOrder order : account.getCart().getItemList()) {
             Object row[] = new Object[3];
             row[0] = order;
             row[1] = order.getQuantity();
@@ -216,7 +217,7 @@ public class CartJPanel extends javax.swing.JPanel {
 
     private void checkoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkoutButtonActionPerformed
         PlaceOrderJPanel panel = new PlaceOrderJPanel(this.system, this.container, this.account, 
-            account.getCart().getItemList().get(0).getRestaurant(), net);
+            account.getCart().getItemList().get(0).getShopModel(), net);
         this.container.add(panel);
         CardLayout layout = (CardLayout) this.container.getLayout();
         layout.next(this.container);
@@ -230,7 +231,7 @@ public class CartJPanel extends javax.swing.JPanel {
             this.account.getCart().getItemList().remove(order);
         }
         DB4OUtil.getInstance().storeSystem(system);
-        populateTable(this.account.getCart().getItemList());
+        populateTable();
         deleteButton.setEnabled(false);
         modifyButton.setEnabled(false);
     }//GEN-LAST:event_deleteButtonActionPerformed
@@ -241,7 +242,7 @@ public class CartJPanel extends javax.swing.JPanel {
         if (choice == JOptionPane.YES_OPTION) {
             this.account.getCart().clearCart();
             DB4OUtil.getInstance().storeSystem(system);
-            populateTable(this.account.getCart().getItemList());
+            populateTable();
         }
     }//GEN-LAST:event_clearButtonActionPerformed
 
@@ -261,7 +262,7 @@ public class CartJPanel extends javax.swing.JPanel {
                         order.setQuantity(newQuantity);
                     }
                     DB4OUtil.getInstance().storeSystem(system);
-                    populateTable(this.account.getCart().getItemList());
+                    populateTable();
                     deleteButton.setEnabled(false);
                     modifyButton.setEnabled(false);
                 } catch (Exception e) {

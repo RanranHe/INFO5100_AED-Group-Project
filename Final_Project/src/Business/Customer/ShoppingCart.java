@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class ShoppingCart {
 
-    private ArrayList<DashOrder> itemList;
+    private ArrayList<ItemOrder> itemList;
     private double totalPrice;
 
     public ShoppingCart() {
@@ -24,19 +24,19 @@ public class ShoppingCart {
         this.totalPrice = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
     
-    public ArrayList<DashOrder> getItemList() {
+    public ArrayList<ItemOrder> getItemList() {
         return this.itemList;
     }
 
     public double getTotalPrice() {
         totalPrice = 0;
-        for (DashOrder d : itemList) {
+        for (ItemOrder d : itemList) {
             totalPrice = totalPrice + d.getTotalPrice();
         }
         return totalPrice;
     }
     
-    public void addToCart(DashOrder order) {
+    public void addToCart(ItemOrder order) {
         this.itemList.add(order);
     }
     

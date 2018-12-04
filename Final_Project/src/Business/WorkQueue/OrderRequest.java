@@ -6,6 +6,7 @@
 package Business.WorkQueue;
 
 import Business.Customer.DashOrder;
+import Business.Customer.ItemOrder;
 import Business.Enterprise.DeliveryCompany.DeliveryCompany;
 import Business.Enterprise.Enterprise;
 import Business.UserAccount.UserAccount;
@@ -24,7 +25,7 @@ public class OrderRequest extends WorkRequest {
     private String deliveryPhone;
     private double amount;
     private DeliveryCompany company;
-    private ArrayList<DashOrder> dashes;
+    private ArrayList<ItemOrder> dashes;
 
     // generate order number
     public static String genId() {
@@ -35,7 +36,7 @@ public class OrderRequest extends WorkRequest {
         return orderId;
     }
 
-    public OrderRequest(Enterprise enterprise, UserAccount account, ArrayList<DashOrder> dashes) {
+    public OrderRequest(Enterprise enterprise, UserAccount account, ArrayList<ItemOrder> dashes) {
         super(enterprise, account);
         this.dashes = dashes;
         this.id = genId();
@@ -69,7 +70,7 @@ public class OrderRequest extends WorkRequest {
         this.deliveryPhone = phone;
     }
 
-    public ArrayList<DashOrder> getDashes() {
+    public ArrayList<ItemOrder> getItems() {
         return this.dashes;
     }
 
