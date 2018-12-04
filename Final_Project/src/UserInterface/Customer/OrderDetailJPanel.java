@@ -5,13 +5,10 @@
  */
 package UserInterface.Customer;
 
-import Business.Customer.DashOrder;
 import Business.Customer.ItemOrder;
 import Business.Enterprise.Restaurant.Restaurant;
 import Business.WorkQueue.OrderRequest;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 /**

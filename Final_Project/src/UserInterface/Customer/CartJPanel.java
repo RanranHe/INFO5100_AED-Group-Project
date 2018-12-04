@@ -5,17 +5,13 @@
  */
 package UserInterface.Customer;
 
-import Business.Customer.DashOrder;
 import Business.Customer.ItemOrder;
-import Business.Customer.ShoppingCart;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
-import Business.Enterprise.Enterprise;
 import Business.Network.Network;
 import Business.UserAccount.CustomerAccount;
 import java.awt.CardLayout;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -227,7 +223,7 @@ public class CartJPanel extends javax.swing.JPanel {
         int selectedRow = cartTable.getSelectedRow();
 
         if (selectedRow >= 0) {
-            DashOrder order = (DashOrder) cartTable.getValueAt(selectedRow, 0);
+            ItemOrder order = (ItemOrder) cartTable.getValueAt(selectedRow, 0);
             this.account.getCart().getItemList().remove(order);
         }
         DB4OUtil.getInstance().storeSystem(system);
@@ -250,7 +246,7 @@ public class CartJPanel extends javax.swing.JPanel {
         int selectedRow = cartTable.getSelectedRow();
 
         if (selectedRow >= 0) {
-            DashOrder order = (DashOrder) cartTable.getValueAt(selectedRow, 0);
+            ItemOrder order = (ItemOrder) cartTable.getValueAt(selectedRow, 0);
             String input = JOptionPane.showInputDialog(null, "Please enter the quantity: ",
                     "Quantity Change", JOptionPane.PLAIN_MESSAGE);
             if (input != null) {

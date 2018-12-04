@@ -9,7 +9,6 @@ import Business.Customer.DashOrder;
 import Business.Customer.ItemOrder;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
-import Business.Enterprise.Enterprise;
 import Business.Enterprise.Item;
 import Business.Enterprise.Restaurant.Dash;
 import Business.Enterprise.Restaurant.Restaurant;
@@ -18,7 +17,6 @@ import Business.Enterprise.ShopModel.ShopType;
 import Business.Network.Network;
 import Business.UserAccount.CustomerAccount;
 import java.awt.Image;
-import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -282,9 +280,9 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
             Item item = (Item) menuTable.getValueAt(selectedRow, 0);
             int quantity = (int) quantitySpinner.getValue();
             
-            ItemOrder order = null;
+            ItemOrder line = null;
             if (this.type.equals(ShopType.Restaurant)) {
-                order = new DashOrder(this.shop, item, quantity);
+                line = new DashOrder(this.shop, item, quantity);
             }
             
             if (!this.account.getCart().isCartEmpty()) {
@@ -302,13 +300,13 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
                     }
 
                     if (or.getShopModel().equals(this.shop) && or.getItem().equals(item)) {
-                        order.setQuantity(or.getQuantity() + quantity);
+                        line.setQuantity(or.getQuantity() + quantity);
                         this.account.getCart().getItemList().remove(or);
                         break;
                     }
                 }
             }
-            this.account.getCart().addToCart(order);
+            this.account.getCart().addToCart(line);
 
             JOptionPane.showMessageDialog(null, "Dash has been successfully added to Shopping Cart");
             DB4OUtil.getInstance().storeSystem(system);

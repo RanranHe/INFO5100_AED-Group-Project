@@ -5,7 +5,6 @@
  */
 package Business.WorkQueue;
 
-import Business.Customer.DashOrder;
 import Business.Customer.ItemOrder;
 import Business.Enterprise.DeliveryCompany.DeliveryCompany;
 import Business.Enterprise.Enterprise;
