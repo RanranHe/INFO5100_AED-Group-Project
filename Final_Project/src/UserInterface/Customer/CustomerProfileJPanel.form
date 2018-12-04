@@ -444,7 +444,7 @@
                         <Column editable="false" title="Order #" type="java.lang.Object"/>
                         <Column editable="false" title="Order Date" type="java.lang.Object"/>
                         <Column editable="false" title="Status" type="java.lang.Object"/>
-                        <Column editable="false" title="Restaurant" type="java.lang.Object"/>
+                        <Column editable="false" title="Merchant" type="java.lang.Object"/>
                         <Column editable="false" title="Amount" type="java.lang.Object"/>
                       </Table>
                     </Property>

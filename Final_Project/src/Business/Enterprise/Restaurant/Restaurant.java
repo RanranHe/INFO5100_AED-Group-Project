@@ -46,6 +46,7 @@ public class Restaurant extends ShopModel {
 //        this.phone = phone;
 //        this.menu = new ArrayList<>();
         this.rate = -1;
+        this.setType(ShopType.Restaurant);
 
         String path = "Images/RestaurantCut/default.png";
         String fileName = "default.png";

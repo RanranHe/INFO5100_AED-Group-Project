@@ -6,16 +6,13 @@
 package UserInterface.Customer;
 
 import Business.EcoSystem;
-import Business.Enterprise.Enterprise;
 import Business.Enterprise.Restaurant.Restaurant;
-import Business.Enterprise.ShopModel;
 import Business.Enterprise.ShopModel.ShopType;
 import Business.Network.Network;
 import Business.Role.CustomerRole;
 import Business.UserAccount.CustomerAccount;
 import UserInterface.LoginJFrame;
 import java.awt.CardLayout;
-import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -49,6 +46,7 @@ public class ShopListJPanel extends javax.swing.JPanel {
         populateTable();
         areaLabel.setText(net.getCity());
         nameLabel.setText(account.getCustomer().getFirstName());
+        typeLabel.setText(type.getValue());
     }
 
     private void populateTable() {
@@ -87,6 +85,7 @@ public class ShopListJPanel extends javax.swing.JPanel {
         cartButton = new javax.swing.JButton();
         profileButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
+        typeLabel = new javax.swing.JLabel();
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(200, 404));
 
@@ -150,7 +149,7 @@ public class ShopListJPanel extends javax.swing.JPanel {
         nameLabel.setText("<Name>");
 
         jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel3.setText("Restaurants in ");
+        jLabel3.setText("in ");
 
         areaLabel.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
         areaLabel.setText("<Area>");
@@ -187,6 +186,10 @@ public class ShopListJPanel extends javax.swing.JPanel {
             }
         });
 
+        typeLabel.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        typeLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        typeLabel.setText("<Type>");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -200,7 +203,9 @@ public class ShopListJPanel extends javax.swing.JPanel {
                         .addComponent(JPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(backButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(typeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(areaLabel)
@@ -228,7 +233,8 @@ public class ShopListJPanel extends javax.swing.JPanel {
                     .addComponent(logoutButton)
                     .addComponent(cartButton)
                     .addComponent(profileButton)
-                    .addComponent(backButton))
+                    .addComponent(backButton)
+                    .addComponent(typeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(JPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -275,7 +281,9 @@ public class ShopListJPanel extends javax.swing.JPanel {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         CardLayout layout = (CardLayout) this.container.getLayout();
-        layout.previous(this.container);
+        CustomerMainJPanel cp = new CustomerMainJPanel(system, container, this.account, frame);
+        this.container.add(cp);
+        layout.next(this.container);
     }//GEN-LAST:event_backButtonActionPerformed
 
 
@@ -293,5 +301,6 @@ public class ShopListJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel nameLabel;
     private javax.swing.JButton profileButton;
     private javax.swing.JLabel restaurantNameLabel;
+    private javax.swing.JLabel typeLabel;
     // End of variables declaration//GEN-END:variables
 }
