@@ -37,7 +37,7 @@ public class DeliveryCompany extends Enterprise {
     public DeliveryCompany(String name,String address, String phone) {
         super(name);
         this.photoId = counter;
-        this.id = "Delivery" + counter + genId();
+        this.id = "Delivery" + counter;
         counter++;
         this.address = address;
         this.phone = phone;

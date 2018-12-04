@@ -669,13 +669,11 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         selectedRequest.getOrder().setStatus(StatusEnum.WaitForPickup);
         system.getCustomerAccountByUsername(selectedRequest.getOrder().getAccount().getUsername()).
                 getWorkQueue().getOderById(selectedRequest.getOrder().getId()).setStatus(StatusEnum.WaitForPickup);
+        system.getEnterpriseById(selectedRequest.getOrder().getEnterprise().getId()).getWorkQueue().
+                getOderById(selectedRequest.getOrder().getId()).setStatus(StatusEnum.WaitForPickup);
        
         ShopModel model = (ShopModel)system.getEnterpriseById(selectedRequest.getOrder().getEnterprise().getId());
         
-        for (WorkRequest wr : model.getWorkQueue().getWorkRequestList()) {
-            System.out.println(wr.getEnterprise());
-            System.out.println(wr.getAccount());
-        }
         model.getWorkQueue().getOderById(selectedRequest.getOrder().getId()).setStatus(StatusEnum.WaitForPickup);
         en.getWorkQueue().getWorkRequestList().remove(selectedRequest);
         this.account.getWorkQueue().getWorkRequestList().add(selectedRequest);

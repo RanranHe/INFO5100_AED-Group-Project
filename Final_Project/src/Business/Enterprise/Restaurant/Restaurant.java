@@ -42,7 +42,7 @@ public class Restaurant extends ShopModel {
     public Restaurant(String name, String address, String phone) {
         super(name, address, phone);
         this.photoId = counter;
-        this.id = "Restaurant" + counter + genId();
+        this.id = "Restaurant" + counter;
         counter++;
 //        this.name = name;
 //        this.address = address;
