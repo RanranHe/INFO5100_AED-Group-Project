@@ -11,7 +11,7 @@ import Business.EcoSystem;
 import Business.Employee.Employee;
 import Business.Enterprise.DeliveryCompany.DeliveryCompany;
 import Business.Enterprise.Enterprise;
-import Business.Enterprise.Restaurant.Restaurant;
+import Business.Enterprise.ShopModel;
 import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.Role.Role;
@@ -143,14 +143,14 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
             Object row[] = new Object[4];
             row[0] = or.getOrder().getId();
             row[1] = or;
-            row[2] = (Restaurant) or.getEnterprise();
+            row[2] = (ShopModel) or.getOrder().getEnterprise();
             row[3] = or.getStatus();
             dtm.addRow(row);
         }
     }
 
     private void populateDetails() {
-        DeliveryCompany res = (DeliveryCompany) selectedRequest.getEnterprise();
+        ShopModel res = (ShopModel) selectedRequest.getOrder().getEnterprise();
         pickupAddressTextArea.setText(res.getAddress());
         pickupNameTextField2.setText(res.getName());
         pickupPhoneTextField.setText(res.getPhone());
