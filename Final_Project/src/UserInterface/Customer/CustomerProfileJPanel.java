@@ -62,20 +62,21 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         saveButton.setEnabled(false);
         cancelButton.setEnabled(false);
 
-        populateTable(this.account.getWorkQueue().getWorkRequestList());
+        populateTable();
     }
 
-    private void populateTable(ArrayList<WorkRequest> list) {
+    public void populateTable() {
         DefaultTableModel dtm = (DefaultTableModel) orderTable.getModel();
         dtm.setRowCount(0);
-        for (WorkRequest wr : list) {
+        for (WorkRequest wr : this.account.getWorkQueue().getWorkRequestList()) {
             OrderRequest or = (OrderRequest) wr;
-            Object row[] = new Object[5];
+            Object row[] = new Object[6];
             row[0] = or.getId();
             row[1] = or;
             row[2] = or.getStatus();
             row[3] = (ShopModel) or.getEnterprise();
             row[4] = or.getAmount();
+            row[5]= or.isReviewed();
             dtm.addRow(row);
         }
     }
@@ -361,17 +362,17 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
 
         orderTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Order #", "Order Date", "Status", "Merchant", "Amount"
+                "Order #", "Order Date", "Status", "Merchant", "Amount", "Review"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -581,7 +582,7 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         if (index >= 0) {
             OrderRequest order = (OrderRequest) orderTable.getValueAt(index, 1);
             ShopModel shop = (ShopModel) orderTable.getValueAt(index, 3);
-            OrderDetailJPanel panel = new OrderDetailJPanel(order, shop);
+            OrderDetailJPanel panel = new OrderDetailJPanel(system, order, shop, this);
             detailPanel.add(panel);
             CardLayout layout = (CardLayout) this.detailPanel.getLayout();
             layout.next(detailPanel);

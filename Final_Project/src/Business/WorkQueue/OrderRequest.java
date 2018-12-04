@@ -25,6 +25,7 @@ public class OrderRequest extends WorkRequest {
     private double amount;
     private DeliveryCompany company;
     private ArrayList<ItemOrder> dashes;
+    private ReviewRequest review;
 
     // generate order number
     public static String genId() {
@@ -38,6 +39,7 @@ public class OrderRequest extends WorkRequest {
         super(enterprise, account);
         this.dashes = dashes;
         this.id = genId();
+        this.review = null;
     }
 
     public String getId() {
@@ -94,5 +96,33 @@ public class OrderRequest extends WorkRequest {
 
     public void setCompany(DeliveryCompany company) {
         this.company = company;
+    }
+    
+    public boolean isReviewed() {
+        if (this.review == null) {
+            return false;
+        } else {
+            if (this.review.getRate() == -1) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public void setReview(ReviewRequest review) {
+        this.review = review;
+    }
+    
+    public ReviewRequest getReview() {
+        return this.review;
+    }
+    
+    public boolean eligableToBeReviewed() {
+        if (this.review != null) {
+            if (this.review.getRate() == -1) {
+                return true;
+            }
+        }
+        return false;
     }
 }

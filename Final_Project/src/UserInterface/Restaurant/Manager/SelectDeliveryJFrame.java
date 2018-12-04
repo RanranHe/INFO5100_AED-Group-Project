@@ -41,6 +41,8 @@ public class SelectDeliveryJFrame extends javax.swing.JFrame {
         this.request = request;
         this.panel = panel;
         this.restaurant = restaurant;
+        
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         DefaultListCellRenderer renderer = (DefaultListCellRenderer) deliveryList.getCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -62,7 +64,7 @@ public class SelectDeliveryJFrame extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        deliveryList = new javax.swing.JList();
+        deliveryList = new javax.swing.JList<DeliveryCompany>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -187,7 +189,7 @@ public class SelectDeliveryJFrame extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList deliveryList;
+    private javax.swing.JList<DeliveryCompany> deliveryList;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;

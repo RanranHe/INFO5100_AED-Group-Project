@@ -10,11 +10,13 @@ import Business.EcoSystem;
 import Business.Employee.Employee;
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.Restaurant.Restaurant;
+import Business.Enterprise.ShopModel;
 import Business.Role.Role;
 import Business.UserAccount.EmployeeAccount;
 import Business.UserAccount.UserAccount;
 import Business.WorkQueue.DeliveryRequest;
 import Business.WorkQueue.OrderRequest;
+import Business.WorkQueue.ReviewRequest;
 import Business.WorkQueue.WorkRequest;
 import Business.WorkQueue.WorkRequest.StatusEnum;
 import UserInterface.LoginJFrame;
@@ -665,6 +667,16 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
         selectedRequest.setStatus(StatusEnum.WaitForPickup);
         selectedRequest.setAccount(this.account);
         selectedRequest.getOrder().setStatus(StatusEnum.WaitForPickup);
+        system.getCustomerAccountByUsername(selectedRequest.getOrder().getAccount().getUsername()).
+                getWorkQueue().getOderById(selectedRequest.getOrder().getId()).setStatus(StatusEnum.WaitForPickup);
+       
+        ShopModel model = (ShopModel)system.getEnterpriseById(selectedRequest.getOrder().getEnterprise().getId());
+        
+        for (WorkRequest wr : model.getWorkQueue().getWorkRequestList()) {
+            System.out.println(wr.getEnterprise());
+            System.out.println(wr.getAccount());
+        }
+        model.getWorkQueue().getOderById(selectedRequest.getOrder().getId()).setStatus(StatusEnum.WaitForPickup);
         en.getWorkQueue().getWorkRequestList().remove(selectedRequest);
         this.account.getWorkQueue().getWorkRequestList().add(selectedRequest);
         DB4OUtil.getInstance().storeSystem(system);
@@ -761,6 +773,10 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
     private void pickupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pickupButtonActionPerformed
         selectedRequest.setStatus(StatusEnum.OnTheWay);
         selectedRequest.getOrder().setStatus(StatusEnum.OnTheWay);
+        system.getCustomerAccountByUsername(selectedRequest.getOrder().getAccount().getUsername()).
+                getWorkQueue().getOderById(selectedRequest.getOrder().getId()).setStatus(StatusEnum.OnTheWay);
+        system.getEnterpriseById(selectedRequest.getOrder().getEnterprise().getId()).getWorkQueue().
+                getOderById(selectedRequest.getOrder().getId()).setStatus(StatusEnum.OnTheWay);
         DB4OUtil.getInstance().storeSystem(system);
         populateOrderTable(getAllDeliveryRequest());
         populateDetails();
@@ -772,6 +788,18 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
     private void deliveredButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deliveredButtonActionPerformed
         selectedRequest.setStatus(StatusEnum.Completed);
         selectedRequest.getOrder().setStatus(StatusEnum.Completed);
+        
+        ReviewRequest rr = new ReviewRequest(selectedRequest.getEnterprise(), 
+                selectedRequest.getOrder().getAccount());
+        system.getCustomerAccountByUsername(selectedRequest.getOrder().getAccount().getUsername()).
+                getWorkQueue().getOderById(selectedRequest.getOrder().getId()).setStatus(StatusEnum.Completed);
+        system.getEnterpriseById(selectedRequest.getOrder().getEnterprise().getId()).getWorkQueue().
+                getOderById(selectedRequest.getOrder().getId()).setStatus(StatusEnum.Completed);
+        system.getCustomerAccountByUsername(selectedRequest.getOrder().getAccount().getUsername()).
+                getWorkQueue().getOderById(selectedRequest.getOrder().getId()).setReview(rr);
+        system.getEnterpriseById(selectedRequest.getOrder().getEnterprise().getId()).getWorkQueue().
+                getOderById(selectedRequest.getOrder().getId()).setReview(rr);
+        selectedRequest.getOrder().setReview(rr);
         DB4OUtil.getInstance().storeSystem(system);
         populateOrderTable(getAllDeliveryRequest());
         populateDetails();

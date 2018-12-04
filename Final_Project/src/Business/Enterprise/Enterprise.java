@@ -18,24 +18,28 @@ import java.util.ArrayList;
  * @author ranranhe
  */
 public abstract class Enterprise extends Organization {
+
     private OrganizationDir organizations;
-    
+    private static int idCounter = 0;
+
     public Enterprise(String name) {
         super(name);
         this.organizations = new OrganizationDir();
     }
-    
+
     public OrganizationDir getOrganizationDirectory() {
         return organizations;
     }
     
+    public abstract String getId();
+
     public abstract void createOrganizations();
 
     @Override
     public ArrayList<Role> getSupportedRole() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public String toString() {
         return this.getName();
