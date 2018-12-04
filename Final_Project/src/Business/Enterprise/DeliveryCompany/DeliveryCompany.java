@@ -21,16 +21,23 @@ import javax.imageio.ImageIO;
  */
 public class DeliveryCompany extends Enterprise {
 
-    private int id;
+    private int photoId;
     private String address;
     private String phone;
     private static int counter = 0;
     private String photoPath;
     private String description;
+    private String id;
     
+    public static String genId() {
+        String orderId
+                = (System.nanoTime() + "").substring(7, 10);
+        return orderId;
+    }
     public DeliveryCompany(String name,String address, String phone) {
         super(name);
-        this.id = counter;
+        this.photoId = counter;
+        this.id = "Delivery" + counter + genId();
         counter++;
         this.address = address;
         this.phone = phone;
@@ -42,8 +49,8 @@ public class DeliveryCompany extends Enterprise {
         if (f.isDirectory()) {
             File[] F1 = f.listFiles();
             for (File f2 : F1) {
-                if (f2.getName().equalsIgnoreCase(this.id + ".png")) {
-                    fileName = this.id + ".png";
+                if (f2.getName().equalsIgnoreCase(this.photoId + ".png")) {
+                    fileName = this.photoId + ".png";
                     path = "Images/DeliveryCompanyCut/" + fileName;
                 }
             }
@@ -51,8 +58,8 @@ public class DeliveryCompany extends Enterprise {
         this.photoPath = path;
     }
     
-    public int getId() {
-        return this.id;
+    public int getPhotoId() {
+        return this.photoId;
     }
 
     public String getAddress() {
@@ -102,7 +109,7 @@ public class DeliveryCompany extends Enterprise {
             BufferedImage buffImg = new BufferedImage(cutW, cutH, BufferedImage.TYPE_INT_RGB);
             buffImg.getGraphics().drawImage(areaImage.getScaledInstance(cutW, cutH, java.awt.Image.SCALE_SMOOTH), 0, 0, null);
 
-            String fileName = this.id + ".png";
+            String fileName = this.photoId + ".png";
             newPath = "Images/DeliveryCompanyCut/" + fileName;
             ImageIO.write(buffImg, "png", new File(newPath));
         } catch (IOException e) {
@@ -115,6 +122,11 @@ public class DeliveryCompany extends Enterprise {
     public void createOrganizations() {
         this.getOrganizationDirectory().getOrganizationList().add(new DeliveryManOrganization());
         this.getOrganizationDirectory().getOrganizationList().add(new ManagerOrganization());
+    }
+
+    @Override
+    public String getId() {
+        return this.id;
     }
     
 }

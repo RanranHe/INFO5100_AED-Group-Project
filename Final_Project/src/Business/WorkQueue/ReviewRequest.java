@@ -14,11 +14,10 @@ import Business.UserAccount.UserAccount;
  */
 public class ReviewRequest extends WorkRequest {
     private int rate;
-    private OrderRequest order;
 
-    public ReviewRequest(Enterprise enterprise, UserAccount account, OrderRequest order) {
+    public ReviewRequest(Enterprise enterprise, UserAccount account) {
         super(enterprise, account);
-        this.order = order;
+        this.rate = -1;
     }
     
     public int getRate() {
@@ -27,9 +26,5 @@ public class ReviewRequest extends WorkRequest {
     
     public void setRate(int rate) {
         this.rate = rate;
-    }
-    
-    public OrderRequest getOrder() {
-        return this.order;
     }
 }

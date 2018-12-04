@@ -11,6 +11,7 @@ import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.Role.Role;
 import Business.Role.SystemManagerRole;
+import Business.UserAccount.UserAccount;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -69,6 +70,26 @@ public class EcoSystem extends Organization {
 
     public CustomerDir getCustomers() {
         return this.customers;
+    }
+    
+    public UserAccount getCustomerAccountByUsername(String username) {
+        for(UserAccount account:this.getUserAccountDirectory().getUserAccountList()) {
+            if(account.getUsername().equalsIgnoreCase(username)) {
+                return account;
+            }
+        }
+        return null;
+    }
+    
+    public Enterprise getEnterpriseById(String id) {
+        for (Network net : this.networkList) {
+            for (Enterprise en : net.getEnterpriseDirectory().getEnterpriseList()) {
+                if(en.getId().equals(id)) {
+                    return en;
+                }
+            }
+        }
+        return null;
     }
 
     public boolean isUserNameAvaliable(String username) {

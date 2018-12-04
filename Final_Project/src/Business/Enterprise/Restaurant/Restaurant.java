@@ -5,6 +5,7 @@
  */
 package Business.Enterprise.Restaurant;
 
+import static Business.Enterprise.DeliveryCompany.DeliveryCompany.genId;
 import Business.Enterprise.Item;
 import Business.Enterprise.ShopModel;
 import Business.Organization.ManagerOrganization;
@@ -21,7 +22,7 @@ import javax.imageio.ImageIO;
  */
 public class Restaurant extends ShopModel {
 
-    private int id;
+    private int photoId;
 //    private String name;
 //    private String address;
 //    private String phone;
@@ -29,6 +30,7 @@ public class Restaurant extends ShopModel {
 //    private String description;
 //    private ArrayList<Dash> menu;
     private double rate;
+    private String id;
     private static int counter = 0;
     private String photoPath;
 
@@ -39,7 +41,8 @@ public class Restaurant extends ShopModel {
 
     public Restaurant(String name, String address, String phone) {
         super(name, address, phone);
-        this.id = counter;
+        this.photoId = counter;
+        this.id = "Restaurant" + counter + genId();
         counter++;
 //        this.name = name;
 //        this.address = address;
@@ -55,22 +58,22 @@ public class Restaurant extends ShopModel {
         if (f.isDirectory()) {
             File[] F1 = f.listFiles();
             for (File f2 : F1) {
-                if (f2.getName().equalsIgnoreCase(this.id + ".png")) {
-                    fileName = this.id + ".png";
+                if (f2.getName().equalsIgnoreCase(this.photoId + ".png")) {
+                    fileName = this.photoId + ".png";
                     path = "Images/RestaurantCut/" + fileName;
                 }
             }
         }
         this.photoPath = path;
     }
-    
+
     @Override
     public void createOrganizations() {
-       this.getOrganizationDirectory().getOrganizationList().add(new ManagerOrganization());
+        this.getOrganizationDirectory().getOrganizationList().add(new ManagerOrganization());
     }
 
-    public int getId() {
-        return this.id;
+    public int getPhotoId() {
+        return this.photoId;
     }
 
 //    public String getAddress() {
@@ -96,7 +99,6 @@ public class Restaurant extends ShopModel {
 //    public void setDescription(String des) {
 //        this.description = des;
 //    }
-
     public RestaurantCategory getCategory() {
         return this.category;
     }
@@ -107,8 +109,8 @@ public class Restaurant extends ShopModel {
 
     public ArrayList<Dash> getMenu() {
         ArrayList<Dash> result = new ArrayList<>();
-        for (Item item:this.getItems()) {
-            Dash dash = (Dash)item;
+        for (Item item : this.getItems()) {
+            Dash dash = (Dash) item;
             result.add(dash);
         }
         return result;
@@ -125,7 +127,6 @@ public class Restaurant extends ShopModel {
 //    public ArrayList<ReviewRequest> getReviews() {
 //        return this.reviews;
 //    }
-
     public double getRate() {
         return this.rate;
     }
@@ -142,7 +143,6 @@ public class Restaurant extends ShopModel {
 //            this.rate = bd.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
 //        }
 //    }
-
     public String getPath() {
         return this.photoPath;
     }
@@ -166,7 +166,7 @@ public class Restaurant extends ShopModel {
             BufferedImage buffImg = new BufferedImage(cutW, cutH, BufferedImage.TYPE_INT_RGB);
             buffImg.getGraphics().drawImage(areaImage.getScaledInstance(cutW, cutH, java.awt.Image.SCALE_SMOOTH), 0, 0, null);
 
-            String fileName = this.id + ".png";
+            String fileName = this.photoId + ".png";
             newPath = "Images/RestaurantCut/" + fileName;
             ImageIO.write(buffImg, "png", new File(newPath));
         } catch (IOException e) {
@@ -179,4 +179,9 @@ public class Restaurant extends ShopModel {
 //    public String toString() {
 //        return this.name;
 //    }
+
+    @Override
+    public String getId() {
+        return this.id;
+    }
 }

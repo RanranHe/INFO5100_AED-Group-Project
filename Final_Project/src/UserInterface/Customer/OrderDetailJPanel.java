@@ -6,7 +6,7 @@
 package UserInterface.Customer;
 
 import Business.Customer.ItemOrder;
-import Business.Enterprise.Restaurant.Restaurant;
+import Business.EcoSystem;
 import Business.Enterprise.ShopModel;
 import Business.WorkQueue.OrderRequest;
 import java.math.BigDecimal;
@@ -18,17 +18,30 @@ import javax.swing.table.DefaultTableModel;
  */
 public class OrderDetailJPanel extends javax.swing.JPanel {
 
+    private EcoSystem system;
     private OrderRequest order;
     private ShopModel shop;
+    private CustomerProfileJPanel cPanel;
 
     /**
      * Creates new form OrderDetailJPanel
      */
-    public OrderDetailJPanel(OrderRequest order, ShopModel shop) {
+    public OrderDetailJPanel(EcoSystem system, OrderRequest order, ShopModel shop, CustomerProfileJPanel cPanel) {
         initComponents();
+        this.system = system;
         this.order = order;
         this.shop = shop;
+        this.cPanel = cPanel;
 
+        reviewButton.setVisible(false);
+        viewButton.setVisible(false);
+        if (order.eligableToBeReviewed()) {
+            reviewButton.setVisible(true);
+        }
+        if (order.isReviewed()) {
+            viewButton.setVisible(true);
+        }
+        
         this.orderNumLabel.setText(order.getId());
         this.statusLabel.setText(order.getStatus().getValue());
         this.dateLabel.setText(order.getRequestDate());
@@ -82,6 +95,8 @@ public class OrderDetailJPanel extends javax.swing.JPanel {
         jLabel11 = new javax.swing.JLabel();
         orderNumLabel = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        reviewButton = new javax.swing.JButton();
+        viewButton = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -154,6 +169,20 @@ public class OrderDetailJPanel extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel12.setText("Order #:");
 
+        reviewButton.setText("Create Review");
+        reviewButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reviewButtonActionPerformed(evt);
+            }
+        });
+
+        viewButton.setText("View Review");
+        viewButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -162,19 +191,15 @@ public class OrderDetailJPanel extends javax.swing.JPanel {
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addGap(53, 53, 53)
+                        .addComponent(priceLabel)
+                        .addGap(34, 34, 34))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(orderNumLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel2)
-                                .addGap(53, 53, 53)
-                                .addComponent(priceLabel)
-                                .addGap(18, 18, 18)))
-                        .addGap(17, 17, 17))
+                        .addComponent(orderNumLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -202,12 +227,20 @@ public class OrderDetailJPanel extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(dateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE))
+                                .addComponent(dateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(statusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(reviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(viewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGap(17, 17, 17))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,18 +276,34 @@ public class OrderDetailJPanel extends javax.swing.JPanel {
                     .addComponent(typeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(restaurantLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(priceLabel))
-                .addGap(15, 15, 15))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(reviewButton)
+                    .addComponent(viewButton))
+                .addGap(14, 14, 14))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void cartTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cartTableMouseClicked
 
     }//GEN-LAST:event_cartTableMouseClicked
+
+    private void reviewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewButtonActionPerformed
+        ReviewJFrame f = new ReviewJFrame(this.system, this.order, this.shop, this.cPanel, "Create");
+        f.setLocationRelativeTo(null);
+        f.setVisible(true);
+    }//GEN-LAST:event_reviewButtonActionPerformed
+
+    private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
+        ReviewJFrame f = new ReviewJFrame(this.system, this.order, this.shop, this.cPanel, "View");
+        f.setLocationRelativeTo(null);
+        f.setVisible(true);
+    }//GEN-LAST:event_viewButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -275,7 +324,9 @@ public class OrderDetailJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel phoneLabel;
     private javax.swing.JLabel priceLabel;
     private javax.swing.JLabel restaurantLabel;
+    private javax.swing.JButton reviewButton;
     private javax.swing.JLabel statusLabel;
     private javax.swing.JLabel typeLabel;
+    private javax.swing.JButton viewButton;
     // End of variables declaration//GEN-END:variables
 }
