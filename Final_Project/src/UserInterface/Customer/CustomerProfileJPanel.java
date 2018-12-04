@@ -504,7 +504,7 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         this.container.remove(this);
         CardLayout layout = (CardLayout) this.container.getLayout();
         for (Component com : this.container.getComponents()) {
-            if (com instanceof RestaurantListJPanel) {
+            if (com instanceof ShopListJPanel) {
                 this.frame.setSize(950, 600);
                 this.frame.setLocationRelativeTo(null);
             }

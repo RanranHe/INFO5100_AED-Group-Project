@@ -5,7 +5,6 @@
  */
 package Business.Enterprise.Restaurant;
 
-import Business.Enterprise.Enterprise;
 import Business.Enterprise.Item;
 import Business.Enterprise.ShopModel;
 import Business.Organization.ManagerOrganization;
@@ -26,14 +25,14 @@ public class Restaurant extends ShopModel {
 //    private String name;
 //    private String address;
 //    private String phone;
-    private Category category;
+    private RestaurantCategory category;
 //    private String description;
 //    private ArrayList<Dash> menu;
     private double rate;
     private static int counter = 0;
     private String photoPath;
 
-    public enum Category {
+    public enum RestaurantCategory {
 
         Seafood, Chinese, Japanese, Korean, American, Mexicon
     }
@@ -97,11 +96,11 @@ public class Restaurant extends ShopModel {
 //        this.description = des;
 //    }
 
-    public Category getCategory() {
+    public RestaurantCategory getCategory() {
         return this.category;
     }
 
-    public void setCategory(Category cat) {
+    public void setCategory(RestaurantCategory cat) {
         this.category = cat;
     }
 

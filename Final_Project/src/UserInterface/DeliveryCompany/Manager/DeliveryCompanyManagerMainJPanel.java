@@ -14,7 +14,7 @@ import Business.Enterprise.DeliveryCompany.DeliveryCompany;
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.Restaurant.Dash;
 import Business.Enterprise.Restaurant.Restaurant;
-import Business.Enterprise.Restaurant.Restaurant.Category;
+import Business.Enterprise.Restaurant.Restaurant.RestaurantCategory;
 import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.Role.Role;

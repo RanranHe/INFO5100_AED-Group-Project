@@ -12,7 +12,7 @@ import Business.Employee.Employee;
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.Restaurant.Dash;
 import Business.Enterprise.Restaurant.Restaurant;
-import Business.Enterprise.Restaurant.Restaurant.Category;
+import Business.Enterprise.Restaurant.Restaurant.RestaurantCategory;
 import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.Role.Role;
@@ -91,8 +91,8 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
             }
         }
 
-        List<Category> list = Arrays.asList(Restaurant.Category.values());
-        for (Category c : list) {
+        List<RestaurantCategory> list = Arrays.asList(Restaurant.RestaurantCategory.values());
+        for (RestaurantCategory c : list) {
             categoryComboBox.addItem(c);
         }
 
@@ -991,7 +991,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
             restaurant.setName(nameTextField.getText());
             restaurant.setAddress(addressTextArea.getText());
             restaurant.setDescription(descriptionTextArea.getText());
-            restaurant.setCategory((Category) categoryComboBox.getSelectedItem());
+            restaurant.setCategory((RestaurantCategory) categoryComboBox.getSelectedItem());
             restaurant.setPhone(phoneTextField.getText());
             if (!path.equalsIgnoreCase(originPath)) {
                 restaurant.setPath(path);

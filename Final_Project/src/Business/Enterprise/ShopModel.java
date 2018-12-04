@@ -17,18 +17,17 @@ public abstract class ShopModel extends Enterprise {
     private String address;
     private String phone;
     private String description;
-    private EnterpriseType type;
+    private ShopType type;
     private ArrayList<Item> items;
 
-    public enum EnterpriseType {
+    public enum ShopType {
 
-        All("All"),
         Restaurant("Restaurant"),
         GroceryStore("Grocery Store");
 
         private String value;
 
-        private EnterpriseType(String value) {
+        private ShopType(String value) {
             this.value = value;
         }
 
@@ -77,11 +76,11 @@ public abstract class ShopModel extends Enterprise {
         this.description = des;
     }
 
-    public void setType(EnterpriseType type) {
+    public void setType(ShopType type) {
         this.type = type;
     }
 
-    public EnterpriseType getType() {
+    public ShopType getType() {
         return this.type;
     }
 

@@ -164,7 +164,6 @@ public class LoginJPanel extends javax.swing.JPanel {
         if (account == null) {
             for (Network net : system.getNetworkList()) {
                 for (Enterprise en : net.getEnterpriseDirectory().getEnterpriseList()) {
-                    System.out.println("here:" + en);
                     account = en.getUserAccountDirectory().authenticateUser(userName, password);
                     if (account == null) {
                         for (Organization or : en.getOrganizationDirectory().getOrganizationList()) {
@@ -176,16 +175,14 @@ public class LoginJPanel extends javax.swing.JPanel {
                             }
                         }
                     } else {
-                        System.out.println("here");
                         inNetwork = net;
                         inEnterprise = en;
-                        System.out.println(inEnterprise);
                         break labelA;
                     }
                 }
             }
         }
-        System.out.println(inNetwork + "  " +inEnterprise);
+        
         if (account != null) {
             MainJFrame mFrame = new MainJFrame(this.system, account, inNetwork, inEnterprise);
             this.frame.dispose();

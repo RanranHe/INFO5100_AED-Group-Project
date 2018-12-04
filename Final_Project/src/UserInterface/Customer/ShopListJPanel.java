@@ -8,6 +8,8 @@ package UserInterface.Customer;
 import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.Restaurant.Restaurant;
+import Business.Enterprise.ShopModel;
+import Business.Enterprise.ShopModel.ShopType;
 import Business.Network.Network;
 import Business.Role.CustomerRole;
 import Business.UserAccount.CustomerAccount;
@@ -23,39 +25,44 @@ import javax.swing.table.TableModel;
  *
  * @author ranranhe
  */
-public class RestaurantListJPanel extends javax.swing.JPanel {
+public class ShopListJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
     private JPanel container;
     private CustomerAccount account;
     private Network net;
+    private ShopType type;
     private JFrame frame;
 
     /**
      * Creates new form RestaurantListJPanel
      */
-    public RestaurantListJPanel(EcoSystem system, JPanel container, CustomerAccount account, Network net, JFrame frame) {
+    public ShopListJPanel(EcoSystem system, Network net, JPanel container, CustomerAccount account, ShopType type, JFrame frame) {
         initComponents();
         this.system = system;
         this.container = container;
         this.account = account;
         this.net = net;
+        this.type = type;
         this.frame = frame;
 
-        populateTable(net.getRestaurantList());
+        populateTable();
         areaLabel.setText(net.getCity());
         nameLabel.setText(account.getCustomer().getFirstName());
     }
 
-    private void populateTable(ArrayList<Restaurant> list) {
-        DefaultTableModel dtm = (DefaultTableModel) RestaurantTable.getModel();
+    private void populateTable() {
+        DefaultTableModel dtm = (DefaultTableModel) ShopTable.getModel();
         dtm.setRowCount(0);
-        for (Restaurant res : list) {
-            Object row[] = new Object[2];
-            row[0] = res;
-            row[1] = res.getCategory();
-            dtm.addRow(row);
+        if (type.equals(ShopType.Restaurant)) {
+            for (Restaurant res : net.getRestaurantList()) {
+                Object row[] = new Object[2];
+                row[0] = res;
+                row[1] = res.getCategory();
+                dtm.addRow(row);
+            }
         }
+
     }
 
     /**
@@ -68,7 +75,7 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        RestaurantTable = new javax.swing.JTable();
+        ShopTable = new javax.swing.JTable();
         JPanel = new javax.swing.JPanel();
         restaurantNameLabel = new javax.swing.JLabel();
         detailPanel = new javax.swing.JPanel();
@@ -83,8 +90,8 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(200, 404));
 
-        RestaurantTable.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        RestaurantTable.setModel(new javax.swing.table.DefaultTableModel(
+        ShopTable.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        ShopTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -100,13 +107,13 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        RestaurantTable.setPreferredSize(new java.awt.Dimension(200, 100));
-        RestaurantTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        ShopTable.setPreferredSize(new java.awt.Dimension(200, 100));
+        ShopTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                RestaurantTableMouseClicked(evt);
+                ShopTableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(RestaurantTable);
+        jScrollPane1.setViewportView(ShopTable);
 
         JPanel.setPreferredSize(new java.awt.Dimension(655, 498));
 
@@ -230,9 +237,9 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void RestaurantTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RestaurantTableMouseClicked
-        int index = RestaurantTable.getSelectedRow();
-        TableModel model = RestaurantTable.getModel();
+    private void ShopTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ShopTableMouseClicked
+        int index = ShopTable.getSelectedRow();
+        TableModel model = ShopTable.getModel();
 
         if (index >= 0) {
             Restaurant restaurant = (Restaurant) model.getValueAt(index, 0);
@@ -243,7 +250,7 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
             CardLayout layout = (CardLayout) this.detailPanel.getLayout();
             layout.next(detailPanel);
         }
-    }//GEN-LAST:event_RestaurantTableMouseClicked
+    }//GEN-LAST:event_ShopTableMouseClicked
 
     private void cartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartButtonActionPerformed
         CartJFrame frame = new CartJFrame(this.system, this.account, net);
@@ -274,7 +281,7 @@ public class RestaurantListJPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel JPanel;
-    private javax.swing.JTable RestaurantTable;
+    private javax.swing.JTable ShopTable;
     private javax.swing.JLabel areaLabel;
     private javax.swing.JButton backButton;
     private javax.swing.JButton cartButton;

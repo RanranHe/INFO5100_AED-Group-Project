@@ -6,29 +6,36 @@
 package UserInterface.Customer;
 
 import Business.EcoSystem;
-import Business.Enterprise.Enterprise;
-import Business.Enterprise.Restaurant.Restaurant;
+import Business.Enterprise.ShopModel.ShopType;
 import Business.Network.Network;
 import Business.Role.CustomerRole;
 import Business.UserAccount.CustomerAccount;
 import Business.UserAccount.UserAccount;
 import UserInterface.LoginJFrame;
 import java.awt.CardLayout;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  *
  * @author ranranhe
  */
 public class CustomerMainJPanel extends javax.swing.JPanel {
+
     private EcoSystem system;
     private CustomerAccount customerAccount;
     private JPanel container;
     private JFrame frame;
+
     /**
      * Creates new form CustomerMainJPanel
+     * @param system
+     * @param container
+     * @param userAccount
+     * @param frame
      */
     public CustomerMainJPanel(EcoSystem system, JPanel container, UserAccount userAccount, JFrame frame) {
         initComponents();
@@ -36,11 +43,14 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
         this.container = container;
         this.frame = frame;
         this.customerAccount = (CustomerAccount) userAccount;
-        for (Network net:system.getNetworkList()) {
-            DefaultListModel model = new DefaultListModel();
+
+        DefaultListCellRenderer renderer = (DefaultListCellRenderer) cityList.getCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.CENTER);
+        DefaultListModel model = new DefaultListModel();
+        for (Network net : system.getNetworkList()) {
             model.addElement(net.getCity());
-            jList1.setModel(model);
         }
+        cityList.setModel(model);
         nameLabel.setText(customerAccount.getCustomer().getFirstName());
         goButton.setEnabled(false);
     }
@@ -58,11 +68,13 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
         nameLabel = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        cityList = new javax.swing.JList();
         jLabel5 = new javax.swing.JLabel();
         goButton = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
         profileButton = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        typeList = new javax.swing.JList();
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         jLabel1.setText("Welcome, ");
@@ -73,20 +85,15 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
         jLabel3.setText("Please select your location: ");
 
-        jList1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jList1MouseClicked(evt);
-            }
-        });
-        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+        cityList.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        cityList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jList1ValueChanged(evt);
+                cityListValueChanged(evt);
             }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(cityList);
 
-        jLabel5.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
         jLabel5.setText("City");
 
         goButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
@@ -113,36 +120,45 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
             }
         });
 
+        typeList.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        typeList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                typeListValueChanged(evt);
+            }
+        });
+        jScrollPane2.setViewportView(typeList);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(274, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(208, 208, 208))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nameLabel)))
-                .addGap(18, 18, 18)
-                .addComponent(logoutButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(profileButton)
-                .addGap(24, 24, 24))
             .addGroup(layout.createSequentialGroup()
-                .addGap(323, 323, 323)
+                .addGap(260, 260, 260)
+                .addComponent(jLabel5)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(goButton))
+                        .addContainerGap(554, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nameLabel)
+                        .addGap(18, 18, 18))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(jLabel5)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(164, 164, 164)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(77, 77, 77)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(goButton)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(logoutButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(profileButton)))
+                .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,38 +169,47 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
                     .addComponent(nameLabel)
                     .addComponent(logoutButton)
                     .addComponent(profileButton))
-                .addGap(111, 111, 111)
-                .addComponent(jLabel3)
-                .addGap(35, 35, 35)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(jLabel3)
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(115, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(goButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(183, Short.MAX_VALUE))
+                        .addGap(250, 250, 250))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
-     
-    }//GEN-LAST:event_jList1MouseClicked
-
     private void goButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goButtonActionPerformed
-        if (jList1.getSelectedValue() != null) {
-            Network net = system.getNetworkByCity((String)jList1.getSelectedValue());
-            String city = (String)jList1.getSelectedValue();
-            RestaurantListJPanel panel = new RestaurantListJPanel(system, this.container, this.customerAccount, net, this.frame);
+        if (cityList.getSelectedValue() != null) {
+            Network net = system.getNetworkByCity((String) cityList.getSelectedValue());
+            String city = (String) cityList.getSelectedValue();
+            ShopType type = (ShopType) typeList.getSelectedValue();
+            
+            ShopListJPanel panel = new ShopListJPanel(system, net, this.container, this.customerAccount, type, this.frame);
             container.add(panel);
-            CardLayout layout = (CardLayout)this.container.getLayout();
+            CardLayout layout = (CardLayout) this.container.getLayout();
             layout.next(container);
         }
     }//GEN-LAST:event_goButtonActionPerformed
 
-    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
-       goButton.setEnabled(true);
-    }//GEN-LAST:event_jList1ValueChanged
+    private void cityListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_cityListValueChanged
+        DefaultListCellRenderer renderer = (DefaultListCellRenderer) typeList.getCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.CENTER);
+        DefaultListModel model = new DefaultListModel();
+        for (ShopType type : ShopType.values()) {
+            model.addElement(type);
+        }
+        typeList.setModel(model);
+        goButton.setEnabled(false);
+    }//GEN-LAST:event_cityListValueChanged
 
     private void profileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileButtonActionPerformed
         CustomerProfileJPanel panel = new CustomerProfileJPanel(this.system, this.container, this.customerAccount, this.frame, new CustomerRole());
@@ -195,21 +220,27 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         LoginJFrame lf = new LoginJFrame();
-        this.frame.dispose();;
+        this.frame.dispose();
         lf.setLocationRelativeTo(null);
         lf.setVisible(true);
     }//GEN-LAST:event_logoutButtonActionPerformed
 
+    private void typeListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_typeListValueChanged
+        goButton.setEnabled(true);
+    }//GEN-LAST:event_typeListValueChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList cityList;
     private javax.swing.JButton goButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton logoutButton;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JButton profileButton;
+    private javax.swing.JList typeList;
     // End of variables declaration//GEN-END:variables
 }
