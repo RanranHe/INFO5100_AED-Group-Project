@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author ranranhe
  */
 public abstract class ShopModel extends Enterprise {
-    
+
     private String name;
     private String address;
     private String phone;
@@ -22,9 +22,10 @@ public abstract class ShopModel extends Enterprise {
 
     public enum EnterpriseType {
 
+        All("All"),
         Restaurant("Restaurant"),
         GroceryStore("Grocery Store");
-        
+
         private String value;
 
         private EnterpriseType(String value) {
@@ -48,7 +49,7 @@ public abstract class ShopModel extends Enterprise {
         this.phone = phone;
         this.items = new ArrayList<>();
     }
-    
+
     @Override
     public abstract void createOrganizations();
 
@@ -75,15 +76,15 @@ public abstract class ShopModel extends Enterprise {
     public void setDescription(String des) {
         this.description = des;
     }
-    
+
     public void setType(EnterpriseType type) {
         this.type = type;
     }
-    
+
     public EnterpriseType getType() {
         return this.type;
     }
-    
+
     public ArrayList<Item> getItems() {
         return this.items;
     }
