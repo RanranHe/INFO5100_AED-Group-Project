@@ -31,7 +31,6 @@ public class OrderRequest extends WorkRequest {
         String orderId
                 = (System.currentTimeMillis() + "").substring(1)
                 + (System.nanoTime() + "").substring(7, 10);
-        System.out.println(orderId);
         return orderId;
     }
 
@@ -40,7 +39,7 @@ public class OrderRequest extends WorkRequest {
         this.dashes = dashes;
         this.id = genId();
     }
-    
+
     public String getId() {
         return this.id;
     }
@@ -88,11 +87,11 @@ public class OrderRequest extends WorkRequest {
     public double getAmount() {
         return this.amount;
     }
-    
-    public DeliveryCompany getCompany(){
+
+    public DeliveryCompany getCompany() {
         return this.company;
     }
-    
+
     public void setCompany(DeliveryCompany company) {
         this.company = company;
     }
