@@ -46,7 +46,7 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
     private EmployeeAccount employeeAccount;
     private DeliveryCompany company;
     private JFrame frame;
-    private Role role;
+    private Role accessRole;
     private String path;
     private String originPath;
     private DeliveryRequest selectedRequest = null;
@@ -56,7 +56,7 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
      * Creates new form RestaurantMainJPanel
      */
     public DeliveryCompanyManagerMainJPanel(EcoSystem system, JPanel container, Network net, Enterprise en,
-            UserAccount userAccount, JFrame frame, Role role) {
+            UserAccount userAccount, JFrame frame, Role accessRole) {
         initComponents();
         this.system = system;
         this.container = container;
@@ -64,13 +64,13 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
         this.en = en;
         this.employeeAccount = (EmployeeAccount) userAccount;
         this.frame = frame;
-        this.role = role;
+        this.accessRole = accessRole;
         this.company = (DeliveryCompany) en;
         this.originPath = this.company.getPath();
         this.path = this.company.getPath();
         this.employee = this.employeeAccount.getEmployee();
 
-        if (role.getRoleType().equals(RoleType.SystemManager)) {
+        if (accessRole.getRoleType().equals(RoleType.SystemManager)) {
             logoutButton.setVisible(false);
             jLabel5.setText("");
         }
@@ -78,7 +78,7 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
         populateOrderTable(getAllDeliveryRequest());
         populateEmployeeTable(company.getOrganizationDirectory().getOrganizationList());
 
-        if (role.getRoleType().equals(RoleType.Manager)) {
+        if (accessRole.getRoleType().equals(RoleType.Manager)) {
             editButton.setVisible(false);
             saveButton.setVisible(false);
             uploadButton.setVisible(false);
@@ -106,7 +106,11 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
 
     private ArrayList<WorkRequest> getAllDeliveryRequest() {
         ArrayList<WorkRequest> list = new ArrayList<>();
-        list.addAll(this.en.getWorkQueue().getWorkRequestList());
+        for (WorkRequest wr:en.getWorkQueue().getWorkRequestList()) {
+            if (wr instanceof DeliveryRequest) {
+                list.add(wr);
+            }
+        }
         for (UserAccount ac : en.getOrganizationDirectory().getTypicalOrganization(Organization.Type.DeliveryMan).
                 getUserAccountDirectory().getUserAccountList()) {
             list.addAll(ac.getWorkQueue().getWorkRequestList());
@@ -997,8 +1001,8 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
 
         if (index >= 0) {
             EmployeeAccount selectedAccount = (EmployeeAccount) employeeTable.getValueAt(index, 0);
-
-            EditEmployeeJPanel ep = new EditEmployeeJPanel(this.system, this, this.en, selectedAccount, role);
+            
+            EditEmployeeJPanel ep = new EditEmployeeJPanel(this.system, this, this.en, selectedAccount, employeeAccount, accessRole);
             this.workPanel.removeAll();
             this.workPanel.add(ep);
             CardLayout layout = (CardLayout) this.workPanel.getLayout();
@@ -1008,7 +1012,7 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
 
     private void createButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButton1ActionPerformed
         this.workPanel.removeAll();
-        CreateEmployeeJPanel ep = new CreateEmployeeJPanel(this.system, this, this.workPanel, this.en, this.role);
+        CreateEmployeeJPanel ep = new CreateEmployeeJPanel(this.system, this, this.workPanel, this.en, this.accessRole);
         this.workPanel.add(ep);
         CardLayout layout = (CardLayout) this.workPanel.getLayout();
         layout.next(this.workPanel);

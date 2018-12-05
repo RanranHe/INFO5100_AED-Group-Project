@@ -7,7 +7,12 @@ package UserInterface.Restaurant.Manager;
 
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
-import Business.Enterprise.Item;
+import Business.Enterprise.Restaurant.Dash;
+import Business.Enterprise.Restaurant.Restaurant;
+import Business.Enterprise.ShopModel;
+import Business.Enterprise.ShopModel.ShopType;
+import Business.Enterprise.Store.Product;
+import Business.Enterprise.Store.Store;
 import UserInterface.StoreManagerMainJPanel.StoreManagerMainJPanel;
 import java.math.BigDecimal;
 import javax.swing.JOptionPane;
@@ -17,39 +22,22 @@ import javax.swing.JPanel;
  *
  * @author ranranhe
  */
-public class DashEditJPanel extends javax.swing.JPanel {
+public class DashCreateJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
     private JPanel panel;
-    private JPanel detailPanel;
-    private Item item;
+    private JPanel createPanel;
+    private ShopModel shop;
 
     /**
-     * Creates new form DashEditJPanel
+     * Creates new form DashCreateJPanel
      */
-    public DashEditJPanel(EcoSystem system, JPanel panel, JPanel detailPanel, Item item) {
+    public DashCreateJPanel(EcoSystem system, JPanel panel, JPanel createPanel, ShopModel shop) {
         initComponents();
         this.system = system;
         this.panel = panel;
-        this.detailPanel = detailPanel;
-        this.item = item;
-
-        setInfo();
-
-        setFieldsEditable(false);
-        cancelButton.setEnabled(false);
-        editButton.setEnabled(true);
-        submitButton.setEnabled(false);
-    }
-
-    private void setFieldsEditable(boolean b) {
-        priceTextField.setEnabled(b);
-        nameTextField.setEnabled(b);
-    }
-
-    private void setInfo() {
-        nameTextField.setText(item.getName());
-        priceTextField.setText(item.getPrice() + "");
+        this.createPanel = createPanel;
+        this.shop = shop;
     }
 
     /**
@@ -65,16 +53,19 @@ public class DashEditJPanel extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         nameTextField = new javax.swing.JTextField();
         priceTextField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         submitButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
-        editButton = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel1.setText("Name:");
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel2.setText("Price:");
+
+        jLabel3.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Create");
 
         submitButton.setText("Submit");
         submitButton.addActionListener(new java.awt.event.ActionListener() {
@@ -90,44 +81,30 @@ public class DashEditJPanel extends javax.swing.JPanel {
             }
         });
 
-        editButton.setText("Edit");
-        editButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editButtonActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Edit");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(submitButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cancelButton))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(14, 14, 14)))
-                .addGap(26, 26, 26))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel2))
+                    .addGap(26, 26, 26)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(40, 40, 40))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(26, 26, 26)
+                    .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -146,8 +123,7 @@ public class DashEditJPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(submitButton)
-                    .addComponent(cancelButton)
-                    .addComponent(editButton))
+                    .addComponent(cancelButton))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -163,50 +139,37 @@ public class DashEditJPanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Information can't be empty!");
                 return;
             }
-            this.item.setName(name);
             BigDecimal bd = new BigDecimal(price);
-            this.item.setPrice(bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+            if (shop.getType().equals(ShopType.Restaurant)) {
+                Restaurant res = (Restaurant) shop;
+                Dash dash = new Dash(res, name, price);
+                res.addDashToMenu(dash);
+                RestaurantManagerMainJPanel p = (RestaurantManagerMainJPanel) panel;
+                p.populateMenuTable();
+                JOptionPane.showMessageDialog(null, "Dash created successfully");
+            }
+            if (shop.getType().equals(ShopType.Store)) {
+                Store store = (Store) shop;
+                Product pro = new Product(store, name, price);
+                store.addProductToList(pro);
+                StoreManagerMainJPanel p = (StoreManagerMainJPanel) panel;
+                p.populateMenuTable();
+                JOptionPane.showMessageDialog(null, "Product created successfully");
+            }
             DB4OUtil.getInstance().storeSystem(system);
-
-            JOptionPane.showMessageDialog(null, "Dash Information modified successfully");
-
-            setFieldsEditable(false);
-            cancelButton.setEnabled(false);
-            editButton.setEnabled(true);
-            submitButton.setEnabled(false);
-            if (panel instanceof RestaurantManagerMainJPanel) {
-                RestaurantManagerMainJPanel p = (RestaurantManagerMainJPanel)panel;
-                p.populateMenuTable();
-            }
-            if (panel instanceof StoreManagerMainJPanel) {
-                StoreManagerMainJPanel p = (StoreManagerMainJPanel)panel;
-                p.populateMenuTable();
-            }
+            createPanel.remove(this);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Price should be a number.");
         }
     }//GEN-LAST:event_submitButtonActionPerformed
 
-    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        setFieldsEditable(true);
-        cancelButton.setEnabled(true);
-        editButton.setEnabled(false);
-        submitButton.setEnabled(true);
-    }//GEN-LAST:event_editButtonActionPerformed
-
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        setFieldsEditable(false);
-        cancelButton.setEnabled(false);
-        editButton.setEnabled(true);
-        submitButton.setEnabled(false);
-
-        setInfo();
+        createPanel.remove(this);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
-    private javax.swing.JButton editButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

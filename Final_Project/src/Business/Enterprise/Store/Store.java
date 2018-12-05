@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Business.Enterprise.Restaurant;
+package Business.Enterprise.Store;
 
 import Business.Enterprise.Item;
 import Business.Enterprise.ShopModel;
@@ -19,10 +19,10 @@ import javax.imageio.ImageIO;
  *
  * @author ranranhe
  */
-public class Restaurant extends ShopModel {
+public class Store extends ShopModel {
 
     private int photoId;
-    private RestaurantCategory category;
+    private StoreCategory category;
     private double rate;
     private String id;
     private static int counter = 0;
@@ -30,32 +30,32 @@ public class Restaurant extends ShopModel {
 
     @Override
     public ShopType getType() {
-        return ShopType.Restaurant;
+        return ShopType.Store;
     }
 
-    public enum RestaurantCategory {
+    public enum StoreCategory {
 
-        Seafood, Chinese, Japanese, Korean, American, Mexicon
+        Seafood, Chinese, Japanese, Korean, American, Mexicon, Organic
     }
 
-    public Restaurant(String name, String address, String phone) {
+    public Store(String name, String address, String phone) {
         super(name, address, phone);
         this.photoId = counter;
-        this.id = "Restaurant" + counter;
+        this.id = "Store" + counter;
         counter++;
         this.rate = -1;
-        this.setType(ShopType.Restaurant);
+        this.setType(ShopModel.ShopType.Store);
 
-        String path = "Images/RestaurantCut/default.png";
+        String path = "Images/StoreCut/default.png";
         String fileName = "default.png";
 
-        File f = new File("Images/RestaurantCut");
+        File f = new File("Images/StoreCut");
         if (f.isDirectory()) {
             File[] F1 = f.listFiles();
             for (File f2 : F1) {
                 if (f2.getName().equalsIgnoreCase(this.photoId + ".png")) {
                     fileName = this.photoId + ".png";
-                    path = "Images/RestaurantCut/" + fileName;
+                    path = "Images/StoreCut/" + fileName;
                 }
             }
         }
@@ -71,50 +71,31 @@ public class Restaurant extends ShopModel {
         return this.photoId;
     }
 
-    public RestaurantCategory getCategory() {
+    public StoreCategory getCategory() {
         return this.category;
     }
 
-    public void setCategory(RestaurantCategory cat) {
+    public void setCategory(StoreCategory cat) {
         this.category = cat;
     }
 
-    public ArrayList<Dash> getMenu() {
-        ArrayList<Dash> result = new ArrayList<>();
+    public ArrayList<Product> getGoods() {
+        ArrayList<Product> result = new ArrayList<>();
         for (Item item : this.getItems()) {
-            Dash dash = (Dash) item;
-            result.add(dash);
+            Product product = (Product) item;
+            result.add(product);
         }
         return result;
     }
 
-    public void addDashToMenu(Dash dash) {
-        this.getItems().add(dash);
+    public void addProductToList(Product pro) {
+        this.getItems().add(pro);
     }
 
-//    public ArrayList<OrderRequest> getOrders() {
-//        return this.orders;
-//    }
-//
-//    public ArrayList<ReviewRequest> getReviews() {
-//        return this.reviews;
-//    }
     public double getRate() {
         return this.rate;
     }
 
-//    public void updateRate() {
-//        int sum = 0;
-//        if (reviews.isEmpty()) {
-//            this.rate = -1;
-//        } else {
-//            for (ReviewRequest review : reviews) {
-//                sum = sum + review.getRate();
-//            }
-//            BigDecimal bd = new BigDecimal(sum / reviews.size());
-//            this.rate = bd.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
-//        }
-//    }
     public String getPath() {
         return this.photoPath;
     }
@@ -139,18 +120,13 @@ public class Restaurant extends ShopModel {
             buffImg.getGraphics().drawImage(areaImage.getScaledInstance(cutW, cutH, java.awt.Image.SCALE_SMOOTH), 0, 0, null);
 
             String fileName = this.photoId + ".png";
-            newPath = "Images/RestaurantCut/" + fileName;
+            newPath = "Images/StoreCut/" + fileName;
             ImageIO.write(buffImg, "png", new File(newPath));
         } catch (IOException e) {
             e.printStackTrace();
         }
         this.photoPath = newPath;
     }
-//
-//    @Override
-//    public String toString() {
-//        return this.name;
-//    }
 
     @Override
     public String getId() {

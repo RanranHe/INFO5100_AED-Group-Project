@@ -3,16 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UserInterface.Restaurant.Manager;
+package UserInterface.StoreManagerMainJPanel;
 
 import Business.Customer.ItemOrder;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Employee.Employee;
 import Business.Enterprise.Enterprise;
-import Business.Enterprise.Restaurant.Dash;
-import Business.Enterprise.Restaurant.Restaurant;
-import Business.Enterprise.Restaurant.Restaurant.RestaurantCategory;
+import static Business.Enterprise.ShopModel.ShopType.Store;
+import Business.Enterprise.Store.Product;
+import Business.Enterprise.Store.Store;
+import Business.Enterprise.Store.Store.StoreCategory;
 import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.Role.Role;
@@ -23,13 +24,15 @@ import Business.WorkQueue.OrderRequest;
 import Business.WorkQueue.WorkRequest;
 import Business.WorkQueue.WorkRequest.StatusEnum;
 import UserInterface.LoginJFrame;
+import UserInterface.Restaurant.Manager.CreateEmployeeJPanel;
+import UserInterface.Restaurant.Manager.DashCreateJPanel;
+import UserInterface.Restaurant.Manager.DashEditJPanel;
+import UserInterface.Restaurant.Manager.EditEmployeeJPanel;
+import UserInterface.Restaurant.Manager.SelectDeliveryJFrame;
 import java.awt.CardLayout;
 import java.awt.Image;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -40,14 +43,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ranranhe
  */
-public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
+public class StoreManagerMainJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
     private JPanel container;
     private Network net;
     private Enterprise en;
     private EmployeeAccount employeeAccount;
-    private Restaurant restaurant;
+    private Store store;
     private JFrame frame;
     private Role accessRole;
     private String path;
@@ -58,7 +61,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
     /**
      * Creates new form RestaurantMainJPanel
      */
-    public RestaurantManagerMainJPanel(EcoSystem system, JPanel container, Network net, Enterprise en,
+    public StoreManagerMainJPanel(EcoSystem system, JPanel container, Network net, Enterprise en,
             UserAccount userAccount, JFrame frame, Role accessRole) {
         initComponents();
         this.system = system;
@@ -68,9 +71,9 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         this.employeeAccount = (EmployeeAccount) userAccount;
         this.frame = frame;
         this.accessRole = accessRole;
-        this.restaurant = (Restaurant) en;
-        this.originPath = this.restaurant.getPath();
-        this.path = this.restaurant.getPath();
+        this.store = (Store) en;
+        this.originPath = this.store.getPath();
+        this.path = this.store.getPath();
         this.employee = this.employeeAccount.getEmployee();
 
         if (accessRole.getRoleType().equals(RoleType.SystemManager)) {
@@ -80,7 +83,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
 
         populateOrderTable();
         populateMenuTable();
-        populateEmployeeTable(restaurant.getOrganizationDirectory().getOrganizationList());
+        populateEmployeeTable(store.getOrganizationDirectory().getOrganizationList());
 
         if (accessRole.getRoleType().equals(RoleType.Manager)) {
             editButton.setVisible(false);
@@ -119,10 +122,10 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
     public void populateMenuTable() {
         DefaultTableModel dtm = (DefaultTableModel) menuTable.getModel();
         dtm.setRowCount(0);
-        for (Dash dash : restaurant.getMenu()) {
+        for (Product product : store.getGoods()) {
             Object row[] = new Object[2];
-            row[0] = dash;
-            row[1] = dash.getPrice();
+            row[0] = product;
+            row[1] = product.getPrice();
             dtm.addRow(row);
         }
     }
@@ -151,7 +154,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
     public void populateOrderTable() {
         DefaultTableModel dtm = (DefaultTableModel) orderTable.getModel();
         dtm.setRowCount(0);
-        for (WorkRequest wr : restaurant.getWorkQueue().getWorkRequestList()) {
+        for (WorkRequest wr : store.getWorkQueue().getWorkRequestList()) {
             OrderRequest or = (OrderRequest) wr;
             Object row[] = new Object[5];
             row[0] = or;
@@ -206,12 +209,12 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
     }
 
     private void setOverviewInfo() {
-        nameLabel.setText(restaurant.getName());
-        nameTextField.setText(restaurant.getName());
-        phoneTextField.setText(restaurant.getPhone());
-        addressTextArea.setText(restaurant.getAddress());
-        descriptionTextArea.setText(restaurant.getDescription());
-        categoryComboBox.setSelectedItem(restaurant.getCategory());
+        nameLabel.setText(store.getName());
+        nameTextField.setText(store.getName());
+        phoneTextField.setText(store.getPhone());
+        addressTextArea.setText(store.getAddress());
+        descriptionTextArea.setText(store.getDescription());
+        categoryComboBox.setSelectedItem(store.getCategory());
         ImageIcon image = new ImageIcon(originPath);
         image.setImage(image.getImage().getScaledInstance(250, 180, Image.SCALE_DEFAULT));
         imageLabel.setIcon(image);
@@ -258,15 +261,15 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         addressTextArea = new javax.swing.JTextArea();
         jScrollPane5 = new javax.swing.JScrollPane();
         descriptionTextArea = new javax.swing.JTextArea();
-        categoryComboBox = new javax.swing.JComboBox<RestaurantCategory>();
+        categoryComboBox = new javax.swing.JComboBox<StoreCategory>();
         jLabel7 = new javax.swing.JLabel();
         nameTextField = new javax.swing.JTextField();
         menuPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         menuTable = new javax.swing.JTable();
         detailPanel = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
         createPanel = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
         employeePanel = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         employeeTable = new javax.swing.JTable();
@@ -465,7 +468,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
                 {null, null}
             },
             new String [] {
-                "Dash", "Price"
+                "Product", "Price"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -485,14 +488,14 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
 
         detailPanel.setLayout(new java.awt.CardLayout());
 
+        createPanel.setLayout(new java.awt.CardLayout());
+
         jButton1.setText("Create Product");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-
-        createPanel.setLayout(new java.awt.CardLayout());
 
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
         menuPanel.setLayout(menuPanelLayout);
@@ -523,7 +526,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
                 .addContainerGap(78, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Manage Menu", menuPanel);
+        jTabbedPane1.addTab("Manage Products", menuPanel);
 
         employeeTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1001,13 +1004,13 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         if (!phoneTextField.getText().equals("") && !addressTextArea.getText().equals("")
                 && !descriptionTextArea.getText().equals("") && !nameTextField.getText().equals("")) {
-            restaurant.setName(nameTextField.getText());
-            restaurant.setAddress(addressTextArea.getText());
-            restaurant.setDescription(descriptionTextArea.getText());
-            restaurant.setCategory((RestaurantCategory) categoryComboBox.getSelectedItem());
-            restaurant.setPhone(phoneTextField.getText());
+            store.setName(nameTextField.getText());
+            store.setAddress(addressTextArea.getText());
+            store.setDescription(descriptionTextArea.getText());
+            store.setCategory((StoreCategory) categoryComboBox.getSelectedItem());
+            store.setPhone(phoneTextField.getText());
             if (!path.equalsIgnoreCase(originPath)) {
-                restaurant.setPath(path);
+                store.setPath(path);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Information can't be empty");
@@ -1029,7 +1032,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         int i = chooser.showOpenDialog(null);
         if (i == chooser.APPROVE_OPTION) {
             path = chooser.getSelectedFile().getAbsolutePath();
-            restaurant.setPath(path);
+            store.setPath(path);
         } else {
             JOptionPane.showMessageDialog(null, "No file was selected");
         }
@@ -1088,8 +1091,8 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         int index = menuTable.getSelectedRow();
 
         if (index >= 0) {
-            Dash dash = (Dash) menuTable.getValueAt(index, 0);
-            DashEditJPanel panel = new DashEditJPanel(this.system, this, this.detailPanel, dash);
+            Product product = (Product) menuTable.getValueAt(index, 0);
+            DashEditJPanel panel = new DashEditJPanel(this.system, this, this.detailPanel, product);
             this.detailPanel.add(panel);
             CardLayout layout = (CardLayout) this.detailPanel.getLayout();
             layout.next(this.detailPanel);
@@ -1117,7 +1120,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_cancelOrderButtonActionPerformed
 
     private void deliveryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deliveryButtonActionPerformed
-        SelectDeliveryJFrame f = new SelectDeliveryJFrame(this.system, this, this.net, this.restaurant, this.selectedOrder);
+        SelectDeliveryJFrame f = new SelectDeliveryJFrame(this.system, this, this.net, this.store, this.selectedOrder);
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }//GEN-LAST:event_deliveryButtonActionPerformed
@@ -1185,7 +1188,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_usernameTextFieldActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        DashCreateJPanel p = new DashCreateJPanel(system, this, createPanel, this.restaurant);
+        DashCreateJPanel p = new DashCreateJPanel(system, this, createPanel, this.store);
         this.createPanel.add(p);
         CardLayout layout = (CardLayout)createPanel.getLayout();
         layout.next(p);
@@ -1198,7 +1201,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
     private javax.swing.JButton cancelButton1;
     private javax.swing.JButton cancelButton2;
     private javax.swing.JButton cancelOrderButton;
-    private javax.swing.JComboBox<RestaurantCategory> categoryComboBox;
+    private javax.swing.JComboBox<StoreCategory> categoryComboBox;
     private javax.swing.JTextArea commentTextArea;
     private javax.swing.JTextField compayTextField;
     private javax.swing.JButton createButton1;
