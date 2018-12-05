@@ -11,6 +11,7 @@ import Business.Employee.Employee;
 import Business.Enterprise.DeliveryCompany.DeliveryCompany;
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.Restaurant.Restaurant;
+import Business.Enterprise.Store.Store;
 import Business.Organization.Organization;
 import Business.Role.Role;
 import Business.Role.Role.RoleType;
@@ -49,7 +50,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
         this.role = role;
 
         this.employee = selectedAccount.getEmployee();
-        if (en instanceof Restaurant) {
+        if (en instanceof Restaurant || en instanceof Store) {
             roleComboBox.addItem(RoleType.Manager);
             if (selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
                 editButton.setEnabled(false);

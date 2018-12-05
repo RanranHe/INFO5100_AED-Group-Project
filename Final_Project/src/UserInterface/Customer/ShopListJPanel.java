@@ -256,11 +256,21 @@ public class ShopListJPanel extends javax.swing.JPanel {
         TableModel model = ShopTable.getModel();
 
         if (index >= 0) {
-            Restaurant restaurant = (Restaurant) model.getValueAt(index, 0);
-            restaurantNameLabel.setText(restaurant.getName());
-            ShopDetailsJPanel panel = new ShopDetailsJPanel(this.system, restaurant, this.account, net, type);
-            detailPanel.remove(this);
-            detailPanel.add(panel);
+            if (type.equals(ShopType.Store)) {
+                Store store = (Store) model.getValueAt(index, 0);
+                restaurantNameLabel.setText(store.getName());
+                ShopDetailsJPanel panel = new ShopDetailsJPanel(this.system, store, this.account, net, type);
+                detailPanel.remove(this);
+                detailPanel.add(panel);
+            }
+            if (type.equals(ShopType.Restaurant)) {
+                Restaurant restaurant = (Restaurant) model.getValueAt(index, 0);
+                restaurantNameLabel.setText(restaurant.getName());
+                ShopDetailsJPanel panel = new ShopDetailsJPanel(this.system, restaurant, this.account, net, type);
+                detailPanel.remove(this);
+                detailPanel.add(panel);
+            }
+
             CardLayout layout = (CardLayout) this.detailPanel.getLayout();
             layout.next(detailPanel);
         }

@@ -14,6 +14,7 @@ import Business.Enterprise.ShopModel.ShopType;
 import Business.Enterprise.Store.Product;
 import Business.Enterprise.Store.Store;
 import UserInterface.StoreManagerMainJPanel.StoreManagerMainJPanel;
+import java.awt.CardLayout;
 import java.math.BigDecimal;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -166,6 +167,8 @@ public class DashCreateJPanel extends javax.swing.JPanel {
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         createPanel.remove(this);
+        CardLayout layout = (CardLayout) createPanel.getLayout();
+        layout.previous(createPanel);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
 
