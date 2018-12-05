@@ -1,0 +1,50 @@
+-System Manager(System Admin)
+sysadmin sysadmin
+
+Customer
+1 1
+2 2
+
+-Network
+Boston
+Atlanta
+
+=============================
+===Boston Delivery Company===
+=============================
+---Boston Delivery Company
+----Boss
+delivery delivery
+
+----Manager
+m m
+
+----Delivery Man
+d d
+dd dd
+=============================
+======Boston Restaurant======
+=============================
+Row34
+-Boss
+row34 row34
+
+----Manager
+rm rm
+*****************************
+Legal Harborside
+-Boss
+legal legal
+
+-Manager
+lm lm
+
+=============================
+========Boston Store========
+=============================
+Whole Foods
+-Boss
+whole whole
+
+-Manager
+wm wm
