@@ -103,7 +103,7 @@ public class ConfigureASystem {
         // Boston Store List
         Store store1 = network1.createStore("Whole Foods", "15 Westland Ave, Boston, MA 02115", "(617) 375-1010");
         store1.setCategory(Store.StoreCategory.Organic);
-        store1.setDescription("Eco-minded chain with natural & organic grocery items, housewares & other products (most sell wine).");
+        store1.setDescription("Eco-minded chain with natural & organic grocery items, housewares & other products.");
         Product p1 = new Product(store1, "Cookie", 2);
         Product p2 = new Product(store1, "Coke", 2.5);
         Product p3 = new Product(store1, "Water", 1);

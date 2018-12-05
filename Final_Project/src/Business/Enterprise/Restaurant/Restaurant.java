@@ -35,7 +35,22 @@ public class Restaurant extends ShopModel {
 
     public enum RestaurantCategory {
 
-        Seafood, Chinese, Japanese, Korean, American, Mexicon
+        Seafood("Seafood"), Chinese("Chinese"), 
+        Japanese("Japanese"), Korean("Korean"), 
+        American("American"), Mexicon("Mexicon");
+        
+        private String value;
+        private RestaurantCategory(String value){
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+        @Override
+        public String toString() {
+            return value;
+        }
     }
 
     public Restaurant(String name, String address, String phone) {
@@ -130,7 +145,7 @@ public class Restaurant extends ShopModel {
             } else {
                 radio = image.getHeight() / 180;
             }
-            int x = 11, y = 20, cutW = 250 * radio, cutH = 180 * radio;
+            int x = 0, y = 0, cutW = 250 * radio, cutH = 180 * radio;
 
             Rectangle rect = new Rectangle(x, y, cutW, cutH);
             BufferedImage areaImage = image.getSubimage(rect.x, rect.y, rect.width, rect.height);
@@ -142,7 +157,7 @@ public class Restaurant extends ShopModel {
             newPath = "Images/RestaurantCut/" + fileName;
             ImageIO.write(buffImg, "png", new File(newPath));
         } catch (IOException e) {
-            e.printStackTrace();
+        
         }
         this.photoPath = newPath;
     }

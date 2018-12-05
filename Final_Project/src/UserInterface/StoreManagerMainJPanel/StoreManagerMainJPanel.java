@@ -32,6 +32,7 @@ import UserInterface.Restaurant.Manager.SelectDeliveryJFrame;
 import java.awt.CardLayout;
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -79,6 +80,10 @@ public class StoreManagerMainJPanel extends javax.swing.JPanel {
         if (accessRole.getRoleType().equals(RoleType.SystemManager)) {
             logoutButton.setVisible(false);
             jLabel5.setText("");
+        }
+        
+        for (StoreCategory c : EnumSet.allOf(StoreCategory.class)) {
+            categoryComboBox.addItem(c);
         }
 
         populateOrderTable();
@@ -1011,6 +1016,7 @@ public class StoreManagerMainJPanel extends javax.swing.JPanel {
             store.setPhone(phoneTextField.getText());
             if (!path.equalsIgnoreCase(originPath)) {
                 store.setPath(path);
+                System.out.println(path);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Information can't be empty");
@@ -1018,6 +1024,9 @@ public class StoreManagerMainJPanel extends javax.swing.JPanel {
         }
         setOverviewFieldsEditable(false);
         setOverviewInfo();
+        ImageIcon image = new ImageIcon(path);
+        image.setImage(image.getImage().getScaledInstance(250, 180, Image.SCALE_DEFAULT));
+        imageLabel.setIcon(image);
         saveButton.setEnabled(false);
         cancelButton.setEnabled(false);
         editButton.setEnabled(true);
@@ -1191,7 +1200,7 @@ public class StoreManagerMainJPanel extends javax.swing.JPanel {
         DashCreateJPanel p = new DashCreateJPanel(system, this, createPanel, this.store);
         this.createPanel.add(p);
         CardLayout layout = (CardLayout)createPanel.getLayout();
-        layout.next(p);
+        layout.next(createPanel);
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

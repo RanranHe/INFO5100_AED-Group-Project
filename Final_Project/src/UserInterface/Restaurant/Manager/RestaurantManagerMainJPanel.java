@@ -27,6 +27,7 @@ import java.awt.CardLayout;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -89,10 +90,10 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
             cancelButton.setVisible(false);
         }
 
-        categoryComboBox = new JComboBox<>();
-        for (RestaurantCategory c : Restaurant.RestaurantCategory.values()) {
+        for (RestaurantCategory c : EnumSet.allOf(RestaurantCategory.class)) {
             categoryComboBox.addItem(c);
         }
+        
         // Overview Panel
         editButton.setEnabled(true);
         saveButton.setEnabled(false);
@@ -369,6 +370,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         jScrollPane4.setViewportView(addressTextArea);
 
         descriptionTextArea.setColumns(20);
+        descriptionTextArea.setLineWrap(true);
         jScrollPane5.setViewportView(descriptionTextArea);
 
         jLabel7.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
@@ -1017,6 +1019,9 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         }
         setOverviewFieldsEditable(false);
         setOverviewInfo();
+        ImageIcon image = new ImageIcon(path);
+        image.setImage(image.getImage().getScaledInstance(250, 180, Image.SCALE_DEFAULT));
+        imageLabel.setIcon(image);
         saveButton.setEnabled(false);
         cancelButton.setEnabled(false);
         editButton.setEnabled(true);
@@ -1191,7 +1196,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         DashCreateJPanel p = new DashCreateJPanel(system, this, createPanel, this.restaurant);
         this.createPanel.add(p);
         CardLayout layout = (CardLayout)createPanel.getLayout();
-        layout.next(p);
+        layout.next(createPanel);
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

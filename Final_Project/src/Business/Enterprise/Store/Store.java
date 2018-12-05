@@ -111,7 +111,7 @@ public class Store extends ShopModel {
             } else {
                 radio = image.getHeight() / 180;
             }
-            int x = 11, y = 20, cutW = 250 * radio, cutH = 180 * radio;
+            int x = 0, y = 0, cutW = 250 * radio, cutH = 180 * radio;
 
             Rectangle rect = new Rectangle(x, y, cutW, cutH);
             BufferedImage areaImage = image.getSubimage(rect.x, rect.y, rect.width, rect.height);
