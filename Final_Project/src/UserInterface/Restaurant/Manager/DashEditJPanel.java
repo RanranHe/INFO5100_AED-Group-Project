@@ -168,8 +168,6 @@ public class DashEditJPanel extends javax.swing.JPanel {
             this.item.setPrice(bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
             DB4OUtil.getInstance().storeSystem(system);
 
-            JOptionPane.showMessageDialog(null, "Dash Information modified successfully");
-
             setFieldsEditable(false);
             cancelButton.setEnabled(false);
             editButton.setEnabled(true);
@@ -177,10 +175,12 @@ public class DashEditJPanel extends javax.swing.JPanel {
             if (panel instanceof RestaurantManagerMainJPanel) {
                 RestaurantManagerMainJPanel p = (RestaurantManagerMainJPanel)panel;
                 p.populateMenuTable();
+                JOptionPane.showMessageDialog(null, "Dash Information modified successfully");
             }
             if (panel instanceof StoreManagerMainJPanel) {
                 StoreManagerMainJPanel p = (StoreManagerMainJPanel)panel;
                 p.populateMenuTable();
+                JOptionPane.showMessageDialog(null, "Product Information modified successfully");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Price should be a number.");

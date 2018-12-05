@@ -144,6 +144,7 @@ public class DashCreateJPanel extends javax.swing.JPanel {
                 Restaurant res = (Restaurant) shop;
                 Dash dash = new Dash(res, name, price);
                 res.addDashToMenu(dash);
+                DB4OUtil.getInstance().storeSystem(system);
                 RestaurantManagerMainJPanel p = (RestaurantManagerMainJPanel) panel;
                 p.populateMenuTable();
                 JOptionPane.showMessageDialog(null, "Dash created successfully");
@@ -152,11 +153,11 @@ public class DashCreateJPanel extends javax.swing.JPanel {
                 Store store = (Store) shop;
                 Product pro = new Product(store, name, price);
                 store.addProductToList(pro);
+                DB4OUtil.getInstance().storeSystem(system);
                 StoreManagerMainJPanel p = (StoreManagerMainJPanel) panel;
                 p.populateMenuTable();
                 JOptionPane.showMessageDialog(null, "Product created successfully");
             }
-            DB4OUtil.getInstance().storeSystem(system);
             createPanel.remove(this);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Price should be a number.");
