@@ -8,6 +8,7 @@ package UserInterface.Customer;
 import Business.EcoSystem;
 import Business.Enterprise.Restaurant.Restaurant;
 import Business.Enterprise.ShopModel.ShopType;
+import Business.Enterprise.Store.Store;
 import Business.Network.Network;
 import Business.Role.CustomerRole;
 import Business.UserAccount.CustomerAccount;
@@ -60,7 +61,14 @@ public class ShopListJPanel extends javax.swing.JPanel {
                 dtm.addRow(row);
             }
         }
-
+        if (type.equals(ShopType.Store)) {
+            for (Store store : net.getStoreList()) {
+                Object row[] = new Object[2];
+                row[0] = store;
+                row[1] = store.getCategory();
+                dtm.addRow(row);
+            }
+        }
     }
 
     /**
@@ -248,11 +256,21 @@ public class ShopListJPanel extends javax.swing.JPanel {
         TableModel model = ShopTable.getModel();
 
         if (index >= 0) {
-            Restaurant restaurant = (Restaurant) model.getValueAt(index, 0);
-            restaurantNameLabel.setText(restaurant.getName());
-            ShopDetailsJPanel panel = new ShopDetailsJPanel(this.system, restaurant, this.account, net, type);
-            detailPanel.remove(this);
-            detailPanel.add(panel);
+            if (type.equals(ShopType.Store)) {
+                Store store = (Store) model.getValueAt(index, 0);
+                restaurantNameLabel.setText(store.getName());
+                ShopDetailsJPanel panel = new ShopDetailsJPanel(this.system, store, this.account, net, type);
+                detailPanel.remove(this);
+                detailPanel.add(panel);
+            }
+            if (type.equals(ShopType.Restaurant)) {
+                Restaurant restaurant = (Restaurant) model.getValueAt(index, 0);
+                restaurantNameLabel.setText(restaurant.getName());
+                ShopDetailsJPanel panel = new ShopDetailsJPanel(this.system, restaurant, this.account, net, type);
+                detailPanel.remove(this);
+                detailPanel.add(panel);
+            }
+
             CardLayout layout = (CardLayout) this.detailPanel.getLayout();
             layout.next(detailPanel);
         }

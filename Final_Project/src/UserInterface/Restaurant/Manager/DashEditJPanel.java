@@ -7,8 +7,8 @@ package UserInterface.Restaurant.Manager;
 
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
-import Business.Enterprise.Restaurant.Dash;
-import Business.Enterprise.Restaurant.Restaurant;
+import Business.Enterprise.Item;
+import UserInterface.StoreManagerMainJPanel.StoreManagerMainJPanel;
 import java.math.BigDecimal;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,21 +20,19 @@ import javax.swing.JPanel;
 public class DashEditJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
-    private RestaurantManagerMainJPanel rp;
+    private JPanel panel;
     private JPanel detailPanel;
-    private Dash dash;
-    private Restaurant restaurant;
+    private Item item;
 
     /**
      * Creates new form DashEditJPanel
      */
-    public DashEditJPanel(EcoSystem system, RestaurantManagerMainJPanel rp, JPanel detailPanel, Restaurant restaurant, Dash dash) {
+    public DashEditJPanel(EcoSystem system, JPanel panel, JPanel detailPanel, Item item) {
         initComponents();
         this.system = system;
-        this.rp = rp;
+        this.panel = panel;
         this.detailPanel = detailPanel;
-        this.restaurant = restaurant;
-        this.dash = dash;
+        this.item = item;
 
         setInfo();
 
@@ -50,8 +48,8 @@ public class DashEditJPanel extends javax.swing.JPanel {
     }
 
     private void setInfo() {
-        nameTextField.setText(dash.getName());
-        priceTextField.setText(dash.getPrice() + "");
+        nameTextField.setText(item.getName());
+        priceTextField.setText(item.getPrice() + "");
     }
 
     /**
@@ -70,12 +68,13 @@ public class DashEditJPanel extends javax.swing.JPanel {
         submitButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jLabel1.setText("Dash Name:");
+        jLabel1.setText("Name:");
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jLabel2.setText("Dash Price:");
+        jLabel2.setText("Price:");
 
         submitButton.setText("Submit");
         submitButton.addActionListener(new java.awt.event.ActionListener() {
@@ -98,34 +97,45 @@ public class DashEditJPanel extends javax.swing.JPanel {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Edit");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(submitButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cancelButton))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
                         .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(submitButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cancelButton)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                            .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(14, 14, 14)))
+                .addGap(26, 26, 26))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addGap(22, 22, 22)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -138,7 +148,7 @@ public class DashEditJPanel extends javax.swing.JPanel {
                     .addComponent(submitButton)
                     .addComponent(cancelButton)
                     .addComponent(editButton))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -153,18 +163,25 @@ public class DashEditJPanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Information can't be empty!");
                 return;
             }
-            this.dash.setName(name);
+            this.item.setName(name);
             BigDecimal bd = new BigDecimal(price);
-            this.dash.setPrice(bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+            this.item.setPrice(bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
             DB4OUtil.getInstance().storeSystem(system);
-
-            JOptionPane.showMessageDialog(null, "Dash Information modified successfully");
 
             setFieldsEditable(false);
             cancelButton.setEnabled(false);
             editButton.setEnabled(true);
             submitButton.setEnabled(false);
-            rp.populateMenuTable(this.restaurant.getMenu());
+            if (panel instanceof RestaurantManagerMainJPanel) {
+                RestaurantManagerMainJPanel p = (RestaurantManagerMainJPanel)panel;
+                p.populateMenuTable();
+                JOptionPane.showMessageDialog(null, "Dash Information modified successfully");
+            }
+            if (panel instanceof StoreManagerMainJPanel) {
+                StoreManagerMainJPanel p = (StoreManagerMainJPanel)panel;
+                p.populateMenuTable();
+                JOptionPane.showMessageDialog(null, "Product Information modified successfully");
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Price should be a number.");
         }
@@ -192,6 +209,7 @@ public class DashEditJPanel extends javax.swing.JPanel {
     private javax.swing.JButton editButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JTextField priceTextField;
     private javax.swing.JButton submitButton;

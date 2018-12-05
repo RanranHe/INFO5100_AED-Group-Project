@@ -10,6 +10,7 @@ import Business.Enterprise.Enterprise;
 import Business.Enterprise.EnterpriseDir;
 import Business.Enterprise.Restaurant.Restaurant;
 import Business.Enterprise.ShopModel;
+import Business.Enterprise.Store.Store;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -60,6 +61,24 @@ public class Network {
         res.createOrganizations();
         this.enterpriseDir.getEnterpriseList().add(res);
         return res;
+    }
+    
+    public Store createStore(String name, String address, String phone) {
+        Store store = new Store(name, address, phone);
+        store.createOrganizations();
+        this.enterpriseDir.getEnterpriseList().add(store);
+        return store;
+    }
+    
+    public ArrayList<Store> getStoreList() {
+        ArrayList<Store> result = new ArrayList<>();
+        for (Enterprise en:this.enterpriseDir.getEnterpriseList()) {
+            if (en instanceof Store) {
+                Store store = (Store) en;
+                result.add(store);
+            }
+        }
+        return result;
     }
     
     public ArrayList<Restaurant> getRestaurantList() {

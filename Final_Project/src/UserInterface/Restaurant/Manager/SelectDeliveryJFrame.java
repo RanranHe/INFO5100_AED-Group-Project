@@ -8,14 +8,16 @@ package UserInterface.Restaurant.Manager;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Enterprise.DeliveryCompany.DeliveryCompany;
-import Business.Enterprise.Restaurant.Restaurant;
+import Business.Enterprise.ShopModel;
 import Business.Network.Network;
 import Business.WorkQueue.DeliveryRequest;
 import Business.WorkQueue.OrderRequest;
 import Business.WorkQueue.WorkRequest;
+import UserInterface.StoreManagerMainJPanel.StoreManagerMainJPanel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 /**
@@ -25,23 +27,23 @@ import javax.swing.SwingConstants;
 public class SelectDeliveryJFrame extends javax.swing.JFrame {
 
     private EcoSystem system;
-    private RestaurantManagerMainJPanel panel;
+    private JPanel panel;
     private Network net;
     private OrderRequest request;
-    private Restaurant restaurant;
+    private ShopModel shop;
 
     /**
      * Creates new form SelectDeliveryJFrame
      */
-    public SelectDeliveryJFrame(EcoSystem system, RestaurantManagerMainJPanel panel, Network net,
-        Restaurant restaurant, OrderRequest request) {
+    public SelectDeliveryJFrame(EcoSystem system, JPanel panel, Network net,
+            ShopModel shop, OrderRequest request) {
         initComponents();
         this.system = system;
         this.net = net;
         this.request = request;
         this.panel = panel;
-        this.restaurant = restaurant;
-        
+        this.shop = shop;
+
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         DefaultListCellRenderer renderer = (DefaultListCellRenderer) deliveryList.getCellRenderer();
@@ -137,12 +139,20 @@ public class SelectDeliveryJFrame extends javax.swing.JFrame {
             DeliveryCompany de = (DeliveryCompany) deliveryList.getSelectedValue();
             request.setCompany(de);
             request.setStatus(WorkRequest.StatusEnum.Ready);
-            DeliveryRequest dr = new DeliveryRequest(restaurant, null, request);
+            DeliveryRequest dr = new DeliveryRequest(shop, null, request);
             dr.setStatus(WorkRequest.StatusEnum.Ready);
             de.getWorkQueue().getWorkRequestList().add(dr);
             DB4OUtil.getInstance().storeSystem(system);
-            this.panel.populateOrderTable(restaurant.getWorkQueue().getWorkRequestList());
-            this.panel.populateDetailTable(request);
+            if (panel instanceof RestaurantManagerMainJPanel) {
+                RestaurantManagerMainJPanel p = (RestaurantManagerMainJPanel) panel;
+                p.populateOrderTable();
+                p.populateDetailTable(request);
+            }
+            if (panel instanceof StoreManagerMainJPanel) {
+                StoreManagerMainJPanel p = (StoreManagerMainJPanel) panel;
+                p.populateOrderTable();
+                p.populateDetailTable(request);
+            }
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Please select a delivery company");

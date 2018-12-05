@@ -5,7 +5,6 @@
  */
 package Business.Enterprise.Restaurant;
 
-import static Business.Enterprise.DeliveryCompany.DeliveryCompany.genId;
 import Business.Enterprise.Item;
 import Business.Enterprise.ShopModel;
 import Business.Organization.ManagerOrganization;
@@ -23,20 +22,35 @@ import javax.imageio.ImageIO;
 public class Restaurant extends ShopModel {
 
     private int photoId;
-//    private String name;
-//    private String address;
-//    private String phone;
     private RestaurantCategory category;
-//    private String description;
-//    private ArrayList<Dash> menu;
     private double rate;
     private String id;
     private static int counter = 0;
     private String photoPath;
 
+    @Override
+    public ShopType getType() {
+        return ShopType.Restaurant;
+    }
+
     public enum RestaurantCategory {
 
-        Seafood, Chinese, Japanese, Korean, American, Mexicon
+        Seafood("Seafood"), Chinese("Chinese"), 
+        Japanese("Japanese"), Korean("Korean"), 
+        American("American"), Mexicon("Mexicon");
+        
+        private String value;
+        private RestaurantCategory(String value){
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+        @Override
+        public String toString() {
+            return value;
+        }
     }
 
     public Restaurant(String name, String address, String phone) {
@@ -44,10 +58,6 @@ public class Restaurant extends ShopModel {
         this.photoId = counter;
         this.id = "Restaurant" + counter;
         counter++;
-//        this.name = name;
-//        this.address = address;
-//        this.phone = phone;
-//        this.menu = new ArrayList<>();
         this.rate = -1;
         this.setType(ShopType.Restaurant);
 
@@ -76,29 +86,6 @@ public class Restaurant extends ShopModel {
         return this.photoId;
     }
 
-//    public String getAddress() {
-//        return this.address;
-//    }
-//
-//    public void setAddress(String addr) {
-//        this.address = addr;
-//    }
-//
-//    public String getPhone() {
-//        return this.phone;
-//    }
-//
-//    public void setPhone(String phone) {
-//        this.phone = phone;
-//    }
-//
-//    public String getDescription() {
-//        return this.description;
-//    }
-//
-//    public void setDescription(String des) {
-//        this.description = des;
-//    }
     public RestaurantCategory getCategory() {
         return this.category;
     }
@@ -158,7 +145,7 @@ public class Restaurant extends ShopModel {
             } else {
                 radio = image.getHeight() / 180;
             }
-            int x = 11, y = 20, cutW = 250 * radio, cutH = 180 * radio;
+            int x = 0, y = 0, cutW = 250 * radio, cutH = 180 * radio;
 
             Rectangle rect = new Rectangle(x, y, cutW, cutH);
             BufferedImage areaImage = image.getSubimage(rect.x, rect.y, rect.width, rect.height);
@@ -170,7 +157,7 @@ public class Restaurant extends ShopModel {
             newPath = "Images/RestaurantCut/" + fileName;
             ImageIO.write(buffImg, "png", new File(newPath));
         } catch (IOException e) {
-            e.printStackTrace();
+        
         }
         this.photoPath = newPath;
     }

@@ -11,6 +11,7 @@ import Business.Employee.Employee;
 import Business.Enterprise.DeliveryCompany.DeliveryCompany;
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.Restaurant.Restaurant;
+import Business.Enterprise.Store.Store;
 import Business.Organization.Organization;
 import Business.Role.Role;
 import Business.Role.Role.RoleType;
@@ -27,6 +28,7 @@ import javax.swing.JPanel;
 public class EditEmployeeJPanel extends javax.swing.JPanel {
 
     private EcoSystem system;
+    private EmployeeAccount selectedAccount;
     private EmployeeAccount account;
     private JPanel panel;
     private Enterprise en;
@@ -37,24 +39,26 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
     /**
      * Creates new form EditEmployeeJPanel
      */
-    public EditEmployeeJPanel(EcoSystem system, JPanel panel, Enterprise en, EmployeeAccount account, Role role) {
+    public EditEmployeeJPanel(EcoSystem system, JPanel panel, Enterprise en, 
+            EmployeeAccount selectedAccount, EmployeeAccount account, Role role) {
         initComponents();
         this.system = system;
         this.panel = panel;
+        this.selectedAccount = selectedAccount;
         this.account = account;
         this.en = en;
         this.role = role;
 
-        this.employee = account.getEmployee();
-        if (en instanceof Restaurant) {
+        this.employee = selectedAccount.getEmployee();
+        if (en instanceof Restaurant || en instanceof Store) {
             roleComboBox.addItem(RoleType.Manager);
-            if (account.getRole().getRoleType().equals(RoleType.Boss)) {
+            if (selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
                 editButton.setEnabled(false);
                 resetButton.setEnabled(false);
             }
             if (role.getRoleType().equals(RoleType.Manager)) {
-                if (account.getRole().getRoleType().equals(RoleType.Manager)
-                        || account.getRole().getRoleType().equals(RoleType.Boss)) {
+                if (selectedAccount.getRole().getRoleType().equals(RoleType.Manager)
+                        || selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
                     editButton.setEnabled(false);
                     resetButton.setEnabled(false);
                 }
@@ -64,13 +68,13 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
         if (en instanceof DeliveryCompany) {
             roleComboBox.addItem(RoleType.Manager);
             roleComboBox.addItem(RoleType.DeliveryMan);
-            if (account.getRole().getRoleType().equals(RoleType.Boss)) {
+            if (selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
                 editButton.setEnabled(false);
                 resetButton.setEnabled(false);
             }
             if (role.getRoleType().equals(RoleType.Manager)) {
-                if (account.getRole().getRoleType().equals(RoleType.Manager)
-                        || account.getRole().getRoleType().equals(RoleType.Boss)) {
+                if (selectedAccount.getRole().getRoleType().equals(RoleType.Manager)
+                        || selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
                     editButton.setEnabled(false);
                     resetButton.setEnabled(false);
                 }
@@ -92,12 +96,12 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
     }
 
     private void setInfo() {
-        roleComboBox.setSelectedItem(account.getRole().getRoleType());
+        roleComboBox.setSelectedItem(selectedAccount.getRole().getRoleType());
         emailTextField.setText(employee.getEmail());
         firstNameTextField.setText(employee.getFirstName());
         lastNameTextField.setText(employee.getLastName());
         phoneTextField.setText(employee.getPhone());
-        usernameTextField.setText(account.getUsername());
+        usernameTextField.setText(selectedAccount.getUsername());
     }
 
     /**
@@ -125,7 +129,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
         resetButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
-        roleComboBox = new javax.swing.JComboBox();
+        roleComboBox = new javax.swing.JComboBox<RoleType>();
 
         setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -199,42 +203,47 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 14, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(resetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(133, 133, 133))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel12)
-                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(emailTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(phoneTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lastNameTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(firstNameTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                .addGap(14, 14, 14))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jLabel9)
+                                                .addComponent(jLabel12)
+                                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel7))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(emailTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                    .addComponent(phoneTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lastNameTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(firstNameTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addGap(14, 14, 14))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -297,15 +306,15 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
             this.employee.setLastName(lastNameTextField.getText());
             this.employee.setPhone(phoneTextField.getText());
             RoleType selectedType = (RoleType) roleComboBox.getSelectedItem();
-            RoleType originType = this.account.getRole().getRoleType();
+            RoleType originType = this.selectedAccount.getRole().getRoleType();
             if (!selectedType.equals(originType)) {
-                this.account.setRole(RoleFactory.createRole(selectedType));
+                this.selectedAccount.setRole(RoleFactory.createRole(selectedType));
                 Organization to = en.getOrganizationDirectory().getTypicalOrganization(selectedType.
                         getOrganizationType());
                 to.getEmployeeDirectory().getEmployeeList().add(employee);
-                to.getUserAccountDirectory().getUserAccountList().add(this.account);
+                to.getUserAccountDirectory().getUserAccountList().add(this.selectedAccount);
                 Organization from = en.getOrganizationDirectory().getTypicalOrganization(originType.getOrganizationType());
-                from.getUserAccountDirectory().getUserAccountList().remove(this.account);
+                from.getUserAccountDirectory().getUserAccountList().remove(this.selectedAccount);
                 from.getEmployeeDirectory().getEmployeeList().remove(this.employee);
             }
         } else {
@@ -328,7 +337,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
-        ResetPasswordJFrame f = new ResetPasswordJFrame(this.system, this.account);
+        ResetPasswordJFrame f = new ResetPasswordJFrame(this.system, this.selectedAccount);
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }//GEN-LAST:event_resetButtonActionPerformed
@@ -358,7 +367,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField lastNameTextField;
     private javax.swing.JTextField phoneTextField;
     private javax.swing.JButton resetButton;
-    private javax.swing.JComboBox roleComboBox;
+    private javax.swing.JComboBox<RoleType> roleComboBox;
     private javax.swing.JButton saveButton;
     private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables

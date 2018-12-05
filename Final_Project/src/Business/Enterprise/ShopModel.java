@@ -23,7 +23,7 @@ public abstract class ShopModel extends Enterprise {
     public enum ShopType {
 
         Restaurant("Restaurant"),
-        GroceryStore("Grocery Store");
+        Store("Store");
 
         private String value;
 
@@ -80,9 +80,7 @@ public abstract class ShopModel extends Enterprise {
         this.type = type;
     }
 
-    public ShopType getType() {
-        return this.type;
-    }
+    public abstract ShopType getType();
 
     public ArrayList<Item> getItems() {
         return this.items;

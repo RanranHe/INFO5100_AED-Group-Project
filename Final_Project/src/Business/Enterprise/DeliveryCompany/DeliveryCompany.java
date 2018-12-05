@@ -6,7 +6,6 @@
 package Business.Enterprise.DeliveryCompany;
 
 import Business.Enterprise.Enterprise;
-import Business.Enterprise.Restaurant.Restaurant;
 import Business.Organization.DeliveryManOrganization;
 import Business.Organization.ManagerOrganization;
 import java.awt.Rectangle;
@@ -101,7 +100,7 @@ public class DeliveryCompany extends Enterprise {
             } else {
                 radio = image.getHeight() / 180;
             }
-            int x = 11, y = 20, cutW = 250 * radio, cutH = 180 * radio;
+            int x = 0, y = 0, cutW = 250 * radio, cutH = 180 * radio;
 
             Rectangle rect = new Rectangle(x, y, cutW, cutH);
             BufferedImage areaImage = image.getSubimage(rect.x, rect.y, rect.width, rect.height);
@@ -113,7 +112,7 @@ public class DeliveryCompany extends Enterprise {
             newPath = "Images/DeliveryCompanyCut/" + fileName;
             ImageIO.write(buffImg, "png", new File(newPath));
         } catch (IOException e) {
-            e.printStackTrace();
+            
         }
         this.photoPath = newPath;
     }

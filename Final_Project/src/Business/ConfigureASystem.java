@@ -9,6 +9,8 @@ import Business.Organization.ManagerOrganization;
 import Business.Organization.Organization;
 import Business.Enterprise.Restaurant.Dash;
 import Business.Enterprise.Restaurant.Restaurant;
+import Business.Enterprise.Store.Product;
+import Business.Enterprise.Store.Store;
 import Business.Organization.DeliveryManOrganization;
 import Business.Role.BossRole;
 import Business.Role.DeliveryManRole;
@@ -44,10 +46,11 @@ public class ConfigureASystem {
 
         // MA NETWORK 
         Network network1 = system.createNetwork("Boston");
+        Network network2 = system.createNetwork("Atlanta");
 
         // BOSTON Enterprise with organiztions created
         DeliveryCompany enter1 = network1.createDeliveryCompany("Boston Delivery Company", "1 Pleasant Street, Boston, MA 02125", "(617) 553-5900");
-
+        enter1.setDescription("This is a delivery company.");
         Employee boss = enter1.getEmployeeDirectory().createEmployee("boss", "boss", "23323", "boss@com");
         UserAccount bossA = enter1.getUserAccountDirectory().createEmployeeAccount("delivery", "delivery", new BossRole(), boss);
         // BOSTON Delivery Company Organization
@@ -80,7 +83,6 @@ public class ConfigureASystem {
         Employee em1 = mo2.getEmployeeDirectory().createEmployee("Manager", "Manager", "111", "manager@demo.com");
         UserAccount ua6 = mo2.getUserAccountDirectory().createEmployeeAccount("rm", "rm", new ManagerRole(), em1);
 
-//        system.getUserAccountDirectory().addAccount(ua6);
         Restaurant res2 = network1.createRestaurant("Legal Harborside", "270 Northern Ave, Boston, MA 02210", "(617) 477-2900");
         res2.setCategory(Restaurant.RestaurantCategory.Seafood);
         res2.setDescription("Specializing in upmarket seafood, this contemporary chain also serves steaks & cocktails.");
@@ -91,10 +93,33 @@ public class ConfigureASystem {
         res2.addDashToMenu(d2);
         res2.addDashToMenu(d3);
         
+        Employee e = res2.getEmployeeDirectory().createEmployee("Legal", "Boss", "222", "boss@demo.com");
+        UserAccount ee = res2.getUserAccountDirectory().createEmployeeAccount("legal", "legal", new BossRole(), e);
+        
         ManagerOrganization mo3 = (ManagerOrganization) res2.getOrganizationDirectory().getTypicalOrganization(Organization.Type.Manager);
         Employee em2 = mo3.getEmployeeDirectory().createEmployee("Manager", "Manager", "222", "manager@demo.com");
-        UserAccount ua7 = mo3.getUserAccountDirectory().createEmployeeAccount("legal", "legal", new ManagerRole(), em2);
+        UserAccount ua7 = mo3.getUserAccountDirectory().createEmployeeAccount("lm", "lm", new ManagerRole(), em2);
 
+        // Boston Store List
+        Store store1 = network1.createStore("Whole Foods", "15 Westland Ave, Boston, MA 02115", "(617) 375-1010");
+        store1.setCategory(Store.StoreCategory.Organic);
+        store1.setDescription("Eco-minded chain with natural & organic grocery items, housewares & other products.");
+        Product p1 = new Product(store1, "Cookie", 2);
+        Product p2 = new Product(store1, "Coke", 2.5);
+        Product p3 = new Product(store1, "Water", 1);
+        Product p4 = new Product(store1, "fork", 6);
+        store1.addProductToList(p1);
+        store1.addProductToList(p2);
+        store1.addProductToList(p3);
+        store1.addProductToList(p4);
+        
+        Employee se1 = store1.getEmployeeDirectory().createEmployee("Whole", "Foods", "222", "boss@demo.com");
+        UserAccount sa1 = store1.getUserAccountDirectory().createEmployeeAccount("whole", "whole", new BossRole(), e);
+        
+        ManagerOrganization mo4 = (ManagerOrganization) store1.getOrganizationDirectory().getTypicalOrganization(Organization.Type.Manager);
+        Employee se2 = mo4.getEmployeeDirectory().createEmployee("Manager", "Manager", "222", "manager@demo.com");
+        UserAccount sa2 = mo4.getUserAccountDirectory().createEmployeeAccount("wm", "wm", new ManagerRole(), em2);
+        
         return system;
     }
 

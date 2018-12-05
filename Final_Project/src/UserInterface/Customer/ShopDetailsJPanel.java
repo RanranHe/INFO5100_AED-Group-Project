@@ -14,6 +14,8 @@ import Business.Enterprise.Restaurant.Dash;
 import Business.Enterprise.Restaurant.Restaurant;
 import Business.Enterprise.ShopModel;
 import Business.Enterprise.ShopModel.ShopType;
+import static Business.Enterprise.ShopModel.ShopType.Store;
+import Business.Enterprise.Store.Store;
 import Business.Network.Network;
 import Business.UserAccount.CustomerAccount;
 import java.awt.Image;
@@ -79,6 +81,10 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
         if (type.equals(ShopType.Restaurant)) {
             Restaurant res = (Restaurant) shop;
             image = new ImageIcon(res.getPath());
+        }
+        if (type.equals(ShopType.Store)) {
+            Store store = (Store) shop;
+            image = new ImageIcon(store.getPath());
         }
         image.setImage(image.getImage().getScaledInstance(250, 180, Image.SCALE_DEFAULT));
         imageLabel.setIcon(image);

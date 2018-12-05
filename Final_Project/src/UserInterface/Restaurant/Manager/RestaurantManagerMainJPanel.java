@@ -27,6 +27,7 @@ import java.awt.CardLayout;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -49,7 +50,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
     private EmployeeAccount employeeAccount;
     private Restaurant restaurant;
     private JFrame frame;
-    private Role role;
+    private Role accessRole;
     private String path;
     private String originPath;
     private OrderRequest selectedOrder = null;
@@ -59,7 +60,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
      * Creates new form RestaurantMainJPanel
      */
     public RestaurantManagerMainJPanel(EcoSystem system, JPanel container, Network net, Enterprise en,
-            UserAccount userAccount, JFrame frame, Role role) {
+            UserAccount userAccount, JFrame frame, Role accessRole) {
         initComponents();
         this.system = system;
         this.container = container;
@@ -67,35 +68,32 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         this.en = en;
         this.employeeAccount = (EmployeeAccount) userAccount;
         this.frame = frame;
-        this.role = role;
+        this.accessRole = accessRole;
         this.restaurant = (Restaurant) en;
         this.originPath = this.restaurant.getPath();
         this.path = this.restaurant.getPath();
         this.employee = this.employeeAccount.getEmployee();
 
-        if (role.getRoleType().equals(RoleType.SystemManager)) {
+        if (accessRole.getRoleType().equals(RoleType.SystemManager)) {
             logoutButton.setVisible(false);
             jLabel5.setText("");
         }
 
-        if (en instanceof Restaurant) {
-            populateOrderTable(restaurant.getWorkQueue().getWorkRequestList());
-            populateMenuTable(restaurant.getMenu());
-            populateEmployeeTable(restaurant.getOrganizationDirectory().getOrganizationList());
+        populateOrderTable();
+        populateMenuTable();
+        populateEmployeeTable(restaurant.getOrganizationDirectory().getOrganizationList());
 
-            if (role.getRoleType().equals(RoleType.Manager)) {
-                editButton.setVisible(false);
-                saveButton.setVisible(false);
-                uploadButton.setVisible(false);
-                cancelButton.setVisible(false);
-            }
+        if (accessRole.getRoleType().equals(RoleType.Manager)) {
+            editButton.setVisible(false);
+            saveButton.setVisible(false);
+            uploadButton.setVisible(false);
+            cancelButton.setVisible(false);
         }
 
-//        categoryComboBox = new JComboBox<RestaurantCategory>();
-//        for (RestaurantCategory c : Restaurant.RestaurantCategory.values()) {
-//            categoryComboBox.addItem(c);
-//        }
-
+        for (RestaurantCategory c : EnumSet.allOf(RestaurantCategory.class)) {
+            categoryComboBox.addItem(c);
+        }
+        
         // Overview Panel
         editButton.setEnabled(true);
         saveButton.setEnabled(false);
@@ -119,10 +117,10 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         cancelOrderButton.setEnabled(false);
     }
 
-    public void populateMenuTable(ArrayList<Dash> list) {
+    public void populateMenuTable() {
         DefaultTableModel dtm = (DefaultTableModel) menuTable.getModel();
         dtm.setRowCount(0);
-        for (Dash dash : list) {
+        for (Dash dash : restaurant.getMenu()) {
             Object row[] = new Object[2];
             row[0] = dash;
             row[1] = dash.getPrice();
@@ -151,10 +149,10 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         }
     }
 
-    public void populateOrderTable(ArrayList<WorkRequest> list) {
+    public void populateOrderTable() {
         DefaultTableModel dtm = (DefaultTableModel) orderTable.getModel();
         dtm.setRowCount(0);
-        for (WorkRequest wr : list) {
+        for (WorkRequest wr : restaurant.getWorkQueue().getWorkRequestList()) {
             OrderRequest or = (OrderRequest) wr;
             Object row[] = new Object[5];
             row[0] = or;
@@ -268,6 +266,8 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         menuTable = new javax.swing.JTable();
         detailPanel = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        createPanel = new javax.swing.JPanel();
         employeePanel = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         employeeTable = new javax.swing.JTable();
@@ -370,6 +370,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         jScrollPane4.setViewportView(addressTextArea);
 
         descriptionTextArea.setColumns(20);
+        descriptionTextArea.setLineWrap(true);
         jScrollPane5.setViewportView(descriptionTextArea);
 
         jLabel7.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
@@ -486,6 +487,15 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
 
         detailPanel.setLayout(new java.awt.CardLayout());
 
+        jButton1.setText("Create Product");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        createPanel.setLayout(new java.awt.CardLayout());
+
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
         menuPanel.setLayout(menuPanelLayout);
         menuPanelLayout.setHorizontalGroup(
@@ -494,19 +504,24 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
                 .addContainerGap(77, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(detailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(detailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(createPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(88, 88, 88))
         );
         menuPanelLayout.setVerticalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuPanelLayout.createSequentialGroup()
-                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(19, 19, 19)
+                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(menuPanelLayout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addComponent(detailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(menuPanelLayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(detailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(createPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(78, Short.MAX_VALUE))
         );
 
@@ -974,6 +989,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         cancelButton.setEnabled(false);
         editButton.setEnabled(true);
         uploadButton.setEnabled(false);
+        categoryComboBox.setEnabled(false);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
@@ -981,7 +997,8 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         cancelButton.setEnabled(true);
         editButton.setEnabled(false);
         uploadButton.setEnabled(true);
-
+        categoryComboBox.setEnabled(true);
+        
         setOverviewFieldsEditable(true);
     }//GEN-LAST:event_editButtonActionPerformed
 
@@ -1002,10 +1019,14 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         }
         setOverviewFieldsEditable(false);
         setOverviewInfo();
+        ImageIcon image = new ImageIcon(path);
+        image.setImage(image.getImage().getScaledInstance(250, 180, Image.SCALE_DEFAULT));
+        imageLabel.setIcon(image);
         saveButton.setEnabled(false);
         cancelButton.setEnabled(false);
         editButton.setEnabled(true);
         uploadButton.setEnabled(false);
+        categoryComboBox.setEnabled(false);
 
         DB4OUtil.getInstance().storeSystem(system);
     }//GEN-LAST:event_saveButtonActionPerformed
@@ -1076,7 +1097,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
 
         if (index >= 0) {
             Dash dash = (Dash) menuTable.getValueAt(index, 0);
-            DashEditJPanel panel = new DashEditJPanel(this.system, this, this.detailPanel, this.restaurant, dash);
+            DashEditJPanel panel = new DashEditJPanel(this.system, this, this.detailPanel, dash);
             this.detailPanel.add(panel);
             CardLayout layout = (CardLayout) this.detailPanel.getLayout();
             layout.next(this.detailPanel);
@@ -1099,7 +1120,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
     private void cancelOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelOrderButtonActionPerformed
         selectedOrder.setStatus(StatusEnum.Cancelled);
         DB4OUtil.getInstance().storeSystem(system);
-        populateOrderTable(restaurant.getWorkQueue().getWorkRequestList());
+        populateOrderTable();
         populateDetailTable(selectedOrder);
     }//GEN-LAST:event_cancelOrderButtonActionPerformed
 
@@ -1115,7 +1136,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         if (index >= 0) {
             EmployeeAccount selectedAccount = (EmployeeAccount) employeeTable.getValueAt(index, 0);
 
-            EditEmployeeJPanel ep = new EditEmployeeJPanel(this.system, this, this.en, selectedAccount, role);
+            EditEmployeeJPanel ep = new EditEmployeeJPanel(this.system, this, this.en, selectedAccount, this.employeeAccount, accessRole);
             this.workPanel.removeAll();
             this.workPanel.add(ep);
             CardLayout layout = (CardLayout) this.workPanel.getLayout();
@@ -1125,7 +1146,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
 
     private void createButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButton1ActionPerformed
         this.workPanel.removeAll();
-        CreateEmployeeJPanel ep = new CreateEmployeeJPanel(this.system, this, this.workPanel, this.en, this.role);
+        CreateEmployeeJPanel ep = new CreateEmployeeJPanel(this.system, this, this.workPanel, this.en, this.accessRole);
         this.workPanel.add(ep);
         CardLayout layout = (CardLayout) this.workPanel.getLayout();
         layout.next(this.workPanel);
@@ -1171,6 +1192,13 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameTextFieldActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        DashCreateJPanel p = new DashCreateJPanel(system, this, createPanel, this.restaurant);
+        this.createPanel.add(p);
+        CardLayout layout = (CardLayout)createPanel.getLayout();
+        layout.next(createPanel);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea addressTextArea;
@@ -1182,6 +1210,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
     private javax.swing.JTextArea commentTextArea;
     private javax.swing.JTextField compayTextField;
     private javax.swing.JButton createButton1;
+    private javax.swing.JPanel createPanel;
     private javax.swing.JButton deliveryButton;
     private javax.swing.JTextArea descriptionTextArea;
     private javax.swing.JPanel detailPanel;
@@ -1192,6 +1221,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
     private javax.swing.JTable employeeTable;
     private javax.swing.JTextField firstNameTextField;
     private javax.swing.JLabel imageLabel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
