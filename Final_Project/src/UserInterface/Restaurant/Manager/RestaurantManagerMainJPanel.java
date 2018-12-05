@@ -89,10 +89,10 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
             cancelButton.setVisible(false);
         }
 
-//        categoryComboBox = new JComboBox<RestaurantCategory>();
-//        for (RestaurantCategory c : Restaurant.RestaurantCategory.values()) {
-//            categoryComboBox.addItem(c);
-//        }
+        categoryComboBox = new JComboBox<>();
+        for (RestaurantCategory c : Restaurant.RestaurantCategory.values()) {
+            categoryComboBox.addItem(c);
+        }
         // Overview Panel
         editButton.setEnabled(true);
         saveButton.setEnabled(false);
@@ -987,6 +987,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         cancelButton.setEnabled(false);
         editButton.setEnabled(true);
         uploadButton.setEnabled(false);
+        categoryComboBox.setEnabled(false);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
@@ -994,7 +995,8 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         cancelButton.setEnabled(true);
         editButton.setEnabled(false);
         uploadButton.setEnabled(true);
-
+        categoryComboBox.setEnabled(true);
+        
         setOverviewFieldsEditable(true);
     }//GEN-LAST:event_editButtonActionPerformed
 
@@ -1019,6 +1021,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         cancelButton.setEnabled(false);
         editButton.setEnabled(true);
         uploadButton.setEnabled(false);
+        categoryComboBox.setEnabled(false);
 
         DB4OUtil.getInstance().storeSystem(system);
     }//GEN-LAST:event_saveButtonActionPerformed

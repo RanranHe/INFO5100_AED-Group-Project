@@ -8,6 +8,7 @@ package UserInterface.Customer;
 import Business.EcoSystem;
 import Business.Enterprise.Restaurant.Restaurant;
 import Business.Enterprise.ShopModel.ShopType;
+import Business.Enterprise.Store.Store;
 import Business.Network.Network;
 import Business.Role.CustomerRole;
 import Business.UserAccount.CustomerAccount;
@@ -60,7 +61,14 @@ public class ShopListJPanel extends javax.swing.JPanel {
                 dtm.addRow(row);
             }
         }
-
+        if (type.equals(ShopType.Store)) {
+            for (Store store : net.getStoreList()) {
+                Object row[] = new Object[2];
+                row[0] = store;
+                row[1] = store.getCategory();
+                dtm.addRow(row);
+            }
+        }
     }
 
     /**
