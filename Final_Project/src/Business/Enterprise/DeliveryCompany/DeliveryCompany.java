@@ -6,7 +6,6 @@
 package Business.Enterprise.DeliveryCompany;
 
 import Business.Enterprise.Enterprise;
-import Business.Enterprise.Restaurant.Restaurant;
 import Business.Organization.DeliveryManOrganization;
 import Business.Organization.ManagerOrganization;
 import java.awt.Rectangle;

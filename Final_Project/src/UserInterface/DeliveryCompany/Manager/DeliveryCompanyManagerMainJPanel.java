@@ -101,7 +101,7 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
         setProfileFieldsEditable(false);
 
         // Order Panel
-        cancelOrderButton.setEnabled(false);
+        cancelOrderButton.setVisible(false);
     }
 
     private ArrayList<WorkRequest> getAllDeliveryRequest() {
@@ -1058,11 +1058,14 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
         int index = orderTable.getSelectedRow();
 
         if (index >= 0) {
-            cancelOrderButton.setEnabled(true);
             selectedRequest = (DeliveryRequest) orderTable.getValueAt(index, 1);
+            if (!selectedRequest.getStatus().equals(StatusEnum.Cancelled)
+                    && !selectedRequest.getStatus().equals(StatusEnum.Completed)) {
+                cancelOrderButton.setVisible(true);
+            }
             populateDetails();
         } else {
-            cancelOrderButton.setEnabled(false);
+            cancelOrderButton.setVisible(false);
         }
     }//GEN-LAST:event_orderTableMouseClicked
 
@@ -1071,6 +1074,10 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
         if (input == 0) {
             selectedRequest.setStatus(StatusEnum.Cancelled);
             selectedRequest.getOrder().setStatus(StatusEnum.Cancelled);
+            system.getCustomerAccountByUsername(selectedRequest.getOrder().getAccount().getUsername()).
+                    getWorkQueue().getOderById(selectedRequest.getOrder().getId()).setStatus(StatusEnum.Cancelled);
+            system.getEnterpriseById(selectedRequest.getOrder().getEnterprise().getId()).getWorkQueue().
+                    getOderById(selectedRequest.getOrder().getId()).setStatus(StatusEnum.Cancelled);
             DB4OUtil.getInstance().storeSystem(system);
             populateOrderTable(getAllDeliveryRequest());
         }
