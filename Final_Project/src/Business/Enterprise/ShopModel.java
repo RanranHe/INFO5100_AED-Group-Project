@@ -90,4 +90,6 @@ public abstract class ShopModel extends Enterprise {
     public String toString() {
         return this.name;
     }
+    
+    public abstract double getRate();
 }

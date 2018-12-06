@@ -795,8 +795,6 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
                 getOderById(selectedRequest.getOrder().getId()).setStatus(StatusEnum.Completed);
         system.getCustomerAccountByUsername(selectedRequest.getOrder().getAccount().getUsername()).
                 getWorkQueue().getOderById(selectedRequest.getOrder().getId()).setReview(rr);
-        system.getEnterpriseById(selectedRequest.getOrder().getEnterprise().getId()).getWorkQueue().
-                getOderById(selectedRequest.getOrder().getId()).setReview(rr);
         selectedRequest.getOrder().setReview(rr);
         DB4OUtil.getInstance().storeSystem(system);
         populateOrderTable(getAllDeliveryRequest());

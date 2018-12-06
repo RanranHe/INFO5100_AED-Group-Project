@@ -8,10 +8,13 @@ package Business.Enterprise.Store;
 import Business.Enterprise.Item;
 import Business.Enterprise.ShopModel;
 import Business.Organization.ManagerOrganization;
+import Business.WorkQueue.OrderRequest;
+import Business.WorkQueue.WorkRequest;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
@@ -23,7 +26,6 @@ public class Store extends ShopModel {
 
     private int photoId;
     private StoreCategory category;
-    private double rate;
     private String id;
     private static int counter = 0;
     private String photoPath;
@@ -43,7 +45,6 @@ public class Store extends ShopModel {
         this.photoId = counter;
         this.id = "Store" + counter;
         counter++;
-        this.rate = -1;
         this.setType(ShopModel.ShopType.Store);
 
         String path = "Images/StoreCut/default.png";
@@ -92,8 +93,22 @@ public class Store extends ShopModel {
         this.getItems().add(pro);
     }
 
+    @Override
     public double getRate() {
-        return this.rate;
+        double totalRate = 0;
+        double num = 0;
+        for (WorkRequest wr : this.getWorkQueue().getWorkRequestList()) {
+            OrderRequest order = (OrderRequest) wr;
+            if (order.isReviewed()) {
+                totalRate = totalRate + order.getReview().getRate();
+                num++;
+            }
+        }
+        if (num == 0) {
+            return -1;
+        }
+        BigDecimal bd = new BigDecimal(totalRate/num);
+        return bd.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
     public String getPath() {
