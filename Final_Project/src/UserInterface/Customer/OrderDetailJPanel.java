@@ -33,14 +33,7 @@ public class OrderDetailJPanel extends javax.swing.JPanel {
         this.shop = shop;
         this.cPanel = cPanel;
 
-        reviewButton.setVisible(false);
-        viewButton.setVisible(false);
-        if (order.eligableToBeReviewed()) {
-            reviewButton.setVisible(true);
-        }
-        if (order.isReviewed()) {
-            viewButton.setVisible(true);
-        }
+        setButtons();
         
         this.orderNumLabel.setText(order.getId());
         this.statusLabel.setText(order.getStatus().getValue());
@@ -51,6 +44,17 @@ public class OrderDetailJPanel extends javax.swing.JPanel {
         this.addressLabel.setText(order.getDeliveryAddress());
         this.phoneLabel.setText(order.getDeliveryPhone());
         populateTable();
+    }
+    
+    public void setButtons(){
+        reviewButton.setVisible(false);
+        viewButton.setVisible(false);
+        if (order.eligableToBeReviewed()) {
+            reviewButton.setVisible(true);
+        }
+        if (order.isReviewed()) {
+            viewButton.setVisible(true);
+        }
     }
 
     private void populateTable() {
@@ -294,13 +298,13 @@ public class OrderDetailJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_cartTableMouseClicked
 
     private void reviewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewButtonActionPerformed
-        ReviewJFrame f = new ReviewJFrame(this.system, this.order, this.shop, this.cPanel, "Create");
+        ReviewJFrame f = new ReviewJFrame(this.system, this.order, this.shop, this.cPanel, this, "Create");
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }//GEN-LAST:event_reviewButtonActionPerformed
 
     private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
-        ReviewJFrame f = new ReviewJFrame(this.system, this.order, this.shop, this.cPanel, "View");
+        ReviewJFrame f = new ReviewJFrame(this.system, this.order, this.shop, this.cPanel, this, "View");
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }//GEN-LAST:event_viewButtonActionPerformed

@@ -35,6 +35,14 @@ public class Store extends ShopModel {
         return ShopType.Store;
     }
 
+    @Override
+    public String getCategoryString() {
+        if(this.category != null) {
+            return this.category.name();
+        }
+        return "";
+    }
+
     public enum StoreCategory {
 
         Seafood, Chinese, Japanese, Korean, American, Mexicon, Organic

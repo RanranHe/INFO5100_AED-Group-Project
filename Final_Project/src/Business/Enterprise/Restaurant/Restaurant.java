@@ -79,6 +79,14 @@ public class Restaurant extends ShopModel {
         }
         this.photoPath = path;
     }
+    
+    @Override
+    public String getCategoryString() {
+        if(this.category != null) {
+            return this.category.name();
+        }
+        return "";
+    }
 
     @Override
     public void createOrganizations() {

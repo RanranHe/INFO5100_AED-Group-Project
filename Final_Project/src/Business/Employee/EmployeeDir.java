@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * @author ranranhe
  */
 public class EmployeeDir {
+
     private ArrayList<Employee> employeeList;
 
     public EmployeeDir() {
@@ -21,8 +22,19 @@ public class EmployeeDir {
     public ArrayList<Employee> getEmployeeList() {
         return employeeList;
     }
-    
-    public Employee createEmployee(String firstName, String lastName, String phone, String email){
+
+    public boolean isEmployeeExist(Employee emp) {
+        if (!this.employeeList.isEmpty()) {
+            for (Employee em : this.employeeList) {
+                if (em.getId() == emp.getId()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public Employee createEmployee(String firstName, String lastName, String phone, String email) {
         Employee employee = new Employee(firstName, lastName, phone, email);
         employeeList.add(employee);
         return employee;

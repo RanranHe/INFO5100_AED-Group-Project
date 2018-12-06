@@ -7,6 +7,7 @@ package UserInterface.Customer;
 
 import Business.Customer.DashOrder;
 import Business.Customer.ItemOrder;
+import Business.Customer.ProductOrder;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Enterprise.Item;
@@ -14,7 +15,7 @@ import Business.Enterprise.Restaurant.Dash;
 import Business.Enterprise.Restaurant.Restaurant;
 import Business.Enterprise.ShopModel;
 import Business.Enterprise.ShopModel.ShopType;
-import static Business.Enterprise.ShopModel.ShopType.Store;
+import Business.Enterprise.Store.Product;
 import Business.Enterprise.Store.Store;
 import Business.Network.Network;
 import Business.UserAccount.CustomerAccount;
@@ -101,7 +102,16 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
                 dtm.addRow(row);
             }
         }
-
+        if (type.equals(ShopType.Store)) {
+            Store store = (Store) shop;
+            categoryLabel.setText(store.getCategory().name());
+            for (Product p : store.getGoods()) {
+                Object row[] = new Object[2];
+                row[0] = p;
+                row[1] = p.getPrice();
+                dtm.addRow(row);
+            }
+        }
     }
 
     private void showImage() {
@@ -262,7 +272,7 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
                 {null, null}
             },
             new String [] {
-                "Dash", "Price"
+                "Name", "Price"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -392,9 +402,14 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
             if (this.type.equals(ShopType.Restaurant)) {
                 line = new DashOrder(this.shop, item, quantity);
             }
-            
+            if (this.type.equals(ShopType.Store)) {
+                line = new ProductOrder(this.shop, item, quantity);
+            }
             if (!this.account.getCart().isCartEmpty()) {
                 for (ItemOrder or : this.account.getCart().getItemList()) {
+                    
+                    System.out.println(or.getShopModel());
+                    System.out.println(shop);
                     if (!or.getShopModel().equals(this.shop)) {
                         int choice = JOptionPane.showConfirmDialog(null, "You alreay have dashes from other restaurant in shopping cart. \n"
                                 + "Adding this dash will remove all previous dashes in shopping cart.\n" + "Do you want to continue?",

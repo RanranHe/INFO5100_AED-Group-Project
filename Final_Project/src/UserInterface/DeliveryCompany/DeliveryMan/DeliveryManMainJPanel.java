@@ -9,7 +9,6 @@ import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Employee.Employee;
 import Business.Enterprise.Enterprise;
-import Business.Enterprise.Restaurant.Restaurant;
 import Business.Enterprise.ShopModel;
 import Business.Role.Role;
 import Business.UserAccount.EmployeeAccount;
@@ -92,14 +91,14 @@ public class DeliveryManMainJPanel extends javax.swing.JPanel {
             Object row[] = new Object[4];
             row[0] = dr.getOrder().getId();
             row[1] = dr;
-            row[2] = (Restaurant) dr.getEnterprise();
+            row[2] = (ShopModel) dr.getEnterprise();
             row[3] = dr.getStatus();
             dtm.addRow(row);
         }
     }
 
     private void populateDetails() {
-        Restaurant res = (Restaurant) selectedRequest.getEnterprise();
+        ShopModel res = (ShopModel) selectedRequest.getEnterprise();
         pickupAddressTextArea.setText(res.getAddress());
         pickupNameTextField2.setText(res.getName());
         pickupPhoneTextField.setText(res.getPhone());

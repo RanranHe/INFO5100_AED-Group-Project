@@ -11,12 +11,15 @@ import Business.Employee.Employee;
 import Business.Enterprise.DeliveryCompany.DeliveryCompany;
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.Restaurant.Restaurant;
+import static Business.Enterprise.ShopModel.ShopType.Store;
+import Business.Enterprise.Store.Store;
 import Business.Organization.Organization;
 import Business.Role.DeliveryManRole;
 import Business.Role.ManagerRole;
 import Business.Role.Role;
 import Business.Role.Role.RoleType;
 import UserInterface.DeliveryCompany.Manager.DeliveryCompanyManagerMainJPanel;
+import UserInterface.StoreManagerMainJPanel.StoreManagerMainJPanel;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -44,7 +47,7 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
         this.en = en;
         this.role = role;
 
-        if (en instanceof Restaurant) {
+        if (en instanceof Restaurant || en instanceof Store) {
             if (role.getRoleType().equals(Role.RoleType.Boss)) {
                 roleComboBox.addItem(Role.RoleType.Manager);
             }
@@ -84,7 +87,7 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
         passwordField1 = new javax.swing.JPasswordField();
         jLabel15 = new javax.swing.JLabel();
         passwordField2 = new javax.swing.JPasswordField();
-        roleComboBox = new javax.swing.JComboBox();
+        roleComboBox = new javax.swing.JComboBox<RoleType>();
 
         jLabel7.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel7.setText("Email:");
@@ -275,13 +278,17 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
                         this.workPanel.remove(this);
                         CardLayout layout = (CardLayout) this.workPanel.getLayout();
                         layout.previous(this.workPanel);
-                        
+
                         if (en instanceof Restaurant) {
                             RestaurantManagerMainJPanel p = (RestaurantManagerMainJPanel) panel;
                             p.populateEmployeeTable(this.en.getOrganizationDirectory().getOrganizationList());
                         }
                         if (en instanceof DeliveryCompany) {
                             DeliveryCompanyManagerMainJPanel p = (DeliveryCompanyManagerMainJPanel) panel;
+                            p.populateEmployeeTable(this.en.getOrganizationDirectory().getOrganizationList());
+                        }
+                        if (en instanceof Store) {
+                            StoreManagerMainJPanel p = (StoreManagerMainJPanel) panel;
                             p.populateEmployeeTable(this.en.getOrganizationDirectory().getOrganizationList());
                         }
                     } else {
@@ -317,7 +324,7 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
     private javax.swing.JPasswordField passwordField1;
     private javax.swing.JPasswordField passwordField2;
     private javax.swing.JTextField phoneTextField;
-    private javax.swing.JComboBox roleComboBox;
+    private javax.swing.JComboBox<RoleType> roleComboBox;
     private javax.swing.JButton saveButton;
     private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables

@@ -251,6 +251,9 @@
     <Component class="javax.swing.JPasswordField" name="passwordField2">
     </Component>
     <Component class="javax.swing.JComboBox" name="roleComboBox">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;RoleType&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
