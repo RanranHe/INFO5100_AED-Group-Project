@@ -8,10 +8,13 @@ package Business.Enterprise.Restaurant;
 import Business.Enterprise.Item;
 import Business.Enterprise.ShopModel;
 import Business.Organization.ManagerOrganization;
+import Business.WorkQueue.OrderRequest;
+import Business.WorkQueue.WorkRequest;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
@@ -23,7 +26,6 @@ public class Restaurant extends ShopModel {
 
     private int photoId;
     private RestaurantCategory category;
-    private double rate;
     private String id;
     private static int counter = 0;
     private String photoPath;
@@ -35,18 +37,20 @@ public class Restaurant extends ShopModel {
 
     public enum RestaurantCategory {
 
-        Seafood("Seafood"), Chinese("Chinese"), 
-        Japanese("Japanese"), Korean("Korean"), 
+        Seafood("Seafood"), Chinese("Chinese"),
+        Japanese("Japanese"), Korean("Korean"),
         American("American"), Mexicon("Mexicon");
-        
+
         private String value;
-        private RestaurantCategory(String value){
+
+        private RestaurantCategory(String value) {
             this.value = value;
         }
 
         public String getValue() {
             return value;
         }
+
         @Override
         public String toString() {
             return value;
@@ -58,7 +62,6 @@ public class Restaurant extends ShopModel {
         this.photoId = counter;
         this.id = "Restaurant" + counter;
         counter++;
-        this.rate = -1;
         this.setType(ShopType.Restaurant);
 
         String path = "Images/RestaurantCut/default.png";
@@ -75,6 +78,14 @@ public class Restaurant extends ShopModel {
             }
         }
         this.photoPath = path;
+    }
+    
+    @Override
+    public String getCategoryString() {
+        if(this.category != null) {
+            return this.category.name();
+        }
+        return "";
     }
 
     @Override
@@ -114,8 +125,22 @@ public class Restaurant extends ShopModel {
 //    public ArrayList<ReviewRequest> getReviews() {
 //        return this.reviews;
 //    }
+    @Override
     public double getRate() {
-        return this.rate;
+        double totalRate = 0;
+        double num = 0;
+        for (WorkRequest wr : this.getWorkQueue().getWorkRequestList()) {
+            OrderRequest order = (OrderRequest) wr;
+            if (order.isReviewed()) {
+                totalRate = totalRate + order.getReview().getRate();
+                num++;
+            }
+        }
+        if (num == 0) {
+            return -1;
+        }
+        BigDecimal bd = new BigDecimal(totalRate/num);
+        return bd.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
 //    public void updateRate() {
@@ -157,7 +182,7 @@ public class Restaurant extends ShopModel {
             newPath = "Images/RestaurantCut/" + fileName;
             ImageIO.write(buffImg, "png", new File(newPath));
         } catch (IOException e) {
-        
+
         }
         this.photoPath = newPath;
     }

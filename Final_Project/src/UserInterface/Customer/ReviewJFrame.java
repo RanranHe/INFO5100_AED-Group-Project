@@ -19,15 +19,18 @@ public class ReviewJFrame extends javax.swing.JFrame {
     private OrderRequest order;
     private ShopModel shop;
     private CustomerProfileJPanel cPanel;
+    private OrderDetailJPanel detailPanel;
     /**
      * Creates new form ReviewJFrame
      */
-    public ReviewJFrame(EcoSystem system, OrderRequest order, ShopModel shop, CustomerProfileJPanel cPanel, String pattern) {
+    public ReviewJFrame(EcoSystem system, OrderRequest order, ShopModel shop, CustomerProfileJPanel cPanel, 
+            OrderDetailJPanel detailPanel, String pattern) {
         initComponents();
         this.system= system;
         this.order = order;
         this.shop = shop;
         this.cPanel = cPanel;
+        this.detailPanel = detailPanel;
         
         if(pattern.equalsIgnoreCase("View")) {
             jLabel4.setText("View Review");
@@ -163,9 +166,14 @@ public class ReviewJFrame extends javax.swing.JFrame {
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         this.order.getReview().setMessage(this.commentTextArea.getText());
         this.order.getReview().setRate((int)this.rateSpinner.getValue());
+        system.getEnterpriseById(shop.getId()).getWorkQueue().
+                getOderById(this.order.getId()).getReview().setRate((int)this.rateSpinner.getValue());
+        system.getEnterpriseById(shop.getId()).getWorkQueue().
+                getOderById(this.order.getId()).getReview().setMessage(this.commentTextArea.getText());
         DB4OUtil.getInstance().storeSystem(system);
         this.dispose();
         this.cPanel.populateTable();
+        this.detailPanel.setButtons();
     }//GEN-LAST:event_submitButtonActionPerformed
 
     /**

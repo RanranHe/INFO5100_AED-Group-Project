@@ -5,11 +5,13 @@
  */
 package Business.Enterprise;
 
+import Business.Employee.Employee;
 import Business.Organization.DeliveryManOrganization;
 import Business.Organization.ManagerOrganization;
 import Business.Organization.Organization;
 import Business.Organization.OrganizationDir;
 import Business.Role.Role;
+import Business.UserAccount.EmployeeAccount;
 import Business.UserAccount.UserAccount;
 import java.util.ArrayList;
 
@@ -30,7 +32,59 @@ public abstract class Enterprise extends Organization {
     public OrganizationDir getOrganizationDirectory() {
         return organizations;
     }
-    
+
+    public void removeEmployeeAccount(UserAccount account) {
+        EmployeeAccount ac = (EmployeeAccount) account;
+        Employee em = ac.getEmployee();
+
+        UserAccount ac1 = null;
+        for (UserAccount ua : this.getUserAccountDirectory().getUserAccountList()) {
+            if (ua.getUsername().equalsIgnoreCase(account.getUsername())) {
+                ac1 = ua;
+            }
+        }
+        if (ac1 != null) {
+            this.getUserAccountDirectory().getUserAccountList().remove(ac1);
+            return;
+        }
+        for (Organization or : organizations.getOrganizationList()) {
+            for (UserAccount ua : or.getUserAccountDirectory().getUserAccountList()) {
+                if (ua.getUsername().equalsIgnoreCase(ac.getUsername())) {
+                    ac1 = ua;
+                }
+            }
+            if (ac1 != null) {
+                or.getUserAccountDirectory().getUserAccountList().remove(ac1);
+                return;
+            }
+        }
+    }
+
+    public void removeEmployee(Employee employee) {
+
+        Employee em = null;
+        for (Employee e : this.getEmployeeDirectory().getEmployeeList()) {
+            if (e.getId() == employee.getId()) {
+                em = e;
+            }
+        }
+        if (em != null) {
+            this.getEmployeeDirectory().getEmployeeList().remove(em);
+            return;
+        }
+        for (Organization or : organizations.getOrganizationList()) {
+            for (Employee e : or.getEmployeeDirectory().getEmployeeList()) {
+                if (e.getId() == employee.getId()) {
+                    em = e;
+                }
+            }
+            if (em != null) {
+                or.getEmployeeDirectory().getEmployeeList().remove(em);
+                return;
+            }
+        }
+    }
+
     public abstract String getId();
 
     public abstract void createOrganizations();

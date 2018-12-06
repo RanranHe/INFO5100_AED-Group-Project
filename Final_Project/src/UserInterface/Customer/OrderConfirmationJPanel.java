@@ -6,7 +6,6 @@
 package UserInterface.Customer;
 
 import Business.Customer.ItemOrder;
-import Business.Enterprise.Restaurant.Restaurant;
 import Business.UserAccount.CustomerAccount;
 import Business.WorkQueue.OrderRequest;
 import java.math.BigDecimal;
@@ -29,13 +28,12 @@ public class OrderConfirmationJPanel extends javax.swing.JPanel {
         this.order = order;
 
         this.customerAccount = (CustomerAccount) order.getAccount();
-        Restaurant restaurant = (Restaurant) order.getEnterprise();
-
+        this.restaurantLabel.setText(order.getEnterprise().getName());
         this.orderNumLabel.setText(order.getId());
-        this.restaurantLabel.setText(restaurant.getName());
         this.nameLabel.setText(order.getDeliveryName());
         this.addressLabel.setText(order.getDeliveryAddress());
         this.phoneLabel.setText(order.getDeliveryPhone());
+        
         
         cartTable.setEnabled(false);
         populateTable();

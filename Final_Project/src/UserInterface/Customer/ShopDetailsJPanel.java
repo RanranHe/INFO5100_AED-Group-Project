@@ -7,6 +7,7 @@ package UserInterface.Customer;
 
 import Business.Customer.DashOrder;
 import Business.Customer.ItemOrder;
+import Business.Customer.ProductOrder;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Enterprise.Item;
@@ -14,10 +15,13 @@ import Business.Enterprise.Restaurant.Dash;
 import Business.Enterprise.Restaurant.Restaurant;
 import Business.Enterprise.ShopModel;
 import Business.Enterprise.ShopModel.ShopType;
-import static Business.Enterprise.ShopModel.ShopType.Store;
+import Business.Enterprise.Store.Product;
 import Business.Enterprise.Store.Store;
 import Business.Network.Network;
 import Business.UserAccount.CustomerAccount;
+import Business.WorkQueue.OrderRequest;
+import Business.WorkQueue.ReviewRequest;
+import Business.WorkQueue.WorkRequest;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -49,17 +53,42 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
         if (!type.equals(ShopType.Restaurant)) {
             this.jTabbedPane1.setTitleAt(1, "Product");
         }
-
+        
         showImage();
         populateTable();
-
+        
+        if (shop.getRate() == -1) {
+            rateLabel.setText("N/A");
+        } else {
+            rateLabel.setText(shop.getRate()+"");
+        }
         addressTextArea.setText(shop.getAddress());
         addressTextArea.setEnabled(false);
         descriptionTextArea.setText(shop.getDescription());
         descriptionTextArea.setEnabled(false);
         phoneLabel.setText(shop.getPhone());
+        
+        // Review tab
+        populateReviewTable();
     }
 
+    public void populateReviewTable() {
+        DefaultTableModel dtm = (DefaultTableModel) reviewTable.getModel();
+        dtm.setRowCount(0);
+        for (WorkRequest wr : shop.getWorkQueue().getWorkRequestList()) {
+            OrderRequest or = (OrderRequest) wr;
+            if (or.isReviewed()) {
+                Object row[] = new Object[4];
+                row[0] = or.getReview();
+                row[1] = or.getAccount().getUsername();
+                row[2] = or.getReview().getRate();
+                row[3] = or.getReview().getMessage();
+                dtm.addRow(row);
+            }
+
+        }
+    }
+    
     private void populateTable() {
         DefaultTableModel dtm = (DefaultTableModel) menuTable.getModel();
         dtm.setRowCount(0);
@@ -73,7 +102,16 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
                 dtm.addRow(row);
             }
         }
-
+        if (type.equals(ShopType.Store)) {
+            Store store = (Store) shop;
+            categoryLabel.setText(store.getCategory().name());
+            for (Product p : store.getGoods()) {
+                Object row[] = new Object[2];
+                row[0] = p;
+                row[1] = p.getPrice();
+                dtm.addRow(row);
+            }
+        }
     }
 
     private void showImage() {
@@ -112,11 +150,18 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
         descriptionTextArea = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         imageLabel = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        rateLabel = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         menuTable = new javax.swing.JTable();
         addButton = new javax.swing.JButton();
         quantitySpinner = new javax.swing.JSpinner();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        reviewTable = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        commentTextArea = new javax.swing.JTextArea();
 
         jTabbedPane1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -157,6 +202,12 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel1.setText("Address: ");
 
+        jLabel5.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel5.setText("Rate:");
+
+        rateLabel.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        rateLabel.setText("<Rate>");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -175,15 +226,23 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
                             .addComponent(categoryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane2)
                             .addComponent(jLabel2)
-                            .addComponent(phoneLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(phoneLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(rateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(58, 58, 58)
+                .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(rateLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -192,15 +251,15 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(phoneLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(categoryLabel))
+                        .addComponent(jLabel3))
                     .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(categoryLabel)
                 .addGap(12, 12, 12)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addContainerGap(101, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Details", jPanel1);
@@ -213,7 +272,7 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
                 {null, null}
             },
             new String [] {
-                "Dash", "Price"
+                "Name", "Price"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -258,7 +317,7 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
                 .addComponent(quantitySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(addButton)
-                .addContainerGap(232, Short.MAX_VALUE))
+                .addContainerGap(246, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -266,6 +325,59 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
         );
 
         jTabbedPane1.addTab("Menu", jPanel2);
+
+        reviewTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Date", "Customer", "Rate", "Comment"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        reviewTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                reviewTableMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(reviewTable);
+
+        commentTextArea.setColumns(20);
+        commentTextArea.setRows(5);
+        jScrollPane5.setViewportView(commentTextArea);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
+        );
+
+        jTabbedPane1.addTab("Reviews", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -290,9 +402,14 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
             if (this.type.equals(ShopType.Restaurant)) {
                 line = new DashOrder(this.shop, item, quantity);
             }
-            
+            if (this.type.equals(ShopType.Store)) {
+                line = new ProductOrder(this.shop, item, quantity);
+            }
             if (!this.account.getCart().isCartEmpty()) {
                 for (ItemOrder or : this.account.getCart().getItemList()) {
+                    
+                    System.out.println(or.getShopModel());
+                    System.out.println(shop);
                     if (!or.getShopModel().equals(this.shop)) {
                         int choice = JOptionPane.showConfirmDialog(null, "You alreay have dashes from other restaurant in shopping cart. \n"
                                 + "Adding this dash will remove all previous dashes in shopping cart.\n" + "Do you want to continue?",
@@ -321,25 +438,41 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
+    private void reviewTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reviewTableMouseClicked
+        int index = reviewTable.getSelectedRow();
+        
+        if (index >= 0) {
+            ReviewRequest rr = (ReviewRequest) reviewTable.getValueAt(index, 0);
+            commentTextArea.setText(rr.getMessage());
+        }
+    }//GEN-LAST:event_reviewTableMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JTextArea addressTextArea;
     private javax.swing.JLabel categoryLabel;
+    private javax.swing.JTextArea commentTextArea;
     private javax.swing.JTextArea descriptionTextArea;
     private javax.swing.JLabel imageLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable menuTable;
     private javax.swing.JLabel phoneLabel;
     private javax.swing.JSpinner quantitySpinner;
+    private javax.swing.JLabel rateLabel;
+    private javax.swing.JTable reviewTable;
     // End of variables declaration//GEN-END:variables
 }

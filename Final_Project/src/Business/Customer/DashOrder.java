@@ -17,11 +17,19 @@ import java.math.BigDecimal;
  */
 public class DashOrder extends ItemOrder {
 
+    private Restaurant restaurant;
+
     public DashOrder(ShopModel shopmodel, Item item, int quantity) {
         super(shopmodel, item, quantity);
+        this.restaurant = (Restaurant) shopmodel;
     }
 
     public Restaurant getRestaurant() {
         return (Restaurant) this.getShopModel();
+    }
+
+    @Override
+    public ShopModel getShopModel() {
+        return this.restaurant;
     }
 }

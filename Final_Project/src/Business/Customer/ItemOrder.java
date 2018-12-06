@@ -34,9 +34,7 @@ public abstract class ItemOrder {
         this.item = item;
     }
 
-    public ShopModel getShopModel() {
-        return this.shopmodel;
-    }
+    public abstract ShopModel getShopModel();
 
     public void setRestaurant(ShopModel shopmodel) {
         this.shopmodel = shopmodel;

@@ -48,7 +48,9 @@ public abstract class ShopModel extends Enterprise {
         this.phone = phone;
         this.items = new ArrayList<>();
     }
-
+    
+    public abstract String getCategoryString();
+    
     @Override
     public abstract void createOrganizations();
 
@@ -90,4 +92,6 @@ public abstract class ShopModel extends Enterprise {
     public String toString() {
         return this.name;
     }
+    
+    public abstract double getRate();
 }
