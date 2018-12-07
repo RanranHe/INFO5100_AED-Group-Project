@@ -25,13 +25,6 @@ public class MainJFrame extends javax.swing.JFrame {
         initComponents();
         userAccount.getRole().createWorkArea(system, container, userAccount, net, en, this);
         this.setSize(950, 650);
-        if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Customer")) {
-//            this.setSize(950, 600);
-            CustomerMainJPanel cp = new CustomerMainJPanel(system, this.container, userAccount, this);
-            container.add(cp);
-            CardLayout layout = (CardLayout)this.container.getLayout();
-            layout.next(container);
-        }
 //        if (userAccount.getRole().getRoleType().getValue().equalsIgnoreCase("Manager")) {
 //            this.setSize(950, 650);
 //            

@@ -10,6 +10,7 @@ import Business.Enterprise.Enterprise;
 import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
+import java.awt.CardLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -25,7 +26,10 @@ public class SystemManagerRole extends Role {
 
     @Override
     public void createWorkArea(EcoSystem system, JPanel container, UserAccount userAccount, Network net, Enterprise en, JFrame frame) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        SystemManagerMainJPanel cp = new SystemManagerMainJPanel(system, container, userAccount, frame);
+//        container.add(cp);
+//        CardLayout layout = (CardLayout) container.getLayout();
+//        layout.next(container);
     }
 
     @Override

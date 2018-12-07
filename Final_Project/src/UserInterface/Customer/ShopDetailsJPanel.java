@@ -407,9 +407,6 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
             }
             if (!this.account.getCart().isCartEmpty()) {
                 for (ItemOrder or : this.account.getCart().getItemList()) {
-                    
-                    System.out.println(or.getShopModel());
-                    System.out.println(shop);
                     if (!or.getShopModel().equals(this.shop)) {
                         int choice = JOptionPane.showConfirmDialog(null, "You alreay have dashes from other restaurant in shopping cart. \n"
                                 + "Adding this dash will remove all previous dashes in shopping cart.\n" + "Do you want to continue?",
@@ -421,7 +418,6 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
                             return;
                         }
                     }
-
                     if (or.getShopModel().equals(this.shop) && or.getItem().equals(item)) {
                         line.setQuantity(or.getQuantity() + quantity);
                         this.account.getCart().getItemList().remove(or);

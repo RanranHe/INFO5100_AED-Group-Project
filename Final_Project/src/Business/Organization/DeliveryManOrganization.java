@@ -21,7 +21,7 @@ public class DeliveryManOrganization extends Organization {
 
     @Override
     public ArrayList<Role> getSupportedRole() {
-        ArrayList<Role> roles = new ArrayList();
+        ArrayList<Role> roles = new ArrayList<>();
         roles.add(new DeliveryManRole());
         return roles;
     }

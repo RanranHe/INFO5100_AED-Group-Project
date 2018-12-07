@@ -79,7 +79,10 @@ public class StoreManagerMainJPanel extends javax.swing.JPanel {
 
         if (accessRole.getRoleType().equals(RoleType.SystemManager)) {
             logoutButton.setVisible(false);
-            jLabel5.setText("");
+            jLabel5.setVisible(false);
+            passwordField2.setVisible(false);
+            jLabel13.setVisible(false);
+            jTabbedPane1.removeTabAt(6);
         }
         
         for (StoreCategory c : EnumSet.allOf(StoreCategory.class)) {
@@ -256,7 +259,7 @@ public class StoreManagerMainJPanel extends javax.swing.JPanel {
         emailTextField.setText(employee.getEmail());
         firstNameTextField.setText(employee.getFirstName());
         lastNameTextField.setText(employee.getLastName());
-        phoneTextField.setText(employee.getPhone());
+        phoneTextField1.setText(employee.getPhone());
         usernameTextField.setText(employeeAccount.getUsername());
     }
 
@@ -1338,11 +1341,11 @@ public class StoreManagerMainJPanel extends javax.swing.JPanel {
 
     private void saveButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButton1ActionPerformed
         if (!emailTextField.getText().equals("") && !firstNameTextField.getText().equals("")
-                && !lastNameTextField.getText().equals("") && !phoneTextField.getText().equals("")) {
+                && !lastNameTextField.getText().equals("") && !phoneTextField1.getText().equals("")) {
             this.employee.setEmail(emailTextField.getText());
             this.employee.setFirstName(firstNameTextField.getText());
             this.employee.setLastName(lastNameTextField.getText());
-            this.employee.setPhone(phoneTextField.getText());
+            this.employee.setPhone(phoneTextField1.getText());
         } else {
             JOptionPane.showMessageDialog(null, "Information can't be empty");
             return;
