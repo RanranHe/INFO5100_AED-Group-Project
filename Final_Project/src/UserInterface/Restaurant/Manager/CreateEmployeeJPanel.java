@@ -48,11 +48,19 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
         this.role = role;
 
         if (en instanceof Restaurant || en instanceof Store) {
+            if (role.getRoleType().equals(Role.RoleType.SystemManager)) {
+                roleComboBox.addItem(Role.RoleType.Boss);
+                roleComboBox.addItem(Role.RoleType.Manager);
+            }
             if (role.getRoleType().equals(Role.RoleType.Boss)) {
                 roleComboBox.addItem(Role.RoleType.Manager);
             }
         }
         if (en instanceof DeliveryCompany) {
+            if (role.getRoleType().equals(Role.RoleType.SystemManager)) {
+                roleComboBox.addItem(Role.RoleType.Boss);
+                roleComboBox.addItem(Role.RoleType.Manager);
+            }
             if (role.getRoleType().equals(Role.RoleType.Boss)) {
                 roleComboBox.addItem(Role.RoleType.Manager);
             }

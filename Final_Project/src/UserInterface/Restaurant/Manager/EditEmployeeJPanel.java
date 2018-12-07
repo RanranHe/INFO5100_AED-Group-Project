@@ -52,36 +52,47 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
 
         this.employee = selectedAccount.getEmployee();
         if (en instanceof Restaurant || en instanceof Store) {
-            roleComboBox.addItem(RoleType.Manager);
-            if (selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
-                editButton.setEnabled(false);
-                resetButton.setVisible(false);
-                fireButton.setVisible(false);
-            }
-            if (accessRole.getRoleType().equals(RoleType.Manager)) {
-                if (selectedAccount.getRole().getRoleType().equals(RoleType.Manager)
-                        || selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
+            if (accessRole.getRoleType().equals(RoleType.SystemManager)) {
+                roleComboBox.addItem(RoleType.Boss);
+                roleComboBox.addItem(RoleType.Manager);
+            } else {
+                roleComboBox.addItem(RoleType.Manager);
+                if (selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
                     editButton.setEnabled(false);
                     resetButton.setVisible(false);
                     fireButton.setVisible(false);
+                }
+                if (accessRole.getRoleType().equals(RoleType.Manager)) {
+                    if (selectedAccount.getRole().getRoleType().equals(RoleType.Manager)
+                            || selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
+                        editButton.setEnabled(false);
+                        resetButton.setVisible(false);
+                        fireButton.setVisible(false);
+                    }
                 }
             }
         }
 
         if (en instanceof DeliveryCompany) {
-            roleComboBox.addItem(RoleType.Manager);
-            roleComboBox.addItem(RoleType.DeliveryMan);
-            if (selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
-                editButton.setEnabled(false);
-                resetButton.setVisible(false);
-                fireButton.setVisible(false);
-            }
-            if (accessRole.getRoleType().equals(RoleType.Manager)) {
-                if (selectedAccount.getRole().getRoleType().equals(RoleType.Manager)
-                        || selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
+            if (accessRole.getRoleType().equals(RoleType.SystemManager)) {
+                roleComboBox.addItem(RoleType.Boss);
+                roleComboBox.addItem(RoleType.Manager);
+                roleComboBox.addItem(RoleType.DeliveryMan);
+            } else {
+                roleComboBox.addItem(RoleType.Manager);
+                roleComboBox.addItem(RoleType.DeliveryMan);
+                if (selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
                     editButton.setEnabled(false);
                     resetButton.setVisible(false);
                     fireButton.setVisible(false);
+                }
+                if (accessRole.getRoleType().equals(RoleType.Manager)) {
+                    if (selectedAccount.getRole().getRoleType().equals(RoleType.Manager)
+                            || selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
+                        editButton.setEnabled(false);
+                        resetButton.setVisible(false);
+                        fireButton.setVisible(false);
+                    }
                 }
             }
         }
@@ -91,7 +102,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
         saveButton.setEnabled(false);
         cancelButton.setEnabled(false);
     }
-    
+
     private void refreshPreviousList() {
         if (en instanceof Restaurant) {
             RestaurantManagerMainJPanel p = (RestaurantManagerMainJPanel) panel;
@@ -101,7 +112,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
             DeliveryCompanyManagerMainJPanel p = (DeliveryCompanyManagerMainJPanel) panel;
             p.populateEmployeeTable(this.en.getOrganizationDirectory().getOrganizationList());
         }
-        if(en instanceof Store) {
+        if (en instanceof Store) {
             StoreManagerMainJPanel p = (StoreManagerMainJPanel) panel;
             p.populateEmployeeTable(this.en.getOrganizationDirectory().getOrganizationList());
         }

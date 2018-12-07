@@ -46,7 +46,7 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
 
         DefaultListCellRenderer renderer = (DefaultListCellRenderer) cityList.getCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
-        DefaultListModel model = new DefaultListModel();
+        DefaultListModel<String> model = new DefaultListModel<>();
         for (Network net : system.getNetworkList()) {
             model.addElement(net.getCity());
         }
@@ -68,13 +68,13 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
         nameLabel = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        cityList = new javax.swing.JList();
+        cityList = new javax.swing.JList<String>();
         jLabel5 = new javax.swing.JLabel();
         goButton = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
         profileButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        typeList = new javax.swing.JList();
+        typeList = new javax.swing.JList<ShopType>();
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         jLabel1.setText("Welcome, ");
@@ -203,7 +203,7 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
     private void cityListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_cityListValueChanged
         DefaultListCellRenderer renderer = (DefaultListCellRenderer) typeList.getCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
-        DefaultListModel model = new DefaultListModel();
+        DefaultListModel<ShopType> model = new DefaultListModel<>();
         for (ShopType type : ShopType.values()) {
             model.addElement(type);
         }
@@ -231,7 +231,7 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList cityList;
+    private javax.swing.JList<String> cityList;
     private javax.swing.JButton goButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
@@ -241,6 +241,6 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
     private javax.swing.JButton logoutButton;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JButton profileButton;
-    private javax.swing.JList typeList;
+    private javax.swing.JList<ShopType> typeList;
     // End of variables declaration//GEN-END:variables
 }

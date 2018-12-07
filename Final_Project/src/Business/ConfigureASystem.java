@@ -120,6 +120,27 @@ public class ConfigureASystem {
         Employee se2 = mo4.getEmployeeDirectory().createEmployee("Manager", "Manager", "222", "manager@demo.com");
         UserAccount sa2 = mo4.getUserAccountDirectory().createEmployeeAccount("wm", "wm", new ManagerRole(), em2);
         
+        
+        // Atlanta Restaurant List
+        Restaurant res = network2.createRestaurant("Home grown GA Restaurant", "968 Memorial Dr SE, Atlanta, GA 30316", "(404) 222-0455");
+        res.setCategory(Restaurant.RestaurantCategory.American);
+        res.setDescription("Laid-back eatery serving locally sourced breakfast & Southern fare in a retro country-diner setting.");
+        Dash da1 = new Dash(res, "D1", 10);
+        Dash da2 = new Dash(res, "D2", 14);
+        Dash da3 = new Dash(res, "D3", 11.99);
+        res.addDashToMenu(da1);
+        res.addDashToMenu(da2);
+        res.addDashToMenu(da3);
+        
+        Employee he = res.getEmployeeDirectory().createEmployee("Home Grown", "Boss", "222", "boss@demo.com");
+        UserAccount hee = res.getUserAccountDirectory().createEmployeeAccount("home", "home", new BossRole(), he);
+        
+        ManagerOrganization hmo3 = (ManagerOrganization) res.getOrganizationDirectory().getTypicalOrganization(Organization.Type.Manager);
+        Employee hem2 = hmo3.getEmployeeDirectory().createEmployee("Manager", "Manager", "222", "manager@demo.com");
+        UserAccount hua7 = hmo3.getUserAccountDirectory().createEmployeeAccount("hm", "hm", new ManagerRole(), hem2);
+
+        
+        
         return system;
     }
 
