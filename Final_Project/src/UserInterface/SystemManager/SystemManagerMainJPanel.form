@@ -418,7 +418,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="networkPanel" max="32767" attributes="0"/>
+                          <Component id="networkPanel" pref="502" max="32767" attributes="0"/>
                           <Component id="enterpriseCategPanel" alignment="0" max="32767" attributes="0"/>
                           <Component id="enterpriseCategPanel1" alignment="0" max="32767" attributes="0"/>
                       </Group>
@@ -446,9 +446,9 @@
                                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                       <Component id="jScrollPane1" alignment="0" pref="209" max="32767" attributes="0"/>
-                                      <Component id="createNetworkTextField" alignment="0" max="32767" attributes="0"/>
                                       <Component id="createNetworkButton" alignment="1" max="32767" attributes="0"/>
                                       <Component id="removeNetworkButton" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="editNetworkButton" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -466,14 +466,14 @@
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" min="-2" pref="310" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="createNetworkTextField" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="jScrollPane1" min="-2" pref="330" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="createNetworkButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
+                          <Component id="editNetworkButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="removeNetworkButton" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="16" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -509,8 +509,6 @@
                     <Property name="text" type="java.lang.String" value="Network"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="createNetworkTextField">
-                </Component>
                 <Component class="javax.swing.JButton" name="createNetworkButton">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Create Network"/>
@@ -525,6 +523,14 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeNetworkButtonActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="editNetworkButton">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Edit Network"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editNetworkButtonActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -643,7 +649,7 @@
                           <Component id="editEnterpriseButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="removeEnterpriseButton" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="16" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

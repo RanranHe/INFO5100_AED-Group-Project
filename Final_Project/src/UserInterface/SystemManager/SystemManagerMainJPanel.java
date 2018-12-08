@@ -52,6 +52,7 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
         // Manage System Panel
         populateNetworkList();
 
+        editNetworkButton.setEnabled(false);
         createEnterpriseButton.setEnabled(false);
         removeEnterpriseButton.setEnabled(false);
         editEnterpriseButton.setEnabled(false);
@@ -96,6 +97,8 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
             networkModel.addElement(net.getCity());
         }
         networkList.setModel(networkModel);
+        
+        editNetworkButton.setEnabled(false);
     }
 
     public void populateEnterpriseList() {
@@ -153,6 +156,16 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
         }
     }
 
+    public void resetAllLists() {
+        DefaultListModel<Enterprise> enterpriseModel = new DefaultListModel<>();
+        enterpriseList.setModel(enterpriseModel);
+
+        DefaultListModel<String> typeModel = new DefaultListModel<>();
+        typeList.setModel(typeModel);
+
+        populateNetworkList();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -193,9 +206,9 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         networkList = new javax.swing.JList<String>();
         jLabel6 = new javax.swing.JLabel();
-        createNetworkTextField = new javax.swing.JTextField();
         createNetworkButton = new javax.swing.JButton();
         removeNetworkButton = new javax.swing.JButton();
+        editNetworkButton = new javax.swing.JButton();
         enterpriseCategPanel = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -451,6 +464,13 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
             }
         });
 
+        editNetworkButton.setText("Edit Network");
+        editNetworkButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editNetworkButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout networkPanelLayout = new javax.swing.GroupLayout(networkPanel);
         networkPanel.setLayout(networkPanelLayout);
         networkPanelLayout.setHorizontalGroup(
@@ -461,9 +481,9 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
                         .addGap(25, 25, 25)
                         .addGroup(networkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
-                            .addComponent(createNetworkTextField, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(createNetworkButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(removeNetworkButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(removeNetworkButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(editNetworkButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(networkPanelLayout.createSequentialGroup()
                         .addGap(93, 93, 93)
                         .addComponent(jLabel6)))
@@ -475,14 +495,14 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(createNetworkTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(createNetworkButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(editNetworkButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(removeNetworkButton)
-                .addGap(0, 16, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
         );
 
         enterpriseCategPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -586,7 +606,7 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
                 .addComponent(editEnterpriseButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(removeEnterpriseButton)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 16, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -607,7 +627,7 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(networkPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(networkPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 502, Short.MAX_VALUE)
                     .addComponent(enterpriseCategPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(enterpriseCategPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(26, Short.MAX_VALUE))
@@ -771,6 +791,8 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
 
     private void networkListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_networkListMouseClicked
         populateTypeList();
+        
+        editNetworkButton.setEnabled(true);
     }//GEN-LAST:event_networkListMouseClicked
 
     private void removeEnterpriseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeEnterpriseButtonActionPerformed
@@ -784,23 +806,9 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_removeEnterpriseButtonActionPerformed
 
     private void createNetworkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createNetworkButtonActionPerformed
-        String name = createNetworkTextField.getText();
-        if (name.equals("")) {
-            JOptionPane.showMessageDialog(null, "Network name can't be empty!");
-            return;
-        }
-        system.createNetwork(name);
-        DB4OUtil.getInstance().storeSystem(system);
-
-        DefaultListModel<Enterprise> enterpriseModel = new DefaultListModel<>();
-        enterpriseList.setModel(enterpriseModel);
-
-        DefaultListModel<String> typeModel = new DefaultListModel<>();
-        typeList.setModel(typeModel);
-
-        populateNetworkList();
-        
-        createNetworkTextField.setText("");
+        NetworkJFrame f = new NetworkJFrame(system, selectedNetwork, this, "Create");
+        f.setLocationRelativeTo(null);
+        f.setVisible(true);
     }//GEN-LAST:event_createNetworkButtonActionPerformed
 
     private void removeNetworkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeNetworkButtonActionPerformed
@@ -810,15 +818,15 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
             selectedNetwork = null;
             DB4OUtil.getInstance().storeSystem(system);
 
-            DefaultListModel<Enterprise> enterpriseModel = new DefaultListModel<>();
-            enterpriseList.setModel(enterpriseModel);
-
-            DefaultListModel<String> typeModel = new DefaultListModel<>();
-            typeList.setModel(typeModel);
-
-            populateNetworkList();
+            resetAllLists();
         }
     }//GEN-LAST:event_removeNetworkButtonActionPerformed
+
+    private void editNetworkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editNetworkButtonActionPerformed
+        NetworkJFrame f = new NetworkJFrame(system, selectedNetwork, this, "edit");
+        f.setLocationRelativeTo(null);
+        f.setVisible(true);
+    }//GEN-LAST:event_editNetworkButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -826,9 +834,9 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
     private javax.swing.JButton cancelButton2;
     private javax.swing.JButton createEnterpriseButton;
     private javax.swing.JButton createNetworkButton;
-    private javax.swing.JTextField createNetworkTextField;
     private javax.swing.JButton editButton1;
     private javax.swing.JButton editEnterpriseButton;
+    private javax.swing.JButton editNetworkButton;
     private javax.swing.JTextField emailTextField;
     private javax.swing.JPanel enterpriseCategPanel;
     private javax.swing.JPanel enterpriseCategPanel1;

@@ -168,7 +168,7 @@ public class NewEnterpriseJFrame extends javax.swing.JFrame {
         String description = descriptionTextArea.getText();
 
         if (name.equals("") || address.equals("") || phone.equals("") || description.equals("")) {
-            JOptionPane.showMessageDialog(null, "Information can't be empty!");
+            JOptionPane.showMessageDialog(null, "City can't be empty!");
             return;
         }
         Enterprise en = EnterpriseFactory.createEnterprise(name, address, phone, description, this.selectedCategory);
