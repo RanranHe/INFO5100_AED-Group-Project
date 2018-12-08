@@ -104,4 +104,10 @@ public class UserAccountDir {
         }
         return result;
     }
+    
+    public void removeAccount(UserAccount account) {
+        if (this.userAccountList.contains(account)) {
+            this.userAccountList.remove(account);
+        }
+    }
 }
