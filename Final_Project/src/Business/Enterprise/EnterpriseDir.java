@@ -22,4 +22,16 @@ public class EnterpriseDir {
     public ArrayList<Enterprise> getEnterpriseList() {
         return enterpriseList;
     }
+
+    public void removeEnterprise(Enterprise en) {
+        Enterprise result = null;
+        if (!enterpriseList.isEmpty()) {
+            for (Enterprise ent : enterpriseList) {
+                if (ent.getId().equalsIgnoreCase(en.getId())) {
+                    result = ent;
+                }
+            }
+            enterpriseList.remove(result);
+        } 
+    }
 }

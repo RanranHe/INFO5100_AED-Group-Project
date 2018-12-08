@@ -59,7 +59,7 @@ public class Customer {
     }
             
     public String getFullName() {
-        return fullName;
+        return this.firstName + " " + this.lastName;
     }
     
     public String getAddress() {

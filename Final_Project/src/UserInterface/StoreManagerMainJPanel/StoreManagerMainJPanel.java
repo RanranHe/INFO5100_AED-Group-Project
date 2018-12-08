@@ -82,7 +82,8 @@ public class StoreManagerMainJPanel extends javax.swing.JPanel {
             jLabel5.setVisible(false);
             passwordField2.setVisible(false);
             jLabel13.setVisible(false);
-            jTabbedPane1.removeTabAt(6);
+            jTabbedPane1.removeTabAt(5);
+            jTabbedPane1.removeTabAt(5);
         }
         
         for (StoreCategory c : EnumSet.allOf(StoreCategory.class)) {

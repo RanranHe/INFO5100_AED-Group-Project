@@ -79,13 +79,18 @@ public class Restaurant extends ShopModel {
         }
         this.photoPath = path;
     }
-    
+
     @Override
     public String getCategoryString() {
-        if(this.category != null) {
+        if (this.category != null) {
             return this.category.name();
         }
         return "";
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -139,7 +144,7 @@ public class Restaurant extends ShopModel {
         if (num == 0) {
             return -1;
         }
-        BigDecimal bd = new BigDecimal(totalRate/num);
+        BigDecimal bd = new BigDecimal(totalRate / num);
         return bd.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 

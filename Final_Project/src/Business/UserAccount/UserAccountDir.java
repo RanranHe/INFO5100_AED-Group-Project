@@ -72,4 +72,42 @@ public class UserAccountDir {
         }
         return result;
     }
+
+    public ArrayList<UserAccount> searchCustomerByOverall(String key) {
+        ArrayList<UserAccount> result = new ArrayList<>();
+        if (!userAccountList.isEmpty()) {
+            for (UserAccount u : this.userAccountList) {
+                if (u instanceof CustomerAccount) {
+                    CustomerAccount c = (CustomerAccount) u;
+                    if (c.getUsername().contains(key)) {
+                        if(!result.contains(c)) {
+                            result.add(c);
+                        }
+                    }
+                    if (c.getCustomer().getFullName().contains(key)) {
+                        if(!result.contains(c)) {
+                            result.add(c);
+                        }
+                    }
+                    if (c.getCustomer().getPhone().contains(key)) {
+                        if(!result.contains(c)) {
+                            result.add(c);
+                        }
+                    }
+                    if (c.getCustomer().getEmail().contains(key)) {
+                        if(!result.contains(c)) {
+                            result.add(c);
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+    
+    public void removeAccount(UserAccount account) {
+        if (this.userAccountList.contains(account)) {
+            this.userAccountList.remove(account);
+        }
+    }
 }

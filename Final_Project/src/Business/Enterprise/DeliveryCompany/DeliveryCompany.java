@@ -28,11 +28,6 @@ public class DeliveryCompany extends Enterprise {
     private String description;
     private String id;
     
-    public static String genId() {
-        String orderId
-                = (System.nanoTime() + "").substring(7, 10);
-        return orderId;
-    }
     public DeliveryCompany(String name,String address, String phone) {
         super(name);
         this.photoId = counter;
@@ -126,6 +121,11 @@ public class DeliveryCompany extends Enterprise {
     @Override
     public String getId() {
         return this.id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
     
 }

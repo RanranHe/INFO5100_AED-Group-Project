@@ -6,8 +6,6 @@
 package Business.Enterprise;
 
 import Business.Employee.Employee;
-import Business.Organization.DeliveryManOrganization;
-import Business.Organization.ManagerOrganization;
 import Business.Organization.Organization;
 import Business.Organization.OrganizationDir;
 import Business.Role.Role;
@@ -86,6 +84,8 @@ public abstract class Enterprise extends Organization {
     }
 
     public abstract String getId();
+    
+    public abstract void setId(String id);
 
     public abstract void createOrganizations();
 

@@ -3,7 +3,6 @@ package Business;
 import Business.Customer.Customer;
 import Business.Employee.Employee;
 import Business.Enterprise.DeliveryCompany.DeliveryCompany;
-import Business.Enterprise.Enterprise;
 import Business.Network.Network;
 import Business.Organization.ManagerOrganization;
 import Business.Organization.Organization;
@@ -46,11 +45,15 @@ public class ConfigureASystem {
 
         // MA NETWORK 
         Network network1 = system.createNetwork("Boston");
+        network1.setId("Boston");
         Network network2 = system.createNetwork("Atlanta");
+        network2.setId("Atlanta");
 
         // BOSTON Enterprise with organiztions created
         DeliveryCompany enter1 = network1.createDeliveryCompany("Boston Delivery Company", "1 Pleasant Street, Boston, MA 02125", "(617) 553-5900");
         enter1.setDescription("This is a delivery company.");
+        enter1.setId("Delivery");
+        enter1.setPath("Images/DeliveryCompanyCut/default.png");
         Employee boss = enter1.getEmployeeDirectory().createEmployee("boss", "boss", "23323", "boss@com");
         UserAccount bossA = enter1.getUserAccountDirectory().createEmployeeAccount("delivery", "delivery", new BossRole(), boss);
         // BOSTON Delivery Company Organization
@@ -68,6 +71,8 @@ public class ConfigureASystem {
         // BOSTON Restaurant List
         Restaurant res1 = network1.createRestaurant("Row 34", "383 Congress St, Boston, MA 02210", "(617) 553-5900");
         res1.setCategory(Restaurant.RestaurantCategory.Seafood);
+        res1.setId("Row");
+        res1.setPath("Images/RestaurantCut/default.png");
         res1.setDescription("This stylish brick-&-wood eatery serves an extensive oyster menu plus fish entrees & craft beers.");
         Dash dash1 = new Dash(res1, "Dash1", 20);
         Dash dash2 = new Dash(res1, "Dash2", 30);
@@ -85,6 +90,8 @@ public class ConfigureASystem {
 
         Restaurant res2 = network1.createRestaurant("Legal Harborside", "270 Northern Ave, Boston, MA 02210", "(617) 477-2900");
         res2.setCategory(Restaurant.RestaurantCategory.Seafood);
+        res2.setId("legal");
+        res2.setPath("Images/RestaurantCut/default.png");
         res2.setDescription("Specializing in upmarket seafood, this contemporary chain also serves steaks & cocktails.");
         Dash d1 = new Dash(res1, "D1", 10);
         Dash d2 = new Dash(res1, "D2", 14);
@@ -102,6 +109,8 @@ public class ConfigureASystem {
 
         // Boston Store List
         Store store1 = network1.createStore("Whole Foods", "15 Westland Ave, Boston, MA 02115", "(617) 375-1010");
+        store1.setId("whole");
+        store1.setPath("Images/StoreCut/default.png");
         store1.setCategory(Store.StoreCategory.Organic);
         store1.setDescription("Eco-minded chain with natural & organic grocery items, housewares & other products.");
         Product p1 = new Product(store1, "Cookie", 2);
@@ -124,6 +133,8 @@ public class ConfigureASystem {
         // Atlanta Restaurant List
         Restaurant res = network2.createRestaurant("Home grown GA Restaurant", "968 Memorial Dr SE, Atlanta, GA 30316", "(404) 222-0455");
         res.setCategory(Restaurant.RestaurantCategory.American);
+        res.setId("home");
+        res.setPath("Images/RestaurantCut/default.png");
         res.setDescription("Laid-back eatery serving locally sourced breakfast & Southern fare in a retro country-diner setting.");
         Dash da1 = new Dash(res, "D1", 10);
         Dash da2 = new Dash(res, "D2", 14);
@@ -138,9 +149,7 @@ public class ConfigureASystem {
         ManagerOrganization hmo3 = (ManagerOrganization) res.getOrganizationDirectory().getTypicalOrganization(Organization.Type.Manager);
         Employee hem2 = hmo3.getEmployeeDirectory().createEmployee("Manager", "Manager", "222", "manager@demo.com");
         UserAccount hua7 = hmo3.getUserAccountDirectory().createEmployeeAccount("hm", "hm", new ManagerRole(), hem2);
-
-        
-        
+ 
         return system;
     }
 

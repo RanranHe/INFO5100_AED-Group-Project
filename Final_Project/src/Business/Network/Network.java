@@ -9,10 +9,8 @@ import Business.Enterprise.DeliveryCompany.DeliveryCompany;
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.EnterpriseDir;
 import Business.Enterprise.Restaurant.Restaurant;
-import Business.Enterprise.ShopModel;
 import Business.Enterprise.Store.Store;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  *
@@ -20,21 +18,25 @@ import java.util.Map;
  */
 public class Network {
 
-    private String name;
+    private String id;
     private EnterpriseDir enterpriseDir;
     private String city;
+    
+    private static int counter = 0;
     
     public Network(String city) {
         enterpriseDir = new EnterpriseDir();
         this.city = city;
+        this.id = "Network" + counter;
+        counter++;
     }
-
-    public String getName() {
-        return name;
+    
+    public String getId(){
+        return this.id;
     }
-
-    public void setName(String name) {
-        this.name = name;
+    
+    public void setId(String id) {
+        this.id = id;
     }
 
     public EnterpriseDir getEnterpriseDirectory() {

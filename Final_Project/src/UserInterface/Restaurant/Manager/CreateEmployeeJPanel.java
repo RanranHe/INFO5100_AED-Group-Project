@@ -14,6 +14,7 @@ import Business.Enterprise.Restaurant.Restaurant;
 import static Business.Enterprise.ShopModel.ShopType.Store;
 import Business.Enterprise.Store.Store;
 import Business.Organization.Organization;
+import Business.Role.BossRole;
 import Business.Role.DeliveryManRole;
 import Business.Role.ManagerRole;
 import Business.Role.Role;
@@ -257,7 +258,7 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         if (roleComboBox.getSelectedItem() != null) {
-            Organization dOrg = en.getOrganizationDirectory().getTypicalOrganization(((RoleType) roleComboBox.getSelectedItem()).getOrganizationType());
+//            Organization dOrg = en.getOrganizationDirectory().getTypicalOrganization(((RoleType) roleComboBox.getSelectedItem()).getOrganizationType());
             if (!this.usernameTextField.getText().equals("")
                     && system.isUserNameAvaliable(this.usernameTextField.getText())) {
                 char[] passwordCharArray1 = passwordField1.getPassword();
@@ -268,16 +269,33 @@ public class CreateEmployeeJPanel extends javax.swing.JPanel {
                 if (!emailTextField.getText().equals("") && !firstNameTextField.getText().equals("") && !new1.equals("") && !new2.equals("")
                         && !lastNameTextField.getText().equals("") && !phoneTextField.getText().equals("")) {
                     if (new1.equals(new2)) {
-                        Employee em = dOrg.getEmployeeDirectory().createEmployee(firstNameTextField.getText(), lastNameTextField.getText(),
-                                phoneTextField.getText(), emailTextField.getText());
-                        // Create Delivery Man
-                        if (roleComboBox.getSelectedItem().equals(Role.RoleType.DeliveryMan)) {
-                            dOrg.getUserAccountDirectory().createEmployeeAccount(this.usernameTextField.getText(), new2, new DeliveryManRole(), em);
-                        }
+                        Employee em = null;
+//                        if (dOrg == null) {
+//                            em = en.getEmployeeDirectory().createEmployee(firstNameTextField.getText(), lastNameTextField.getText(),
+//                                    phoneTextField.getText(), emailTextField.getText());
+//                        } else {
+//                            em = dOrg.getEmployeeDirectory().createEmployee(firstNameTextField.getText(), lastNameTextField.getText(),
+//                                    phoneTextField.getText(), emailTextField.getText());
+//                        }
+                        // Create Boss
+                        if (roleComboBox.getSelectedItem().equals(Role.RoleType.Boss)) {
+                            em = en.getEmployeeDirectory().createEmployee(firstNameTextField.getText(), lastNameTextField.getText(),
+                                    phoneTextField.getText(), emailTextField.getText());
+                            en.getUserAccountDirectory().createEmployeeAccount(this.usernameTextField.getText(), new2, new BossRole(), em);
+                        } else {
+                            Organization dOrg = en.getOrganizationDirectory().
+                                    getTypicalOrganization(((RoleType) roleComboBox.getSelectedItem()).getOrganizationType());
+                            em = dOrg.getEmployeeDirectory().createEmployee(firstNameTextField.getText(), lastNameTextField.getText(),
+                                    phoneTextField.getText(), emailTextField.getText());
+                            // Create Delivery Man
+                            if (roleComboBox.getSelectedItem().equals(Role.RoleType.DeliveryMan)) {
+                                dOrg.getUserAccountDirectory().createEmployeeAccount(this.usernameTextField.getText(), new2, new DeliveryManRole(), em);
+                            }
 
-                        // Create Manager
-                        if (roleComboBox.getSelectedItem().equals(Role.RoleType.Manager)) {
-                            dOrg.getUserAccountDirectory().createEmployeeAccount(this.usernameTextField.getText(), new2, new ManagerRole(), em);
+                            // Create Manager
+                            if (roleComboBox.getSelectedItem().equals(Role.RoleType.Manager)) {
+                                dOrg.getUserAccountDirectory().createEmployeeAccount(this.usernameTextField.getText(), new2, new ManagerRole(), em);
+                            }
                         }
 
                         // Save
