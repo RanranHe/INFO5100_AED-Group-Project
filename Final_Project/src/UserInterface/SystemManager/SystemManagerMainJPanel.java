@@ -225,6 +225,7 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
         searchButton = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         allButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         profilePanel = new javax.swing.JPanel();
         roleTextField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
@@ -503,6 +504,13 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
             }
         });
 
+        jButton1.setText("Create Account");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout manageCustomerPanelLayout = new javax.swing.GroupLayout(manageCustomerPanel);
         manageCustomerPanel.setLayout(manageCustomerPanelLayout);
         manageCustomerPanelLayout.setHorizontalGroup(
@@ -510,7 +518,10 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
             .addGroup(manageCustomerPanelLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(manageCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(manageCustomerPanelLayout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(manageCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(manageCustomerPanelLayout.createSequentialGroup()
                             .addComponent(jLabel1)
@@ -535,7 +546,9 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addGroup(manageCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(133, Short.MAX_VALUE))
         );
 
@@ -944,7 +957,7 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         String key = searchTextField.getText();
         if (!key.equals("")) {
-            ArrayList<UserAccount> result = system.getUserAccountDirectory().searchCustomerByUsername(key);
+            ArrayList<UserAccount> result = system.getUserAccountDirectory().searchCustomerByOverall(key);
             populateTable(result);
         }
     }//GEN-LAST:event_searchButtonActionPerformed
@@ -964,6 +977,12 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        CreateCustomerJFrame f = new CreateCustomerJFrame(system, this);
+        f.setLocationRelativeTo(null);
+        f.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton allButton;
@@ -980,6 +999,7 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel enterpriseCategPanel1;
     private javax.swing.JList<Enterprise> enterpriseList;
     private javax.swing.JTextField firstNameTextField;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
