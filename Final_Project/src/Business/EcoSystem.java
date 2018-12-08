@@ -111,4 +111,16 @@ public class EcoSystem extends Organization {
         }
         return true;
     }
+    
+    public void removeNetwork(Network net) {
+        Network result = null;
+        if (!this.networkList.isEmpty()) {
+            for (Network n : networkList) {
+                if (net.getId().equalsIgnoreCase(n.getId())) {
+                    result = n;
+                }
+            }
+            networkList.remove(result);
+        }
+    }
 }

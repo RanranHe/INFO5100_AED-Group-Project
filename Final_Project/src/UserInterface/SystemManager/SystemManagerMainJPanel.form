@@ -515,11 +515,17 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Create Network"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="createNetworkButtonActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="removeNetworkButton">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Remove Network"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeNetworkButtonActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

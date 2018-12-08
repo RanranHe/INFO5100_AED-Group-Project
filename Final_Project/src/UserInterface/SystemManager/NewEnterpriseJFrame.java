@@ -176,7 +176,7 @@ public class NewEnterpriseJFrame extends javax.swing.JFrame {
         
         DB4OUtil.getInstance().storeSystem(system);
         
-        panel.resetLists();
+        panel.populateEnterpriseList();
         this.dispose();
     }//GEN-LAST:event_submitButtonActionPerformed
 

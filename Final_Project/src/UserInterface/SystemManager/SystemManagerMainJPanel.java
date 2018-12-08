@@ -50,14 +50,7 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
         this.employee = this.employeeAccount.getEmployee();
 
         // Manage System Panel
-        //== networkList
-        DefaultListCellRenderer renderer1 = (DefaultListCellRenderer) networkList.getCellRenderer();
-        renderer1.setHorizontalAlignment(SwingConstants.CENTER);
-        DefaultListModel<String> networkModel = new DefaultListModel<>();
-        for (Network net : system.getNetworkList()) {
-            networkModel.addElement(net.getCity());
-        }
-        networkList.setModel(networkModel);
+        populateNetworkList();
 
         createEnterpriseButton.setEnabled(false);
         removeEnterpriseButton.setEnabled(false);
@@ -94,7 +87,18 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
         passwordField2.setText("");
     }
 
-    public void resetLists() {
+    public void populateNetworkList() {
+        //== networkList
+        DefaultListCellRenderer renderer1 = (DefaultListCellRenderer) networkList.getCellRenderer();
+        renderer1.setHorizontalAlignment(SwingConstants.CENTER);
+        DefaultListModel<String> networkModel = new DefaultListModel<>();
+        for (Network net : system.getNetworkList()) {
+            networkModel.addElement(net.getCity());
+        }
+        networkList.setModel(networkModel);
+    }
+
+    public void populateEnterpriseList() {
         //== Enterprise Category 
         if (typeList.getSelectedValue() != null) {
             selectedCategory = typeList.getSelectedValue();
@@ -123,11 +127,30 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
         createEnterpriseButton.setEnabled(true);
         removeEnterpriseButton.setEnabled(false);
         editEnterpriseButton.setEnabled(false);
-//        DefaultListModel<Enterprise> enterpriseModel = new DefaultListModel<>();
-//        enterpriseList.setModel(enterpriseModel);
-//
-//        DefaultListModel<String> typeModel = new DefaultListModel<>();
-//        typeList.setModel(typeModel);
+    }
+
+    public void populateTypeList() {
+        int index = networkList.getSelectedIndex();
+        if (index >= 0) {
+            DefaultListModel<Enterprise> enterpriseModel = new DefaultListModel<>();
+            enterpriseList.setModel(enterpriseModel);
+
+            String selected = (String) networkList.getSelectedValue();
+            selectedNetwork = system.getNetworkByCity(selected);
+
+            //== Enterprise Category 
+            DefaultListCellRenderer renderer2 = (DefaultListCellRenderer) typeList.getCellRenderer();
+            renderer2.setHorizontalAlignment(SwingConstants.CENTER);
+            DefaultListModel<String> categoryModel = new DefaultListModel<>();
+            categoryModel.addElement("Delivery Company");
+            categoryModel.addElement("Store");
+            categoryModel.addElement("Restaurant");
+            typeList.setModel(categoryModel);
+
+            createEnterpriseButton.setEnabled(false);
+            removeEnterpriseButton.setEnabled(false);
+            editEnterpriseButton.setEnabled(false);
+        }
     }
 
     /**
@@ -415,8 +438,18 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
         jLabel6.setText("Network");
 
         createNetworkButton.setText("Create Network");
+        createNetworkButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createNetworkButtonActionPerformed(evt);
+            }
+        });
 
         removeNetworkButton.setText("Remove Network");
+        removeNetworkButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeNetworkButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout networkPanelLayout = new javax.swing.GroupLayout(networkPanel);
         networkPanel.setLayout(networkPanelLayout);
@@ -710,35 +743,7 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jTabbedPane1StateChanged
 
     private void typeListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_typeListValueChanged
-        resetLists();
-//        //== Enterprise Category 
-//        if (typeList.getSelectedValue() != null) {
-//            selectedCategory = typeList.getSelectedValue();
-//            DefaultListCellRenderer renderer3 = (DefaultListCellRenderer) enterpriseList.getCellRenderer();
-//            renderer3.setHorizontalAlignment(SwingConstants.CENTER);
-//            DefaultListModel<Enterprise> enterpriseModel = new DefaultListModel<>();
-//
-//            if (selectedCategory.equalsIgnoreCase("Delivery Company")) {
-//                for (Enterprise en : selectedNetwork.getDeliveryCompanyList()) {
-//                    enterpriseModel.addElement(en);
-//                }
-//            }
-//            if (selectedCategory.equalsIgnoreCase("Restaurant")) {
-//                for (Enterprise en : selectedNetwork.getRestaurantList()) {
-//                    enterpriseModel.addElement(en);
-//                }
-//            }
-//            if (selectedCategory.equalsIgnoreCase("Store")) {
-//                for (Enterprise en : selectedNetwork.getStoreList()) {
-//                    enterpriseModel.addElement(en);
-//                }
-//            }
-//            enterpriseList.setModel(enterpriseModel);
-//        }
-//
-//        createEnterpriseButton.setEnabled(true);
-//        removeEnterpriseButton.setEnabled(false);
-//        editEnterpriseButton.setEnabled(false);
+        populateEnterpriseList();
     }//GEN-LAST:event_typeListValueChanged
 
     private void enterpriseListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_enterpriseListValueChanged
@@ -765,27 +770,7 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_createEnterpriseButtonActionPerformed
 
     private void networkListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_networkListMouseClicked
-        int index = networkList.getSelectedIndex();
-        if (index >= 0) {
-            DefaultListModel<Enterprise> enterpriseModel = new DefaultListModel<>();
-            enterpriseList.setModel(enterpriseModel);
-
-            String selected = (String) networkList.getSelectedValue();
-            selectedNetwork = system.getNetworkByCity(selected);
-
-            //== Enterprise Category 
-            DefaultListCellRenderer renderer2 = (DefaultListCellRenderer) typeList.getCellRenderer();
-            renderer2.setHorizontalAlignment(SwingConstants.CENTER);
-            DefaultListModel<String> categoryModel = new DefaultListModel<>();
-            categoryModel.addElement("Delivery Company");
-            categoryModel.addElement("Store");
-            categoryModel.addElement("Restaurant");
-            typeList.setModel(categoryModel);
-
-            createEnterpriseButton.setEnabled(false);
-            removeEnterpriseButton.setEnabled(false);
-            editEnterpriseButton.setEnabled(false);
-        }
+        populateTypeList();
     }//GEN-LAST:event_networkListMouseClicked
 
     private void removeEnterpriseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeEnterpriseButtonActionPerformed
@@ -794,9 +779,46 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
             this.selectedNetwork.getEnterpriseDirectory().removeEnterprise(selectedEnterprise);
             DB4OUtil.getInstance().storeSystem(system);
 
-            resetLists();
+            populateEnterpriseList();
         }
     }//GEN-LAST:event_removeEnterpriseButtonActionPerformed
+
+    private void createNetworkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createNetworkButtonActionPerformed
+        String name = createNetworkTextField.getText();
+        if (name.equals("")) {
+            JOptionPane.showMessageDialog(null, "Network name can't be empty!");
+            return;
+        }
+        system.createNetwork(name);
+        DB4OUtil.getInstance().storeSystem(system);
+
+        DefaultListModel<Enterprise> enterpriseModel = new DefaultListModel<>();
+        enterpriseList.setModel(enterpriseModel);
+
+        DefaultListModel<String> typeModel = new DefaultListModel<>();
+        typeList.setModel(typeModel);
+
+        populateNetworkList();
+        
+        createNetworkTextField.setText("");
+    }//GEN-LAST:event_createNetworkButtonActionPerformed
+
+    private void removeNetworkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeNetworkButtonActionPerformed
+        int choice = JOptionPane.showConfirmDialog(null, "Are you sure to remove this network from the system?");
+        if (choice == 0) {
+            system.removeNetwork(selectedNetwork);
+            selectedNetwork = null;
+            DB4OUtil.getInstance().storeSystem(system);
+
+            DefaultListModel<Enterprise> enterpriseModel = new DefaultListModel<>();
+            enterpriseList.setModel(enterpriseModel);
+
+            DefaultListModel<String> typeModel = new DefaultListModel<>();
+            typeList.setModel(typeModel);
+
+            populateNetworkList();
+        }
+    }//GEN-LAST:event_removeNetworkButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

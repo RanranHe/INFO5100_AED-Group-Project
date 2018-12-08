@@ -20,13 +20,26 @@ import java.util.Map;
  */
 public class Network {
 
+    private String id;
     private String name;
     private EnterpriseDir enterpriseDir;
     private String city;
     
+    private static int counter = 0;
+    
     public Network(String city) {
         enterpriseDir = new EnterpriseDir();
         this.city = city;
+        this.id = "Network" + counter;
+        counter++;
+    }
+    
+    public String getId(){
+        return this.id;
+    }
+    
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

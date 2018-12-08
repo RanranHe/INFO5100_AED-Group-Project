@@ -45,7 +45,9 @@ public class ConfigureASystem {
 
         // MA NETWORK 
         Network network1 = system.createNetwork("Boston");
+        network1.setId("Boston");
         Network network2 = system.createNetwork("Atlanta");
+        network2.setId("Atlanta");
 
         // BOSTON Enterprise with organiztions created
         DeliveryCompany enter1 = network1.createDeliveryCompany("Boston Delivery Company", "1 Pleasant Street, Boston, MA 02125", "(617) 553-5900");

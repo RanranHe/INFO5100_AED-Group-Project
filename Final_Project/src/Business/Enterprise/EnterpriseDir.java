@@ -31,7 +31,7 @@ public class EnterpriseDir {
                     result = ent;
                 }
             }
-        }
-        enterpriseList.remove(result);
+            enterpriseList.remove(result);
+        } 
     }
 }
