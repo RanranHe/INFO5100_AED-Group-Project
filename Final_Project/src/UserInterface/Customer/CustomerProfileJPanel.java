@@ -76,7 +76,7 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
             row[2] = or.getStatus();
             row[3] = (ShopModel) or.getEnterprise();
             row[4] = or.getAmount();
-            row[5]= or.isReviewed();
+            row[5]= or.getReviewStatus();
             dtm.addRow(row);
         }
     }

@@ -42,6 +42,28 @@ public class OrderRequest extends WorkRequest {
         this.review = null;
     }
 
+    public enum ReviewStatus {
+
+        NA("N/A"),
+        reviewed("Reviewed"),
+        not("Not Reviewed");
+
+        private String value;
+
+        private ReviewStatus(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return value;
+        }
+    }
+
     public String getId() {
         return this.id;
     }
@@ -97,7 +119,7 @@ public class OrderRequest extends WorkRequest {
     public void setCompany(DeliveryCompany company) {
         this.company = company;
     }
-    
+
     public boolean isReviewed() {
         if (this.review == null) {
             return false;
@@ -108,15 +130,15 @@ public class OrderRequest extends WorkRequest {
         }
         return true;
     }
-    
+
     public void setReview(ReviewRequest review) {
         this.review = review;
     }
-    
+
     public ReviewRequest getReview() {
         return this.review;
     }
-    
+
     public boolean eligableToBeReviewed() {
         if (this.review != null) {
             if (this.review.getRate() == -1) {
@@ -124,5 +146,16 @@ public class OrderRequest extends WorkRequest {
             }
         }
         return false;
+    }
+    
+    public ReviewStatus getReviewStatus() {
+        if(eligableToBeReviewed()) {
+            return ReviewStatus.not;
+        }
+        if (isReviewed()) {
+            return ReviewStatus.reviewed;
+        } else {
+            return ReviewStatus.NA;
+        }
     }
 }
