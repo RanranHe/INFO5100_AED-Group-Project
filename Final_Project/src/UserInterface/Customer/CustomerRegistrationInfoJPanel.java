@@ -183,15 +183,19 @@ public class CustomerRegistrationInfoJPanel extends javax.swing.JPanel {
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         if (firstNameTextField.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "First name can't be empty!");
+            return;
         }
         if (lastNameTextField.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Last name can't be empty!");
+            return;
         }
         if (phoneTextField.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Phone number can't be empty!");
+            return;
         }
         if (emailTextField.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Email can't be empty!");
+            return;
         }
         Customer customer = new Customer(firstNameTextField.getText(), lastNameTextField.getText(),
                 phoneTextField.getText(), emailTextField.getText());

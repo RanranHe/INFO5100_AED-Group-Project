@@ -75,6 +75,7 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
             jLabel5.setVisible(false);
             passwordField2.setVisible(false);
             jLabel13.setVisible(false);
+            jTabbedPane1.removeTabAt(3);
             jTabbedPane1.removeTabAt(4);
         }
 
