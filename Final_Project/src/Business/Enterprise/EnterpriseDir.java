@@ -22,4 +22,8 @@ public class EnterpriseDir {
     public ArrayList<Enterprise> getEnterpriseList() {
         return enterpriseList;
     }
+    
+    public void removeEnterprise(Enterprise en) {
+        
+    }
 }

@@ -481,6 +481,11 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
         jScrollPane4.setViewportView(enterpriseList);
 
         removeEnterpriseButton.setText("Remove Enterprise");
+        removeEnterpriseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeEnterpriseButtonActionPerformed(evt);
+            }
+        });
 
         editEnterpriseButton.setText("Edit Enterprise");
         editEnterpriseButton.addActionListener(new java.awt.event.ActionListener() {
@@ -751,6 +756,10 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
             editEnterpriseButton.setEnabled(false);
         }
     }//GEN-LAST:event_networkListMouseClicked
+
+    private void removeEnterpriseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeEnterpriseButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_removeEnterpriseButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

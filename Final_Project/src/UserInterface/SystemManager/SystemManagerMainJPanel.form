@@ -685,6 +685,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Remove Enterprise"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeEnterpriseButtonActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="editEnterpriseButton">
                   <Properties>

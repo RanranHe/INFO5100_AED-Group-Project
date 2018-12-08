@@ -100,6 +100,11 @@ public class Store extends ShopModel {
     public void addProductToList(Product pro) {
         this.getItems().add(pro);
     }
+    
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
 
     @Override
     public double getRate() {

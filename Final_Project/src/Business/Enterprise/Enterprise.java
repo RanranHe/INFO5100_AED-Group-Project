@@ -84,6 +84,8 @@ public abstract class Enterprise extends Organization {
     }
 
     public abstract String getId();
+    
+    public abstract void setId(String id);
 
     public abstract void createOrganizations();
 

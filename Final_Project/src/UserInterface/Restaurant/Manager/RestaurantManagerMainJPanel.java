@@ -27,11 +27,8 @@ import UserInterface.LoginJFrame;
 import java.awt.CardLayout;
 import java.awt.Image;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.EnumSet;
-import java.util.List;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -81,7 +78,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
             passwordField2.setVisible(false);
             jLabel13.setVisible(false);
             jTabbedPane1.removeTabAt(5);
-            jTabbedPane1.removeTabAt(6);
+            jTabbedPane1.removeTabAt(5);
         }
 
         populateOrderTable();
