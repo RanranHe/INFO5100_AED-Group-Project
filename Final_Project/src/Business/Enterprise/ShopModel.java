@@ -87,6 +87,10 @@ public abstract class ShopModel extends Enterprise {
     public ArrayList<Item> getItems() {
         return this.items;
     }
+    
+    public void setItems(ArrayList<Item> list) {
+        this.items = list;
+    }
 
     @Override
     public String toString() {

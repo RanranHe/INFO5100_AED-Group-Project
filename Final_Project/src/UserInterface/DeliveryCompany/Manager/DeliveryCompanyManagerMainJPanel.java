@@ -1006,7 +1006,7 @@ public class DeliveryCompanyManagerMainJPanel extends javax.swing.JPanel {
         if (index >= 0) {
             EmployeeAccount selectedAccount = (EmployeeAccount) employeeTable.getValueAt(index, 0);
             
-            EditEmployeeJPanel ep = new EditEmployeeJPanel(this.system, this, this.en, selectedAccount, employeeAccount, accessRole);
+            EditEmployeeJPanel ep = new EditEmployeeJPanel(this.system, this, this.workPanel, this.en, selectedAccount, employeeAccount, accessRole);
             this.workPanel.removeAll();
             this.workPanel.add(ep);
             CardLayout layout = (CardLayout) this.workPanel.getLayout();

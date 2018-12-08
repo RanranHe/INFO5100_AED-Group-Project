@@ -10,6 +10,7 @@ import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Employee.Employee;
 import Business.Enterprise.Enterprise;
+import Business.Enterprise.Item;
 import Business.Enterprise.Restaurant.Dash;
 import Business.Enterprise.Restaurant.Restaurant;
 import Business.Enterprise.Restaurant.Restaurant.RestaurantCategory;
@@ -153,6 +154,8 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
             row[1] = dash.getPrice();
             dtm.addRow(row);
         }
+        
+        jButton2.setEnabled(false);
     }
 
     public void populateEmployeeTable(ArrayList<Organization> list) {
@@ -295,6 +298,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         detailPanel = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         createPanel = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
         employeePanel = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         employeeTable = new javax.swing.JTable();
@@ -536,6 +540,13 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
 
         createPanel.setLayout(new java.awt.CardLayout());
 
+        jButton2.setText("Remove Product");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
         menuPanel.setLayout(menuPanelLayout);
         menuPanelLayout.setHorizontalGroup(
@@ -547,7 +558,10 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(detailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(createPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(menuPanelLayout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(88, 88, 88))
         );
         menuPanelLayout.setVerticalGroup(
@@ -558,7 +572,9 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
                     .addGroup(menuPanelLayout.createSequentialGroup()
                         .addComponent(detailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(createPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1274,6 +1290,8 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
             this.detailPanel.add(panel);
             CardLayout layout = (CardLayout) this.detailPanel.getLayout();
             layout.next(this.detailPanel);
+            
+            jButton2.setEnabled(true);
         }
     }//GEN-LAST:event_menuTableMouseClicked
 
@@ -1309,7 +1327,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         if (index >= 0) {
             EmployeeAccount selectedAccount = (EmployeeAccount) employeeTable.getValueAt(index, 0);
 
-            EditEmployeeJPanel ep = new EditEmployeeJPanel(this.system, this, this.en, selectedAccount, this.employeeAccount, accessRole);
+            EditEmployeeJPanel ep = new EditEmployeeJPanel(this.system, this, this.workPanel, this.en, selectedAccount, this.employeeAccount, accessRole);
             this.workPanel.removeAll();
             this.workPanel.add(ep);
             CardLayout layout = (CardLayout) this.workPanel.getLayout();
@@ -1395,6 +1413,23 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_currentRateTextFieldActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int index = menuTable.getSelectedRow();
+
+        if (index >= 0) {
+            Restaurant res = (Restaurant) this.en;
+            int choice = JOptionPane.showConfirmDialog(null, "Are you sure to remove this dash from the system?");
+            if (choice == 0) {
+                ArrayList<Item> result = res.getItems();
+                result.remove(index);
+                res.setItems(result);
+                DB4OUtil.getInstance().storeSystem(system);
+                
+                populateMenuTable();
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea addressTextArea;
@@ -1420,6 +1455,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField firstNameTextField;
     private javax.swing.JLabel imageLabel;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

@@ -32,6 +32,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
     private EmployeeAccount selectedAccount;
     private EmployeeAccount account;
     private JPanel panel;
+    private JPanel workPanel;
     private Enterprise en;
     private Role accessRole;
 
@@ -40,11 +41,12 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
     /**
      * Creates new form EditEmployeeJPanel
      */
-    public EditEmployeeJPanel(EcoSystem system, JPanel panel, Enterprise en,
+    public EditEmployeeJPanel(EcoSystem system, JPanel panel, JPanel workPanel, Enterprise en,
             EmployeeAccount selectedAccount, EmployeeAccount account, Role accessRole) {
         initComponents();
         this.system = system;
         this.panel = panel;
+        this.workPanel = workPanel;
         this.selectedAccount = selectedAccount;
         this.account = account;
         this.en = en;
@@ -52,47 +54,38 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
 
         this.employee = selectedAccount.getEmployee();
         if (en instanceof Restaurant || en instanceof Store) {
-            if (accessRole.getRoleType().equals(RoleType.SystemManager)) {
-                roleComboBox.addItem(RoleType.Boss);
-                roleComboBox.addItem(RoleType.Manager);
-            } else {
-                roleComboBox.addItem(RoleType.Manager);
-                if (selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
+            roleComboBox.addItem(RoleType.Boss);
+            roleComboBox.addItem(RoleType.Manager);
+            if (selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
+                editButton.setEnabled(false);
+                resetButton.setVisible(false);
+                fireButton.setVisible(false);
+            }
+            if (accessRole.getRoleType().equals(RoleType.Manager)) {
+                if (selectedAccount.getRole().getRoleType().equals(RoleType.Manager)
+                        || selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
                     editButton.setEnabled(false);
                     resetButton.setVisible(false);
                     fireButton.setVisible(false);
-                }
-                if (accessRole.getRoleType().equals(RoleType.Manager)) {
-                    if (selectedAccount.getRole().getRoleType().equals(RoleType.Manager)
-                            || selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
-                        editButton.setEnabled(false);
-                        resetButton.setVisible(false);
-                        fireButton.setVisible(false);
-                    }
                 }
             }
         }
 
         if (en instanceof DeliveryCompany) {
-            if (accessRole.getRoleType().equals(RoleType.SystemManager)) {
-                roleComboBox.addItem(RoleType.Boss);
-                roleComboBox.addItem(RoleType.Manager);
-                roleComboBox.addItem(RoleType.DeliveryMan);
-            } else {
-                roleComboBox.addItem(RoleType.Manager);
-                roleComboBox.addItem(RoleType.DeliveryMan);
-                if (selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
+            roleComboBox.addItem(RoleType.Boss);
+            roleComboBox.addItem(RoleType.Manager);
+            roleComboBox.addItem(RoleType.DeliveryMan);
+            if (selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
+                editButton.setEnabled(false);
+                resetButton.setVisible(false);
+                fireButton.setVisible(false);
+            }
+            if (accessRole.getRoleType().equals(RoleType.Manager)) {
+                if (selectedAccount.getRole().getRoleType().equals(RoleType.Manager)
+                        || selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
                     editButton.setEnabled(false);
                     resetButton.setVisible(false);
                     fireButton.setVisible(false);
-                }
-                if (accessRole.getRoleType().equals(RoleType.Manager)) {
-                    if (selectedAccount.getRole().getRoleType().equals(RoleType.Manager)
-                            || selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
-                        editButton.setEnabled(false);
-                        resetButton.setVisible(false);
-                        fireButton.setVisible(false);
-                    }
                 }
             }
         }
@@ -107,6 +100,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
         if (en instanceof Restaurant) {
             RestaurantManagerMainJPanel p = (RestaurantManagerMainJPanel) panel;
             p.populateEmployeeTable(this.en.getOrganizationDirectory().getOrganizationList());
+
         }
         if (en instanceof DeliveryCompany) {
             DeliveryCompanyManagerMainJPanel p = (DeliveryCompanyManagerMainJPanel) panel;
@@ -127,7 +121,9 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
     }
 
     private void setInfo() {
-        roleComboBox.setSelectedItem(selectedAccount.getRole().getRoleType());
+        if (!accessRole.getRoleType().equals(RoleType.SystemManager)) {
+            roleComboBox.setSelectedItem(selectedAccount.getRole().getRoleType());
+        }
         emailTextField.setText(employee.getEmail());
         firstNameTextField.setText(employee.getFirstName());
         lastNameTextField.setText(employee.getLastName());
@@ -380,6 +376,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        roleComboBox.removeItem(RoleType.Boss);
         saveButton.setEnabled(true);
         cancelButton.setEnabled(true);
         editButton.setEnabled(false);
@@ -394,9 +391,11 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
             this.en.removeEmployee(selectedAccount.getEmployee());
             this.en.removeEmployeeAccount(selectedAccount);
             DB4OUtil.getInstance().storeSystem(system);
-        }
 
-        refreshPreviousList();
+            this.setVisible(false);
+            this.workPanel.removeAll();
+            refreshPreviousList();
+        }
     }//GEN-LAST:event_fireButtonActionPerformed
 
 
