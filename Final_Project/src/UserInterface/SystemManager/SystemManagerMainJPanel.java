@@ -15,6 +15,8 @@ import Business.UserAccount.EmployeeAccount;
 import Business.UserAccount.UserAccount;
 import UserInterface.LoginJFrame;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -71,19 +73,38 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
         populateTable(system.getUserAccountDirectory().getUserAccountList());
     }
 
+    private ArrayList<UserAccount> getAllCustomerAccount(ArrayList<UserAccount> list) {
+        ArrayList<UserAccount> result = new ArrayList<>();
+        for (UserAccount u : list) {
+            if (u instanceof CustomerAccount) {
+                result.add(u);
+            }
+        }
+        return result;
+    }
+    
+     
+    public ArrayList<CustomerAccount> toCustomerAccounts(ArrayList<UserAccount> list) {
+        ArrayList<CustomerAccount> result = new ArrayList<>();
+        for (UserAccount ua : getAllCustomerAccount(list)) {
+            CustomerAccount ea = (CustomerAccount) ua;
+            result.add(ea);
+        }
+        return result;
+    }
+
     public void populateTable(ArrayList<UserAccount> list) {
         DefaultTableModel dtm = (DefaultTableModel) customerTable.getModel();
         dtm.setRowCount(0);
-        for (UserAccount u : list) {
-            if (u instanceof CustomerAccount) {
-                CustomerAccount c = (CustomerAccount) u;
-                Object row[] = new Object[4];
-                row[0] = c;
-                row[1] = c.getCustomer().getFullName();
-                row[2] = c.getCustomer().getEmail();
-                row[3] = c.getCustomer().getPhone();
-                dtm.addRow(row);
-            }
+        for (UserAccount u : getAllCustomerAccount(list)) {
+            CustomerAccount c = (CustomerAccount) u;
+            Object row[] = new Object[5];
+            row[0] = c;
+            row[1] = c.getCustomer().getFullName();
+            row[2] = c.getCustomer().getEmail();
+            row[3] = c.getCustomer().getPhone();
+            row[4] = c.getTotalPurchased();
+            dtm.addRow(row);
         }
     }
 
@@ -227,6 +248,7 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
         allButton = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        allButton1 = new javax.swing.JButton();
         profilePanel = new javax.swing.JPanel();
         roleTextField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
@@ -462,17 +484,17 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
 
         customerTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Username", "Name", "Email", "Phone"
+                "Username", "Name", "Email", "Phone", "Total Purchased"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -519,6 +541,13 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
             }
         });
 
+        allButton1.setText("Top Customers");
+        allButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                allButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout manageCustomerPanelLayout = new javax.swing.GroupLayout(manageCustomerPanel);
         manageCustomerPanel.setLayout(manageCustomerPanelLayout);
         manageCustomerPanelLayout.setHorizontalGroup(
@@ -534,7 +563,7 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, manageCustomerPanelLayout.createSequentialGroup()
                         .addGap(35, 35, 35)
-                        .addGroup(manageCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(manageCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(manageCustomerPanelLayout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -542,7 +571,9 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(searchButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(allButton))
+                                .addComponent(allButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(allButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 858, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
@@ -554,7 +585,8 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchButton)
-                    .addComponent(allButton))
+                    .addComponent(allButton)
+                    .addComponent(allButton1))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1003,7 +1035,7 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
             int choice = JOptionPane.showConfirmDialog(null, "Are you sure to remove this customer from the system?");
             if (choice == 0) {
                 system.getUserAccountDirectory().removeAccount(account);
-                
+
                 DB4OUtil.getInstance().storeSystem(system);
 
                 populateTable(system.getUserAccountDirectory().getUserAccountList());
@@ -1011,9 +1043,30 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void allButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allButton1ActionPerformed
+        Comparator<CustomerAccount> comp = new Comparator<CustomerAccount>() {
+
+            @Override
+            public int compare(CustomerAccount o1, CustomerAccount o2) {
+                return Double.compare(o2.getTotalPurchased(), o1.getTotalPurchased());
+            }
+            
+        };
+        ArrayList<CustomerAccount> list = toCustomerAccounts(getAllCustomerAccount(system.
+                getUserAccountDirectory().getUserAccountList()));
+        Collections.sort(list, comp);
+        ArrayList<UserAccount> result = new ArrayList<>();
+        for (CustomerAccount c : list) {
+            UserAccount u = (UserAccount) c;
+            result.add(u);
+        }
+        populateTable(result);
+    }//GEN-LAST:event_allButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton allButton;
+    private javax.swing.JButton allButton1;
     private javax.swing.JButton cancelButton1;
     private javax.swing.JButton cancelButton2;
     private javax.swing.JButton createEnterpriseButton;
