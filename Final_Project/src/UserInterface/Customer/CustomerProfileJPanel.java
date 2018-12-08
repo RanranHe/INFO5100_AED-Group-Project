@@ -14,9 +14,9 @@ import Business.UserAccount.CustomerAccount;
 import Business.WorkQueue.OrderRequest;
 import Business.WorkQueue.WorkRequest;
 import UserInterface.LoginJFrame;
+import UserInterface.SystemManager.SystemManagerMainJPanel;
 import java.awt.CardLayout;
 import java.awt.Component;
-import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -33,26 +33,26 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
     private CustomerAccount account;
     private Customer customer;
     private JFrame frame;
-    private Role role;
+    private Role accessRole;
 
     /**
      * Creates new form CustomerProfileJPanel
      */
-    public CustomerProfileJPanel(EcoSystem system, JPanel container, CustomerAccount account, JFrame frame, Role role) {
+    public CustomerProfileJPanel(EcoSystem system, JPanel container, CustomerAccount account, JFrame frame, Role accessRole) {
         initComponents();
         this.system = system;
         this.container = container;
         this.account = account;
         this.customer = account.getCustomer();
         this.frame = frame;
-        this.role = role;
+        this.accessRole = accessRole;
 
-        if (role.getRoleType().equals(Role.RoleType.Manager)) {
+        if (accessRole.getRoleType().equals(Role.RoleType.SystemManager)) {
             logoutButton.setVisible(false);
             backButton.setVisible(false);
-            jLabel1.setText("");
+            jLabel1.setVisible(false);
             jLabel13.setVisible(false);
-            passwordField2.setVisible(false);
+            jTabbedPane1.removeTabAt(1);
         }
 
         setInfo();
@@ -489,6 +489,11 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         editButton.setEnabled(true);
 
         DB4OUtil.getInstance().storeSystem(system);
+        
+        if (accessRole.getRoleType().equals(Role.RoleType.SystemManager)) {
+            SystemManagerMainJPanel sp = (SystemManagerMainJPanel) container;
+            sp.populateTable(system.getUserAccountDirectory().getUserAccountList());
+        }
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -524,16 +529,6 @@ public class CustomerProfileJPanel extends javax.swing.JPanel {
         char[] passwordCharArray2 = passwordField1.getPassword();
         String new2 = String.valueOf(passwordCharArray2);
 
-        if (this.role.getRoleType().equals(Role.RoleType.Manager)) {
-            if (new1.equals(new2)) {
-                account.setPassword(new1);
-                JOptionPane.showMessageDialog(null, "Password reset successfully!");
-                DB4OUtil.getInstance().storeSystem(system);
-                resetPasswordField();
-            } else {
-                JOptionPane.showMessageDialog(null, "Passwords don't match!");
-            }
-        }
         if (password.equals(account.getPassword())) {
             if (!new1.equals("")) {
                 if (new1.equals(new2)) {

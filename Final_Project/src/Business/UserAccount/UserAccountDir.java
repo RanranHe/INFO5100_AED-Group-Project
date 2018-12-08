@@ -72,4 +72,19 @@ public class UserAccountDir {
         }
         return result;
     }
+
+    public ArrayList<UserAccount> searchCustomerByUsername(String key) {
+        ArrayList<UserAccount> result = new ArrayList<>();
+        if (!userAccountList.isEmpty()) {
+            for (UserAccount u : this.userAccountList) {
+                if (u instanceof CustomerAccount) {
+                    CustomerAccount c = (CustomerAccount) u;
+                    if (c.getUsername().contains(key)) {
+                        result.add(c);
+                    }
+                }
+            }
+        }
+        return result;
+    }
 }

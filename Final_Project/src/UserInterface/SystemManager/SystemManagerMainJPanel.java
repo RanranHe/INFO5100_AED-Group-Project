@@ -10,15 +10,18 @@ import Business.EcoSystem;
 import Business.Employee.Employee;
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
+import Business.UserAccount.CustomerAccount;
 import Business.UserAccount.EmployeeAccount;
 import Business.UserAccount.UserAccount;
 import UserInterface.LoginJFrame;
+import java.util.ArrayList;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -63,6 +66,25 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
         editButton1.setEnabled(true);
         setProfileInfo();
         setProfileFieldsEditable(false);
+
+        // customer panel
+        populateTable(system.getUserAccountDirectory().getUserAccountList());
+    }
+
+    public void populateTable(ArrayList<UserAccount> list) {
+        DefaultTableModel dtm = (DefaultTableModel) customerTable.getModel();
+        dtm.setRowCount(0);
+        for (UserAccount u : list) {
+            if (u instanceof CustomerAccount) {
+                CustomerAccount c = (CustomerAccount) u;
+                Object row[] = new Object[4];
+                row[0] = c;
+                row[1] = c.getCustomer().getFullName();
+                row[2] = c.getCustomer().getEmail();
+                row[3] = c.getCustomer().getPhone();
+                dtm.addRow(row);
+            }
+        }
     }
 
     private void setProfileInfo() {
@@ -97,7 +119,7 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
             networkModel.addElement(net.getCity());
         }
         networkList.setModel(networkModel);
-        
+
         editNetworkButton.setEnabled(false);
     }
 
@@ -176,6 +198,33 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        manageNetworkPanel = new javax.swing.JPanel();
+        networkPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        networkList = new javax.swing.JList<String>();
+        jLabel6 = new javax.swing.JLabel();
+        createNetworkButton = new javax.swing.JButton();
+        removeNetworkButton = new javax.swing.JButton();
+        editNetworkButton = new javax.swing.JButton();
+        enterpriseCategPanel = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        typeList = new javax.swing.JList<String>();
+        enterpriseCategPanel1 = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        createEnterpriseButton = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        enterpriseList = new javax.swing.JList<Enterprise>();
+        removeEnterpriseButton = new javax.swing.JButton();
+        editEnterpriseButton = new javax.swing.JButton();
+        manageCustomerPanel = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        customerTable = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        searchTextField = new javax.swing.JTextField();
+        searchButton = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        allButton = new javax.swing.JButton();
         profilePanel = new javax.swing.JPanel();
         roleTextField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
@@ -201,25 +250,6 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
         jLabel15 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        networkPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        networkList = new javax.swing.JList<String>();
-        jLabel6 = new javax.swing.JLabel();
-        createNetworkButton = new javax.swing.JButton();
-        removeNetworkButton = new javax.swing.JButton();
-        editNetworkButton = new javax.swing.JButton();
-        enterpriseCategPanel = new javax.swing.JPanel();
-        jLabel17 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        typeList = new javax.swing.JList<String>();
-        enterpriseCategPanel1 = new javax.swing.JPanel();
-        jLabel18 = new javax.swing.JLabel();
-        createEnterpriseButton = new javax.swing.JButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        enterpriseList = new javax.swing.JList<Enterprise>();
-        removeEnterpriseButton = new javax.swing.JButton();
-        editEnterpriseButton = new javax.swing.JButton();
         nameLabel = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         logoutButton = new javax.swing.JButton();
@@ -229,6 +259,287 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
                 jTabbedPane1StateChanged(evt);
             }
         });
+
+        networkPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        networkList.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        networkList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                networkListMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(networkList);
+
+        jLabel6.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
+        jLabel6.setText("Network");
+
+        createNetworkButton.setText("Create Network");
+        createNetworkButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createNetworkButtonActionPerformed(evt);
+            }
+        });
+
+        removeNetworkButton.setText("Remove Network");
+        removeNetworkButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeNetworkButtonActionPerformed(evt);
+            }
+        });
+
+        editNetworkButton.setText("Edit Network");
+        editNetworkButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editNetworkButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout networkPanelLayout = new javax.swing.GroupLayout(networkPanel);
+        networkPanel.setLayout(networkPanelLayout);
+        networkPanelLayout.setHorizontalGroup(
+            networkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(networkPanelLayout.createSequentialGroup()
+                .addGroup(networkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(networkPanelLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(networkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                            .addComponent(createNetworkButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(removeNetworkButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(editNetworkButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(networkPanelLayout.createSequentialGroup()
+                        .addGap(93, 93, 93)
+                        .addComponent(jLabel6)))
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+        networkPanelLayout.setVerticalGroup(
+            networkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(networkPanelLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(createNetworkButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(editNetworkButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(removeNetworkButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        enterpriseCategPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel17.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
+        jLabel17.setText("Enterprise Category");
+
+        typeList.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        typeList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                typeListValueChanged(evt);
+            }
+        });
+        jScrollPane2.setViewportView(typeList);
+
+        javax.swing.GroupLayout enterpriseCategPanelLayout = new javax.swing.GroupLayout(enterpriseCategPanel);
+        enterpriseCategPanel.setLayout(enterpriseCategPanelLayout);
+        enterpriseCategPanelLayout.setHorizontalGroup(
+            enterpriseCategPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(enterpriseCategPanelLayout.createSequentialGroup()
+                .addGroup(enterpriseCategPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(enterpriseCategPanelLayout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(enterpriseCategPanelLayout.createSequentialGroup()
+                        .addGap(62, 62, 62)
+                        .addComponent(jLabel17)))
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+        enterpriseCategPanelLayout.setVerticalGroup(
+            enterpriseCategPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(enterpriseCategPanelLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel17)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        enterpriseCategPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel18.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
+        jLabel18.setText("Enterprise");
+
+        createEnterpriseButton.setText("Create Enterprise");
+        createEnterpriseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createEnterpriseButtonActionPerformed(evt);
+            }
+        });
+
+        enterpriseList.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        enterpriseList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                enterpriseListValueChanged(evt);
+            }
+        });
+        jScrollPane4.setViewportView(enterpriseList);
+
+        removeEnterpriseButton.setText("Remove Enterprise");
+        removeEnterpriseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeEnterpriseButtonActionPerformed(evt);
+            }
+        });
+
+        editEnterpriseButton.setText("Edit Enterprise");
+        editEnterpriseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editEnterpriseButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout enterpriseCategPanel1Layout = new javax.swing.GroupLayout(enterpriseCategPanel1);
+        enterpriseCategPanel1.setLayout(enterpriseCategPanel1Layout);
+        enterpriseCategPanel1Layout.setHorizontalGroup(
+            enterpriseCategPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(enterpriseCategPanel1Layout.createSequentialGroup()
+                .addGap(90, 90, 90)
+                .addComponent(jLabel18)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(enterpriseCategPanel1Layout.createSequentialGroup()
+                .addGap(0, 28, Short.MAX_VALUE)
+                .addGroup(enterpriseCategPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(editEnterpriseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(removeEnterpriseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(createEnterpriseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(33, Short.MAX_VALUE))
+        );
+        enterpriseCategPanel1Layout.setVerticalGroup(
+            enterpriseCategPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(enterpriseCategPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(createEnterpriseButton)
+                .addGap(8, 8, 8)
+                .addComponent(editEnterpriseButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(removeEnterpriseButton)
+                .addGap(0, 16, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout manageNetworkPanelLayout = new javax.swing.GroupLayout(manageNetworkPanel);
+        manageNetworkPanel.setLayout(manageNetworkPanelLayout);
+        manageNetworkPanelLayout.setHorizontalGroup(
+            manageNetworkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(manageNetworkPanelLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(networkPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(enterpriseCategPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(enterpriseCategPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+        manageNetworkPanelLayout.setVerticalGroup(
+            manageNetworkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(manageNetworkPanelLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(manageNetworkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(networkPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(enterpriseCategPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(enterpriseCategPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Manage Network", manageNetworkPanel);
+
+        customerTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Username", "Name", "Email", "Phone"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(customerTable);
+
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel1.setText("Search By username:");
+
+        searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("View Details");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        allButton.setText("All");
+        allButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                allButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout manageCustomerPanelLayout = new javax.swing.GroupLayout(manageCustomerPanel);
+        manageCustomerPanel.setLayout(manageCustomerPanelLayout);
+        manageCustomerPanelLayout.setHorizontalGroup(
+            manageCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(manageCustomerPanelLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(manageCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(manageCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(manageCustomerPanelLayout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(searchButton)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(allButton))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 858, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+        manageCustomerPanelLayout.setVerticalGroup(
+            manageCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(manageCustomerPanelLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(manageCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchButton)
+                    .addComponent(allButton))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addContainerGap(133, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("tab4", manageCustomerPanel);
 
         roleTextField.setEnabled(false);
 
@@ -437,204 +748,6 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("Change Password", passwordPanel);
 
-        networkPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        networkList.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        networkList.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                networkListMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(networkList);
-
-        jLabel6.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
-        jLabel6.setText("Network");
-
-        createNetworkButton.setText("Create Network");
-        createNetworkButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createNetworkButtonActionPerformed(evt);
-            }
-        });
-
-        removeNetworkButton.setText("Remove Network");
-        removeNetworkButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeNetworkButtonActionPerformed(evt);
-            }
-        });
-
-        editNetworkButton.setText("Edit Network");
-        editNetworkButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editNetworkButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout networkPanelLayout = new javax.swing.GroupLayout(networkPanel);
-        networkPanel.setLayout(networkPanelLayout);
-        networkPanelLayout.setHorizontalGroup(
-            networkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(networkPanelLayout.createSequentialGroup()
-                .addGroup(networkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(networkPanelLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(networkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
-                            .addComponent(createNetworkButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(removeNetworkButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(editNetworkButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(networkPanelLayout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(jLabel6)))
-                .addContainerGap(42, Short.MAX_VALUE))
-        );
-        networkPanelLayout.setVerticalGroup(
-            networkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(networkPanelLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(createNetworkButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(editNetworkButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(removeNetworkButton)
-                .addGap(14, 14, 14))
-        );
-
-        enterpriseCategPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jLabel17.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
-        jLabel17.setText("Enterprise Category");
-
-        typeList.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        typeList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                typeListValueChanged(evt);
-            }
-        });
-        jScrollPane2.setViewportView(typeList);
-
-        javax.swing.GroupLayout enterpriseCategPanelLayout = new javax.swing.GroupLayout(enterpriseCategPanel);
-        enterpriseCategPanel.setLayout(enterpriseCategPanelLayout);
-        enterpriseCategPanelLayout.setHorizontalGroup(
-            enterpriseCategPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(enterpriseCategPanelLayout.createSequentialGroup()
-                .addGroup(enterpriseCategPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(enterpriseCategPanelLayout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(enterpriseCategPanelLayout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(jLabel17)))
-                .addContainerGap(36, Short.MAX_VALUE))
-        );
-        enterpriseCategPanelLayout.setVerticalGroup(
-            enterpriseCategPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(enterpriseCategPanelLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel17)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        enterpriseCategPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jLabel18.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
-        jLabel18.setText("Enterprise");
-
-        createEnterpriseButton.setText("Create Enterprise");
-        createEnterpriseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createEnterpriseButtonActionPerformed(evt);
-            }
-        });
-
-        enterpriseList.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        enterpriseList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                enterpriseListValueChanged(evt);
-            }
-        });
-        jScrollPane4.setViewportView(enterpriseList);
-
-        removeEnterpriseButton.setText("Remove Enterprise");
-        removeEnterpriseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeEnterpriseButtonActionPerformed(evt);
-            }
-        });
-
-        editEnterpriseButton.setText("Edit Enterprise");
-        editEnterpriseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editEnterpriseButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout enterpriseCategPanel1Layout = new javax.swing.GroupLayout(enterpriseCategPanel1);
-        enterpriseCategPanel1.setLayout(enterpriseCategPanel1Layout);
-        enterpriseCategPanel1Layout.setHorizontalGroup(
-            enterpriseCategPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(enterpriseCategPanel1Layout.createSequentialGroup()
-                .addGap(90, 90, 90)
-                .addComponent(jLabel18)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(enterpriseCategPanel1Layout.createSequentialGroup()
-                .addGap(0, 28, Short.MAX_VALUE)
-                .addGroup(enterpriseCategPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(editEnterpriseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(removeEnterpriseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(createEnterpriseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
-        );
-        enterpriseCategPanel1Layout.setVerticalGroup(
-            enterpriseCategPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(enterpriseCategPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel18)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(createEnterpriseButton)
-                .addGap(8, 8, 8)
-                .addComponent(editEnterpriseButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(removeEnterpriseButton)
-                .addGap(0, 16, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(networkPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(enterpriseCategPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(enterpriseCategPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(networkPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 502, Short.MAX_VALUE)
-                    .addComponent(enterpriseCategPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(enterpriseCategPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(26, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Manage Network", jPanel1);
-
         nameLabel.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
         nameLabel.setText("<Name>");
 
@@ -777,7 +890,7 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
     private void editEnterpriseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editEnterpriseButtonActionPerformed
         if (enterpriseList.getSelectedValue() != null) {
             SystemManagerMainJFrame f = new SystemManagerMainJFrame(system, this.selectedNetwork,
-                    selectedEnterprise, this.selectedCategory, this.employeeAccount);
+                    selectedEnterprise, this.selectedCategory, this.employeeAccount, null, null);
             f.setLocationRelativeTo(this);
             f.setVisible(true);
         }
@@ -791,7 +904,7 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
 
     private void networkListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_networkListMouseClicked
         populateTypeList();
-        
+
         editNetworkButton.setEnabled(true);
     }//GEN-LAST:event_networkListMouseClicked
 
@@ -828,12 +941,37 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
         f.setVisible(true);
     }//GEN-LAST:event_editNetworkButtonActionPerformed
 
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        String key = searchTextField.getText();
+        if (!key.equals("")) {
+            ArrayList<UserAccount> result = system.getUserAccountDirectory().searchCustomerByUsername(key);
+            populateTable(result);
+        }
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void allButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allButtonActionPerformed
+        populateTable(system.getUserAccountDirectory().getUserAccountList());
+    }//GEN-LAST:event_allButtonActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int index = customerTable.getSelectedRow();
+        if (index >= 0) {
+            UserAccount account = (UserAccount) customerTable.getValueAt(index, 0);
+            SystemManagerMainJFrame f = new SystemManagerMainJFrame(system, null,
+                    null, "", null, account, this);
+            f.setLocationRelativeTo(this);
+            f.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton allButton;
     private javax.swing.JButton cancelButton1;
     private javax.swing.JButton cancelButton2;
     private javax.swing.JButton createEnterpriseButton;
     private javax.swing.JButton createNetworkButton;
+    private javax.swing.JTable customerTable;
     private javax.swing.JButton editButton1;
     private javax.swing.JButton editEnterpriseButton;
     private javax.swing.JButton editNetworkButton;
@@ -842,6 +980,8 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel enterpriseCategPanel1;
     private javax.swing.JList<Enterprise> enterpriseList;
     private javax.swing.JTextField firstNameTextField;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -855,13 +995,15 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField lastNameTextField;
     private javax.swing.JButton logoutButton;
+    private javax.swing.JPanel manageCustomerPanel;
+    private javax.swing.JPanel manageNetworkPanel;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JList<String> networkList;
     private javax.swing.JPanel networkPanel;
@@ -875,6 +1017,8 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
     private javax.swing.JButton removeNetworkButton;
     private javax.swing.JTextField roleTextField;
     private javax.swing.JButton saveButton1;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JTextField searchTextField;
     private javax.swing.JButton submitButton;
     private javax.swing.JList<String> typeList;
     private javax.swing.JTextField usernameTextField;

@@ -12,7 +12,10 @@ import Business.Enterprise.Restaurant.Restaurant;
 import Business.Enterprise.Store.Store;
 import Business.Network.Network;
 import Business.Role.SystemManagerRole;
+import Business.UserAccount.CustomerAccount;
 import Business.UserAccount.EmployeeAccount;
+import Business.UserAccount.UserAccount;
+import UserInterface.Customer.CustomerProfileJPanel;
 import UserInterface.DeliveryCompany.Manager.DeliveryCompanyManagerMainJPanel;
 import UserInterface.Restaurant.Manager.RestaurantManagerMainJPanel;
 import UserInterface.StoreManagerMainJPanel.StoreManagerMainJPanel;
@@ -29,7 +32,8 @@ public class SystemManagerMainJFrame extends javax.swing.JFrame {
      */
 
     public SystemManagerMainJFrame(EcoSystem system, Network selectedNetwork, Enterprise selectedEnterprise, 
-            String selectedCategory, EmployeeAccount employeeAccount) {
+            String selectedCategory, EmployeeAccount employeeAccount, UserAccount customerAccount, 
+            SystemManagerMainJPanel panel) {
         initComponents();
         this.setSize(950, 650);
 
@@ -48,6 +52,11 @@ public class SystemManagerMainJFrame extends javax.swing.JFrame {
         if (selectedEnterprise instanceof Store) {
             StoreManagerMainJPanel cp = new StoreManagerMainJPanel(system, this.jPanel1,
                     selectedNetwork, selectedEnterprise, employeeAccount, this, new SystemManagerRole());
+            this.jPanel1.add(cp);
+        }
+        if (selectedEnterprise == null) {
+            CustomerProfileJPanel cp = new CustomerProfileJPanel(system, panel, 
+                    (CustomerAccount) customerAccount, this, new SystemManagerRole());
             this.jPanel1.add(cp);
         }
         CardLayout layout = (CardLayout) this.jPanel1.getLayout();
