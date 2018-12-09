@@ -42,8 +42,6 @@ public class CartJPanel extends javax.swing.JPanel {
         modifyButton.setEnabled(false);
 
         if (!account.getCart().getItemList().isEmpty()) {
-            System.out.println(account.getCart().getItemList().get(0));
-            System.out.println(account.getCart().getItemList().get(0).getShopModel());
             restaurantLabel.setText(account.getCart().getItemList().get(0).getShopModel().getName());
         } else {
             checkoutButton.setEnabled(false);
