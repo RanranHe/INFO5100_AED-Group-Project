@@ -14,22 +14,24 @@ import java.awt.CardLayout;
  * @author ranranhe
  */
 public class LoginJFrame extends javax.swing.JFrame {
-    private EcoSystem system;
-    private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
+    
+//    private static DB4OUtil dB4OUtil = DB4OUtil.getInstance();
+//    private EcoSystem system = dB4OUtil.retrieveSystem();
+    private static EcoSystem system = DB4OUtil.getInstance().retrieveSystem();
     /**
      * Creates new form MainJFrame
      */
     public LoginJFrame() {
         initComponents();
-        system = dB4OUtil.retrieveSystem();
         this.setSize(250, 400);
         this.setLocationRelativeTo(null);
         
-        LoginJPanel lp = new LoginJPanel(this.system, this.leftPanel, this);
+        LoginJPanel lp = new LoginJPanel(system, this.leftPanel, this);
         this.leftPanel.add(lp);
         CardLayout layout = (CardLayout)this.leftPanel.getLayout();
         layout.next(this.leftPanel);
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -41,11 +43,13 @@ public class LoginJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         leftPanel = new javax.swing.JPanel();
+        leftPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 430));
 
         leftPanel.setLayout(new java.awt.CardLayout());
+
+        leftPanel1.setLayout(new java.awt.CardLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -55,6 +59,11 @@ public class LoginJFrame extends javax.swing.JFrame {
                 .addGap(0, 250, Short.MAX_VALUE)
                 .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 250, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(260, Short.MAX_VALUE)
+                    .addComponent(leftPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(240, 240, 240)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -62,6 +71,11 @@ public class LoginJFrame extends javax.swing.JFrame {
                 .addGap(0, 221, Short.MAX_VALUE)
                 .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 221, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(231, Short.MAX_VALUE)
+                    .addComponent(leftPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(211, 211, 211)))
         );
 
         pack();
@@ -105,5 +119,6 @@ public class LoginJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel leftPanel;
+    private javax.swing.JPanel leftPanel1;
     // End of variables declaration//GEN-END:variables
 }

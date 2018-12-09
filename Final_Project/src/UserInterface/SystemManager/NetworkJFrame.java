@@ -118,11 +118,27 @@ public class NetworkJFrame extends javax.swing.JFrame {
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         String city = nameTextField.getText();
+        
         if (!city.equals("")) {
             if (isCreateMode) {
-                system.createNetwork(city);
+                if (system.isCityAvabliable(city)) {
+                    system.createNetwork(city);
+                } else {
+                    JOptionPane.showMessageDialog(null, "City alreay exists!");
+                    return;
+                }
             } else {
-                selectedNetwork.setCity(city);
+                if (!city.equalsIgnoreCase(selectedNetwork.getCity())) {
+                    if (system.isCityAvabliable(city)) {
+                        selectedNetwork.setCity(city);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "City alreay exists!");
+                        return;
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "City didn't change");
+                    return;
+                } 
             }
             DB4OUtil.getInstance().storeSystem(system);
             this.dispose();

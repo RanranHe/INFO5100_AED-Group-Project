@@ -32,6 +32,7 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form CustomerMainJPanel
+     *
      * @param system
      * @param container
      * @param userAccount
@@ -47,7 +48,7 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
         DefaultListCellRenderer renderer = (DefaultListCellRenderer) cityList.getCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         DefaultListModel<String> model = new DefaultListModel<>();
-        for (Network net : system.getNetworkList()) {
+        for (Network net : this.system.getNetworkList()) {
             model.addElement(net.getCity());
         }
         cityList.setModel(model);
@@ -192,7 +193,7 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
             Network net = system.getNetworkByCity((String) cityList.getSelectedValue());
             String city = (String) cityList.getSelectedValue();
             ShopType type = (ShopType) typeList.getSelectedValue();
-            
+
             ShopListJPanel panel = new ShopListJPanel(system, net, this.container, this.customerAccount, type, this.frame);
             container.add(panel);
             CardLayout layout = (CardLayout) this.container.getLayout();
@@ -219,8 +220,12 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_profileButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
-        LoginJFrame lf = new LoginJFrame();
+
         this.frame.dispose();
+        System.out.println(system.getNetworkList().size());
+
+//        JOptionPane.showMessageDialog(null, "ksksksks");
+        LoginJFrame lf = new LoginJFrame();
         lf.setLocationRelativeTo(null);
         lf.setVisible(true);
     }//GEN-LAST:event_logoutButtonActionPerformed
