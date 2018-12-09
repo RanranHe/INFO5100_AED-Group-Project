@@ -27,8 +27,6 @@ public class LoginJFrame extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         
         LoginJPanel lp = new LoginJPanel(system, this.leftPanel, this);
-        System.out.println(system.getNetworkList().size());
-        System.out.println(this.leftPanel);
         this.leftPanel.add(lp);
         CardLayout layout = (CardLayout)this.leftPanel.getLayout();
         layout.next(this.leftPanel);

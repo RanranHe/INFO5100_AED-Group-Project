@@ -16,7 +16,6 @@ import java.awt.CardLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -33,6 +32,7 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form CustomerMainJPanel
+     *
      * @param system
      * @param container
      * @param userAccount
@@ -48,10 +48,7 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
         DefaultListCellRenderer renderer = (DefaultListCellRenderer) cityList.getCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         DefaultListModel<String> model = new DefaultListModel<>();
-        int i = 0;
         for (Network net : this.system.getNetworkList()) {
-            System.out.println(i + "  " + net.getId());
-             i++;
             model.addElement(net.getCity());
         }
         cityList.setModel(model);
@@ -196,7 +193,7 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
             Network net = system.getNetworkByCity((String) cityList.getSelectedValue());
             String city = (String) cityList.getSelectedValue();
             ShopType type = (ShopType) typeList.getSelectedValue();
-            
+
             ShopListJPanel panel = new ShopListJPanel(system, net, this.container, this.customerAccount, type, this.frame);
             container.add(panel);
             CardLayout layout = (CardLayout) this.container.getLayout();
@@ -226,7 +223,7 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
 
         this.frame.dispose();
         System.out.println(system.getNetworkList().size());
-        
+
 //        JOptionPane.showMessageDialog(null, "ksksksks");
         LoginJFrame lf = new LoginJFrame();
         lf.setLocationRelativeTo(null);
