@@ -123,9 +123,7 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
     }
 
     private void setInfo() {
-        if (!accessRole.getRoleType().equals(RoleType.SystemManager)) {
-            roleComboBox.setSelectedItem(selectedAccount.getRole().getRoleType());
-        }
+        roleComboBox.setSelectedItem(selectedAccount.getRole().getRoleType());
         emailTextField.setText(employee.getEmail());
         firstNameTextField.setText(employee.getFirstName());
         lastNameTextField.setText(employee.getLastName());
