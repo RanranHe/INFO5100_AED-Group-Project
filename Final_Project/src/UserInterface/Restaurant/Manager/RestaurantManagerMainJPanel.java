@@ -531,7 +531,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
 
         detailPanel.setLayout(new java.awt.CardLayout());
 
-        jButton1.setText("Create Product");
+        jButton1.setText("Create Dash");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -540,7 +540,7 @@ public class RestaurantManagerMainJPanel extends javax.swing.JPanel {
 
         createPanel.setLayout(new java.awt.CardLayout());
 
-        jButton2.setText("Remove Product");
+        jButton2.setText("Remove Dash");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);

@@ -48,11 +48,11 @@ public class SelectDeliveryJFrame extends javax.swing.JFrame {
 
         DefaultListCellRenderer renderer = (DefaultListCellRenderer) deliveryList.getCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
+        DefaultListModel<DeliveryCompany> model = new DefaultListModel<>();
         for (DeliveryCompany del : net.getDeliveryCompanyList()) {
-            DefaultListModel<DeliveryCompany> model = new DefaultListModel<>();
             model.addElement(del);
-            deliveryList.setModel(model);
         }
+        deliveryList.setModel(model);
     }
 
     /**
