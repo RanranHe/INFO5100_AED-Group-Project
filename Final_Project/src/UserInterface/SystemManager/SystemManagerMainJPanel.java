@@ -597,7 +597,7 @@ public class SystemManagerMainJPanel extends javax.swing.JPanel {
                 .addGap(28, 28, 28))
         );
 
-        jTabbedPane1.addTab("Manage Csutomer", manageCustomerPanel);
+        jTabbedPane1.addTab("Manage Customer", manageCustomerPanel);
 
         roleTextField.setEnabled(false);
 

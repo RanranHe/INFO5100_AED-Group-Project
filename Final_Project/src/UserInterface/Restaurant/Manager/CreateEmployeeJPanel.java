@@ -11,7 +11,6 @@ import Business.Employee.Employee;
 import Business.Enterprise.DeliveryCompany.DeliveryCompany;
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.Restaurant.Restaurant;
-import static Business.Enterprise.ShopModel.ShopType.Store;
 import Business.Enterprise.Store.Store;
 import Business.Organization.Organization;
 import Business.Role.BossRole;
