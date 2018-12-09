@@ -43,6 +43,15 @@ public class EcoSystem extends Organization {
         networkList = new ArrayList<>();
         customers = new CustomerDir();
     }
+    
+    public boolean isCityAvabliable(String city) {
+        for (Network net : this.networkList) {
+            if (net.getCity().equalsIgnoreCase(city)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public ArrayList<Network> getNetworkList() {
         return networkList;

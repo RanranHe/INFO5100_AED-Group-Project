@@ -16,6 +16,7 @@ import java.awt.CardLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -47,7 +48,10 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
         DefaultListCellRenderer renderer = (DefaultListCellRenderer) cityList.getCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         DefaultListModel<String> model = new DefaultListModel<>();
-        for (Network net : system.getNetworkList()) {
+        int i = 0;
+        for (Network net : this.system.getNetworkList()) {
+            System.out.println(i + "  " + net.getId());
+             i++;
             model.addElement(net.getCity());
         }
         cityList.setModel(model);
@@ -219,8 +223,12 @@ public class CustomerMainJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_profileButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
-        LoginJFrame lf = new LoginJFrame();
+
         this.frame.dispose();
+        System.out.println(system.getNetworkList().size());
+        
+//        JOptionPane.showMessageDialog(null, "ksksksks");
+        LoginJFrame lf = new LoginJFrame();
         lf.setLocationRelativeTo(null);
         lf.setVisible(true);
     }//GEN-LAST:event_logoutButtonActionPerformed
