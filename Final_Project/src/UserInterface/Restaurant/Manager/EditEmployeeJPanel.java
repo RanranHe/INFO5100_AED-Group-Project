@@ -56,7 +56,8 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
         if (en instanceof Restaurant || en instanceof Store) {
             roleComboBox.addItem(RoleType.Boss);
             roleComboBox.addItem(RoleType.Manager);
-            if (selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
+            if (!accessRole.getRoleType().equals(RoleType.SystemManager) &&
+                    selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
                 editButton.setEnabled(false);
                 resetButton.setVisible(false);
                 fireButton.setVisible(false);
@@ -75,7 +76,8 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
             roleComboBox.addItem(RoleType.Boss);
             roleComboBox.addItem(RoleType.Manager);
             roleComboBox.addItem(RoleType.DeliveryMan);
-            if (selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
+            if (!accessRole.getRoleType().equals(RoleType.SystemManager) && 
+                    selectedAccount.getRole().getRoleType().equals(RoleType.Boss)) {
                 editButton.setEnabled(false);
                 resetButton.setVisible(false);
                 fireButton.setVisible(false);
@@ -376,7 +378,9 @@ public class EditEmployeeJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        roleComboBox.removeItem(RoleType.Boss);
+        if (!accessRole.getRoleType().equals(RoleType.SystemManager)) {
+            roleComboBox.removeItem(RoleType.Boss);
+        }
         saveButton.setEnabled(true);
         cancelButton.setEnabled(true);
         editButton.setEnabled(false);

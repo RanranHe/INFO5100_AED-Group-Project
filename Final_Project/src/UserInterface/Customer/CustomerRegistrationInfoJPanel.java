@@ -198,7 +198,7 @@ public class CustomerRegistrationInfoJPanel extends javax.swing.JPanel {
             return;
         }
         Customer customer = new Customer(firstNameTextField.getText(), lastNameTextField.getText(),
-                phoneTextField.getText(), emailTextField.getText());
+                emailTextField.getText(), phoneTextField.getText());
         UserAccount ua = system.getUserAccountDirectory().createCustomerAccount(username, password, customer);
 
         DB4OUtil.getInstance().storeSystem(system);
