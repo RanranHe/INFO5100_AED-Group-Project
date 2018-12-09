@@ -79,22 +79,22 @@ public class UserAccountDir {
             for (UserAccount u : this.userAccountList) {
                 if (u instanceof CustomerAccount) {
                     CustomerAccount c = (CustomerAccount) u;
-                    if (c.getUsername().contains(key)) {
+                    if (c.getUsername().toLowerCase().contains(key.toLowerCase())) {
                         if(!result.contains(c)) {
                             result.add(c);
                         }
                     }
-                    if (c.getCustomer().getFullName().contains(key)) {
+                    if (c.getCustomer().getFullName().toLowerCase().contains(key.toLowerCase())) {
                         if(!result.contains(c)) {
                             result.add(c);
                         }
                     }
-                    if (c.getCustomer().getPhone().contains(key)) {
+                    if (c.getCustomer().getPhone().toLowerCase().contains(key.toLowerCase())) {
                         if(!result.contains(c)) {
                             result.add(c);
                         }
                     }
-                    if (c.getCustomer().getEmail().contains(key)) {
+                    if (c.getCustomer().getEmail().toLowerCase().contains(key.toLowerCase())) {
                         if(!result.contains(c)) {
                             result.add(c);
                         }
