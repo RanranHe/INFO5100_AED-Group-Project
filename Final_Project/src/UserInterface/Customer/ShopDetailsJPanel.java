@@ -53,21 +53,21 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
         if (!type.equals(ShopType.Restaurant)) {
             this.jTabbedPane1.setTitleAt(1, "Product");
         }
-        
+
         showImage();
         populateTable();
-        
+
         if (shop.getRate() == -1) {
             rateLabel.setText("N/A");
         } else {
-            rateLabel.setText(shop.getRate()+"");
+            rateLabel.setText(shop.getRate() + "");
         }
         addressTextArea.setText(shop.getAddress());
         addressTextArea.setEnabled(false);
         descriptionTextArea.setText(shop.getDescription());
         descriptionTextArea.setEnabled(false);
         phoneLabel.setText(shop.getPhone());
-        
+
         // Review tab
         populateReviewTable();
     }
@@ -88,13 +88,16 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
 
         }
     }
-    
+
     private void populateTable() {
         DefaultTableModel dtm = (DefaultTableModel) menuTable.getModel();
         dtm.setRowCount(0);
         if (type.equals(ShopType.Restaurant)) {
             Restaurant res = (Restaurant) shop;
-            categoryLabel.setText(res.getCategory().name());
+            if (res.getCategory() != null) {
+                categoryLabel.setText(res.getCategory().name());
+            }
+            
             for (Dash dash : res.getMenu()) {
                 Object row[] = new Object[2];
                 row[0] = dash;
@@ -104,7 +107,9 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
         }
         if (type.equals(ShopType.Store)) {
             Store store = (Store) shop;
-            categoryLabel.setText(store.getCategory().name());
+            if (store.getCategory() != null) {
+                categoryLabel.setText(store.getCategory().name());
+            }
             for (Product p : store.getGoods()) {
                 Object row[] = new Object[2];
                 row[0] = p;
@@ -397,7 +402,7 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
         if (selectedRow >= 0) {
             Item item = (Item) menuTable.getValueAt(selectedRow, 0);
             int quantity = (int) quantitySpinner.getValue();
-            
+
             ItemOrder line = null;
             if (this.type.equals(ShopType.Restaurant)) {
                 line = new DashOrder(this.shop, item, quantity);
@@ -436,7 +441,7 @@ public class ShopDetailsJPanel extends javax.swing.JPanel {
 
     private void reviewTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reviewTableMouseClicked
         int index = reviewTable.getSelectedRow();
-        
+
         if (index >= 0) {
             ReviewRequest rr = (ReviewRequest) reviewTable.getValueAt(index, 0);
             commentTextArea.setText(rr.getMessage());
